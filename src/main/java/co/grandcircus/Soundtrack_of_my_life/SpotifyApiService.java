@@ -15,6 +15,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import co.grandcircus.Soundtrack_of_my_life.model.spotify.Playlist;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.Playlists;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.SpotifyResponse;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.TokenResponse;
@@ -70,7 +71,7 @@ public class SpotifyApiService {
 		return accessToken;
     }
     
-    public List<Playlists> showPlaylists(String q, Type type) {
+    public List<Playlist> showPlaylists(String q, Type type) {
     	String accessToken = getAccessToken();
     	
     	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
@@ -88,7 +89,7 @@ public class SpotifyApiService {
 		
 		SpotifyResponse response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), 
     													SpotifyResponse.class).getBody();
-		List<Playlists> myList = response.getPlaylistList();
+		List<Playlist> myList = response.getPlaylists().getPlaylistItems();
     	return myList;  	
     }
 
