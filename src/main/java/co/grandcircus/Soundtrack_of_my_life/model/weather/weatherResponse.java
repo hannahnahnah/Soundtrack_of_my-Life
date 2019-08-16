@@ -15,7 +15,7 @@ public class weatherResponse {
 	private coord coord;
 	private List<weather> weather;
 	private main main;
-	private wind wind;
+	private Wind wind;
 	private clouds clouds;
 	private sys sys;
 	private Long dt;
@@ -76,10 +76,10 @@ public class weatherResponse {
 	public void setMain(main main) {
 		this.main = main;
 	}
-	public wind getWind() {
+	public Wind getWind() {
 		return wind;
 	}
-	public void setWind(wind wind) {
+	public void setWind(Wind wind) {
 		this.wind = wind;
 	}
 	public clouds getClouds() {

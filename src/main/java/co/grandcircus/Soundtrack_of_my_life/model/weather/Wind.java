@@ -1,6 +1,6 @@
 package co.grandcircus.Soundtrack_of_my_life.model.weather;
 
-public class wind {
+public class Wind {
 	
 	private double speed;
 	private double deg;
