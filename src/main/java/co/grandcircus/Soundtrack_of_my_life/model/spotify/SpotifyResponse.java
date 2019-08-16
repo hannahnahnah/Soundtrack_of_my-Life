@@ -6,15 +6,41 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SpotifyResponse {
 	
+	private Albums albums;
+	private Artists artists;
+	private Tracks tracks;
 	private Playlists playlists;
-
+	public Albums getAlbums() {
+		return albums;
+	}
+	public void setAlbums(Albums albums) {
+		this.albums = albums;
+	}
+	public Artists getArtists() {
+		return artists;
+	}
+	public void setArtists(Artists artists) {
+		this.artists = artists;
+	}
+	public Tracks getTracks() {
+		return tracks;
+	}
+	public void setTracks(Tracks tracks) {
+		this.tracks = tracks;
+	}
 	public Playlists getPlaylists() {
 		return playlists;
 	}
-
 	public void setPlaylists(Playlists playlists) {
 		this.playlists = playlists;
 	}
+	@Override
+	public String toString() {
+		return "SpotifyResponse [albums=" + albums + ", artists=" + artists + ", tracks=" + tracks + ", playlists="
+				+ playlists + "]";
+	}
+	
+
 	
 	
 	
