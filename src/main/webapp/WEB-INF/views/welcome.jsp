@@ -25,7 +25,7 @@
 				
 					<tr>
 						<td>${name}</td>
-						<td>${temp}</td>
+						<td>${temp}&#8457</td>
 						<td>${mainCondition}</td>
 						<td>${description}</td>
 					</tr>
