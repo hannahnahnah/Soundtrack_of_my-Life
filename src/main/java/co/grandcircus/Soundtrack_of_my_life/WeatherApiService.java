@@ -1,7 +1,5 @@
 package co.grandcircus.Soundtrack_of_my_life;
 
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 

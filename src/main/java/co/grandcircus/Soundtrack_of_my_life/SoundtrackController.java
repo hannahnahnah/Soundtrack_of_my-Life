@@ -1,26 +1,41 @@
 package co.grandcircus.Soundtrack_of_my_life;
 
+
 import java.text.DecimalFormat;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import co.grandcircus.Soundtrack_of_my_life.model.spotify.Playlists;
+import co.grandcircus.Soundtrack_of_my_life.model.spotify.Type;
 import co.grandcircus.Soundtrack_of_my_life.model.weather.weatherResponse;
+
 
 @Controller
 public class SoundtrackController {
 	
 	@Autowired
-	UserRepository JpaRepositry;
+	UserRepository JpaRepository;
 	
+
 	@Autowired
 	WeatherApiService weatherApi;
+
+	@Autowired 
+	private SpotifyApiService spotifyApiService;
+	public List<Playlists> playlistList;
+
 	
 	@RequestMapping("/")
 	public ModelAndView showHome() {
-		return new ModelAndView("home");
+		playlistList = spotifyApiService.showPlaylists("sunny", Type.playlist);
+		ModelAndView mv = new ModelAndView("home");
+		mv.addObject("playlist", playlistList);
+		return mv;
+		//return new ModelAndView("home", "playlist", spotifyApiService.showPlaylists("sunny", Type.playlist));
 	}
 	
 	private static DecimalFormat df2 = new DecimalFormat("#.##");
