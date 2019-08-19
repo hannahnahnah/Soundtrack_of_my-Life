@@ -52,6 +52,50 @@
 			</tbody>
 		</table>
 	</div>
+	
+	<div class="container">
+		<h1 class="text-primary">
+			<center>Artist List</center>
+		</h1>
+		<table class="table">
+			<thead class="text-success">
+				<tr>
+					<th>Name</th>
+					<th>Spotify Link</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${artist}" var="artists">
+					<tr>
+						<td>${artists.name}</td>
+						<td><a href="${artists.url.spotify}">${artists.url.spotify}</a></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+	
+	<div class="container">
+		<h1 class="text-primary">
+			<center>Album List</center>
+		</h1>
+		<table class="table">
+			<thead class="text-success">
+				<tr>
+					<th>Name</th>
+					<th>Spotify Link</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${album}" var="albums">
+					<tr>
+						<td>${albums.name}</td>
+						<td><a href="${albums.url.spotify}">${albums.url.spotify}</a></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
 
 </body>
 </html>

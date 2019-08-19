@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import co.grandcircus.Soundtrack_of_my_life.model.spotify.AlbumtItems;
+import co.grandcircus.Soundtrack_of_my_life.model.spotify.ArtistItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.PlaylistItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.TrackItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.Type;
@@ -21,7 +23,6 @@ public class SoundtrackController {
 	@Autowired
 	UserRepository JpaRepository;
 	
-
 	@Autowired
 	WeatherApiService weatherApi;
 
@@ -35,8 +36,12 @@ public class SoundtrackController {
 		ModelAndView mv = new ModelAndView("home");
 		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists("sunny", Type.playlist);
 		List<TrackItems> trackList = spotifyApiService.showTracks("sunny", Type.track);
+		List<ArtistItems> artistList = spotifyApiService.showArtists("sunny", Type.artist);
+		List<AlbumtItems> albumList = spotifyApiService.showAlbums("sunny", Type.album);
 		mv.addObject("playlist", playlistList);
 		mv.addObject("track", trackList);
+		mv.addObject("artist", artistList);
+		mv.addObject("album", albumList);
 		return mv;
 		//return new ModelAndView("home", "playlist", spotifyApiService.showPlaylists("sunny", Type.playlist));
 	}

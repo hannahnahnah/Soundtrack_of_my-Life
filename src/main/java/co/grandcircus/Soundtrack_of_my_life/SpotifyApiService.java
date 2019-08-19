@@ -15,6 +15,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import co.grandcircus.Soundtrack_of_my_life.model.spotify.AlbumtItems;
+import co.grandcircus.Soundtrack_of_my_life.model.spotify.ArtistItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.PlaylistItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.SpotifyResponse;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.TokenResponse;
@@ -129,4 +131,41 @@ public class SpotifyApiService {
 //    	List<Playlists> myList = response.getPlaylistList();
 //    	return myList;
 //    }
+    
+    public List<ArtistItems> showArtists(String q, Type type){
+    	String accessToken = getAccessToken();
+    	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
+    			.queryParam("q", q)
+				.queryParam("type", type)
+				.toUriString();
+    	String bearerString = "Bearer " + accessToken;
+    	HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", bearerString);
+		SpotifyResponse response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), 
+				SpotifyResponse.class).getBody();
+		List<ArtistItems> myArtist = response.getArtist().getItems();
+		return myArtist;
+    	
+    }
+    
+    
+    public List<AlbumtItems> showAlbums(String q, Type type){
+    	String accessToken = getAccessToken();
+    	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
+    			.queryParam("q", q)
+				.queryParam("type", type)
+				.toUriString();
+    	String bearerString = "Bearer " + accessToken;
+    	HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", bearerString);
+		SpotifyResponse response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), 
+				SpotifyResponse.class).getBody();
+		List<AlbumtItems> myAlbum = response.getAlbum().getItems();
+		return myAlbum;
+    	
+    }
+    
+    
+    
+    
 }
