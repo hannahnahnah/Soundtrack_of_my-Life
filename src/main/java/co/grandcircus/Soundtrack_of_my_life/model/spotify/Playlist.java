@@ -16,6 +16,7 @@ public class Playlist {
 	private Track tracks;
 	private Type type = Type.playlist;
 	private String uri;
+	
 	public boolean isCollaborative() {
 		return collaborative;
 	}

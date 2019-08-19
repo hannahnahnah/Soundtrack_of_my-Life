@@ -15,10 +15,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import co.grandcircus.Soundtrack_of_my_life.model.spotify.Playlist;
-import co.grandcircus.Soundtrack_of_my_life.model.spotify.Playlists;
+import co.grandcircus.Soundtrack_of_my_life.model.spotify.PlaylistItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.SpotifyResponse;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.TokenResponse;
+import co.grandcircus.Soundtrack_of_my_life.model.spotify.TrackItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.Type;
 
 @Component
@@ -27,7 +27,6 @@ public class SpotifyApiService {
 	private final String API_KEY = "d6a515f31243414b8a32f69ef1bcbac4";
 	private final String CLIENT_ID = "d6a515f31243414b8a32f69ef1bcbac4";
 	private final String CLIENT_SECRET = "bd9a2b1361d3406b885221c61764ff66";
-	
 	private RestTemplate restTemplate;
     
     {
@@ -53,10 +52,10 @@ public class SpotifyApiService {
     	HttpHeaders headers = new HttpHeaders();
     	String unencoded = CLIENT_ID + ":" + CLIENT_SECRET; 
     	String encoded = Base64.getEncoder().encodeToString(unencoded.getBytes());
-    	System.out.println(encoded);
+    	//System.out.println(encoded);
 		headers.add("Authorization", "Basic " + encoded);
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		System.out.println(headers);
+		//System.out.println(headers);
 		
     	
     	
@@ -65,13 +64,29 @@ public class SpotifyApiService {
     	
 		
 		String accessToken = response.getAccess_token(); 
-		System.out.println(accessToken);
+		//System.out.println(accessToken);
 		
 		
 		return accessToken;
     }
     
-    public List<Playlist> showPlaylists(String q, Type type) {
+    public List<TrackItems> showTracks(String q, Type type){
+    	String accessToken = getAccessToken();
+    	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
+    			.queryParam("q", q)
+				.queryParam("type", type)
+				.toUriString();
+    	String bearerString = "Bearer " + accessToken;
+    	HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", bearerString);
+		SpotifyResponse response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), 
+				SpotifyResponse.class).getBody();
+		List<TrackItems> myTrack = response.getTrack().getItems();
+		return myTrack;
+    	
+    }
+    
+    public List<PlaylistItems> showPlaylists(String q, Type type) {
     	String accessToken = getAccessToken();
     	
     	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
@@ -79,17 +94,17 @@ public class SpotifyApiService {
 				.queryParam("type", type)
 				.toUriString();
     	
-    	System.out.println(url);
+    	//System.out.println(url);
     	
     	String bearerString = "Bearer " + accessToken;
     	
     	HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", bearerString);
-		System.out.println(headers);
+		//System.out.println(headers);
 		
 		SpotifyResponse response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), 
     													SpotifyResponse.class).getBody();
-		List<Playlist> myList = response.getPlaylists().getPlaylistItems();
+		List<PlaylistItems> myList = response.getPlaylist().getItems();
     	return myList;  	
     }
 

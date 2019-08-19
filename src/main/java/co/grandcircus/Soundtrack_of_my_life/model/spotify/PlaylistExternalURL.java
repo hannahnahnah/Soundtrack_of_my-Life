@@ -1,8 +1,6 @@
 package co.grandcircus.Soundtrack_of_my_life.model.spotify;
 
-
-public class URL {
-	
+public class PlaylistExternalURL {
 	private String spotify;
 
 	public String getSpotify() {
@@ -12,5 +10,4 @@ public class URL {
 	public void setSpotify(String spotify) {
 		this.spotify = spotify;
 	}
-	
 }

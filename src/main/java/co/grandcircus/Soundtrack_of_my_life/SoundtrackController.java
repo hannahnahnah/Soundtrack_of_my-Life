@@ -9,7 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import co.grandcircus.Soundtrack_of_my_life.model.spotify.Playlist;
+import co.grandcircus.Soundtrack_of_my_life.model.spotify.PlaylistItems;
+import co.grandcircus.Soundtrack_of_my_life.model.spotify.TrackItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.Type;
 import co.grandcircus.Soundtrack_of_my_life.model.weather.weatherResponse;
 
@@ -31,9 +32,11 @@ public class SoundtrackController {
 	
 	@RequestMapping("/")
 	public ModelAndView showHome() {
-		List<Playlist> playlistList = spotifyApiService.showPlaylists("sunny", Type.playlist);
 		ModelAndView mv = new ModelAndView("home");
+		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists("sunny", Type.playlist);
+		List<TrackItems> trackList = spotifyApiService.showTracks("sunny", Type.track);
 		mv.addObject("playlist", playlistList);
+		mv.addObject("track", trackList);
 		return mv;
 		//return new ModelAndView("home", "playlist", spotifyApiService.showPlaylists("sunny", Type.playlist));
 	}

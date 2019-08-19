@@ -1,11 +1,9 @@
 package co.grandcircus.Soundtrack_of_my_life.model.spotify;
 
-import java.util.Arrays;
-
 public class Track {
 	
-	private Album album; 
-	private Artist artists;
+	private TrackAlbums album; 
+	
 	private String[] available_markets;
 	private Integer duration_ms;
 	private boolean explicit;
@@ -19,18 +17,13 @@ public class Track {
 	private Type type = Type.track;
 	private String uri;
 	private boolean is_local;
-	public Album getAlbum() {
+	public TrackAlbums getAlbum() {
 		return album;
 	}
-	public void setAlbum(Album album) {
+	public void setAlbum(TrackAlbums album) {
 		this.album = album;
 	}
-	public Artist getArtists() {
-		return artists;
-	}
-	public void setArtists(Artist artists) {
-		this.artists = artists;
-	}
+	
 	public String[] getAvailable_markets() {
 		return available_markets;
 	}
@@ -109,15 +102,6 @@ public class Track {
 	public void setIs_local(boolean is_local) {
 		this.is_local = is_local;
 	}
-	@Override
-	public String toString() {
-		return "TrackResponse [album=" + album + ", artists=" + artists + ", available_markets="
-				+ Arrays.toString(available_markets) + ", duration_ms=" + duration_ms + ", explicit=" + explicit
-				+ ", external_urls=" + external_urls + ", href=" + href + ", id=" + id + ", name=" + name
-				+ ", popularity=" + popularity + ", preview_url=" + preview_url + ", track_number=" + track_number
-				+ ", type=" + type + ", uri=" + uri + ", is_local=" + is_local + "]";
-	}
-	
 	
 	
 }
