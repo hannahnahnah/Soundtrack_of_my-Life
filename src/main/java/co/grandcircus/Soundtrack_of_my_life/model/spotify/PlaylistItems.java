@@ -8,8 +8,14 @@ public class PlaylistItems {
 	private PlaylistExternalURL url;
 	private String name;
 	private Type type = Type.playlist;
+	private String id;
 	
-	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public PlaylistExternalURL getUrl() {
 		return url;
 	}

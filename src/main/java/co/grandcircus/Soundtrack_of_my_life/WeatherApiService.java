@@ -23,8 +23,12 @@ public class WeatherApiService {
 //		restTemplate = new RestTemplateBuilder().additionalInterceptors(interceptor).build();
 //	}
 	
-	public weatherResponse showWeather() {
-		String url = "https://api.openweathermap.org/data/2.5/weather?q=Detroit,us&appid=" + API_KEY;
+	public weatherResponse showWeather(String lat, String lon) {
+//		double lat = 42.33603230000001;
+//		double lon = -83.0500596;
+		//System.out.println(lon);
+		String url = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + API_KEY;
+//		String url = "https://api.openweathermap.org/data/2.5/weather?q=Detroit,us&appid=" + API_KEY;
 		
 		weatherResponse response = restTemplate.getForObject(url, weatherResponse.class);
 		return response;

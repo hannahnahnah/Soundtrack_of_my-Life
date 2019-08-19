@@ -8,7 +8,14 @@ public class ArtistItems {
 	private ArtistExternalUrls url;
 	private String name;
 	private Type type = Type.artist;
+	private String id;
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public ArtistExternalUrls getUrl() {
 		return url;
 	}

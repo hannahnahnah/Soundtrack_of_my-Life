@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.AlbumtItems;
@@ -48,8 +49,8 @@ public class SoundtrackController {
 	private static DecimalFormat df2 = new DecimalFormat("#.##");
 	
 	@RequestMapping("/welcome")
-	public ModelAndView showWelcome() {
-		weatherResponse response = weatherApi.showWeather();
+	public ModelAndView showWelcome(@RequestParam("latitude") String latitude, @RequestParam("longitude") String longitude) {
+		weatherResponse response = weatherApi.showWeather(latitude, longitude);
 		ModelAndView mv = new ModelAndView("welcome");
 		double temp = response.getMain().getTemp();
 		temp = ((temp - 273.15) * 9/5 + 32);
@@ -57,8 +58,23 @@ public class SoundtrackController {
 		mv.addObject("temp", df2.format(temp));
 		mv.addObject("mainCondition", response.getWeather().get(0).getMain());
 		mv.addObject("description", response.getWeather().get(0).getDescription());
-		return mv;
 		
+		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists(response.getWeather().get(0).getMain(), Type.playlist);
+		List<TrackItems> trackList = spotifyApiService.showTracks(response.getWeather().get(0).getMain(), Type.track);
+		List<ArtistItems> artistList = spotifyApiService.showArtists(response.getWeather().get(0).getMain(), Type.artist);
+		List<AlbumtItems> albumList = spotifyApiService.showAlbums(response.getWeather().get(0).getMain(), Type.album);
+		mv.addObject("playlist", playlistList);
+		mv.addObject("track", trackList);
+		mv.addObject("artist", artistList);
+		mv.addObject("album", albumList);
+		
+		return mv;
+	}
+	
+	@RequestMapping("/testwelcome")
+	public ModelAndView testWelcome() {
+		
+		return new ModelAndView("testwelcome");
 	}
 
 }
