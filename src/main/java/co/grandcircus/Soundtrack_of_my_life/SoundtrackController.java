@@ -43,7 +43,6 @@ public class SoundtrackController {
 		mv.addObject("artist", artistList);
 		mv.addObject("album", albumList);
 		return mv;
-		//return new ModelAndView("home", "playlist", spotifyApiService.showPlaylists("sunny", Type.playlist));
 	}
 	
 	private static DecimalFormat df2 = new DecimalFormat("#.##");

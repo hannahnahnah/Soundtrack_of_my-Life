@@ -111,26 +111,6 @@ public class SpotifyApiService {
     }
 
     
-//    public List<Playlists> showPlaylists__old(String q, Type type) {
-//    	//String url = "https://api.spotify.com/v1/search?q=" + q + "&type=" + type;
-//    	
-//    	String url = UriComponentsBuilder.fromHttpUrl("https://accounts.spotify.com/authorize")
-//				//.queryParam("q", q)
-//				.queryParam("client_id", API_KEY)
-//				.queryParam("response_type", "code")
-//				.queryParam("redirect_uri", "localhost:8080/")
-//				.toUriString();
-//    	
-//    	System.out.println(url);
-//    	
-//    	HttpHeaders headers = new HttpHeaders();
-//		headers.add("X-Api-Key", API_KEY);
-//		
-//		SpotifyResponse response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), 
-//    													SpotifyResponse.class).getBody();
-//    	List<Playlists> myList = response.getPlaylistList();
-//    	return myList;
-//    }
     
     public List<ArtistItems> showArtists(String q, Type type){
     	String accessToken = getAccessToken();
