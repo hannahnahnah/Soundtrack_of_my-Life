@@ -3,6 +3,7 @@ package co.grandcircus.Soundtrack_of_my_life;
 import java.util.Base64;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -26,9 +27,12 @@ import co.grandcircus.Soundtrack_of_my_life.model.spotify.Type;
 @Component
 public class SpotifyApiService {
 	
+	
+	
 	private final String API_KEY = "d6a515f31243414b8a32f69ef1bcbac4";
 	private final String CLIENT_ID = "d6a515f31243414b8a32f69ef1bcbac4";
-	private final String CLIENT_SECRET = "bd9a2b1361d3406b885221c61764ff66";
+	@Value("${spotify.CLIENT_SECRET}")
+	private final String CLIENT_SECRET;
 	private RestTemplate restTemplate;
     
     {
