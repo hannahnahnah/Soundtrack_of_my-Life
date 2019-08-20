@@ -6,6 +6,8 @@ import co.grandcircus.Soundtrack_of_my_life.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 	
+	User findByUserNameAndPassword(String userName, String password);
+	
 	
 
 }

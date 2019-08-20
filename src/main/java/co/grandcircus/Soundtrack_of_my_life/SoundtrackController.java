@@ -1,9 +1,9 @@
 package co.grandcircus.Soundtrack_of_my_life;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.List;
 
+import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import co.grandcircus.Soundtrack_of_my_life.entity.User;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.AlbumtItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.ArtistItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.PlaylistItems;
@@ -99,10 +100,12 @@ public class SoundtrackController {
 	}
 	
 	@RequestMapping("/preferences")
-	public ModelAndView displayPreferences(@RequestParam("genre[]") String[] genres) {
-		
-		System.out.println(Arrays.toString(genres));
-		
+	public ModelAndView displayPreferences(@RequestParam(value="genres", required=false) String[] genres) {
+		System.out.println(genres);
+		String imploded=StringUtils.join(genres);
+		System.out.println(imploded);
+		//User test = JpaRepository.findByUsernameAndPassword("tester", "test");
+		//test.setGenrePreferences(genres);
 		return new ModelAndView("preferences");
 	}
 
