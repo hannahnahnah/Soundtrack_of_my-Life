@@ -8,41 +8,32 @@
 <title>User Preferences</title>
 </head>
 <body>
-<script>
-$(function(){
-    var test = localStorage.input === 'true'? true: false;
-    $('input').prop('checked', test || false);
-});
+	
+	<div class="container">
 
-$('input').on('change', function() {
-    localStorage.input = $(this).is(':checked');
-    console.log($(this).is(':checked'));
-});
-</script>
-<div class="container">
+		<fieldset>
+			<legend>I would not like to hear music from these genres:</legend>
+			<form action="/preferences">
 
-<fieldset>
-<legend>I would not like to hear music from these genres:</legend>
-<form action="/preferences" > 
+				<input type="checkbox" name="genres" value="Rock">Rock</br> 
+				<input type="checkbox" name="genres" value="Country">Country</br> 
+				<input type="checkbox" name="genres" value="Folk">Folk</br> 
+				<input type="checkbox" name="genres" value="Metal">Metal</br> 
+				<input type="checkbox" name="genres" value="Trance">Electronic/Trance</br>
+				<input type="checkbox" name="genres" value="Latin">Latin</br> 
+				<input type="checkbox" name="genres" value="Opera">Opera</br> 
+				<input type="checkbox" name="genres" value="Rap">Rap</br> 
+				<input type="checkbox" name="genres" value="Classical">Classical</br> 
+				<input type="checkbox" name="genres" value="Jazz">Jazz</br> 
+				<input type="submit" value="Submit">
 
-<input type="checkbox" name="genres" value="Rock">Rock</br>
-<input type="checkbox" name="genres" value="Country">Country</br>
-<input type="checkbox" name="genres" value="Folk">Folk</br>
-<input type="checkbox" name="genres" value="Metal">Metal</br>
-<input type="checkbox" name="genres" value="Trance">Electronic/Trance</br>
-<input type="checkbox" name="genres" value="Latin">Latin</br>
-<input type="checkbox" name="genres" value="Opera">Opera</br>
-<input type="checkbox" name="genres" value="Rap">Rap</br>
-<input type="checkbox" name="genres" value="Classical">Classical</br>
-<input type="checkbox" name="genres" value="Jazz">Jazz</br>
-<input type="submit" value="Submit">
-
- </form>
-</fieldset>
+			</form>
+		</fieldset>
 
 
 
-</div>
+	</div>
 
 </body>
+
 </html>
