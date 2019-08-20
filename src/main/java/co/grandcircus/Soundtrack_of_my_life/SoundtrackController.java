@@ -2,6 +2,7 @@ package co.grandcircus.Soundtrack_of_my_life;
 
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,14 @@ public class SoundtrackController {
 	public ModelAndView testWelcome() {
 		
 		return new ModelAndView("testwelcome");
+	}
+	
+	@RequestMapping("/preferences")
+	public ModelAndView displayPreferences(@RequestParam("genre[]") String[] genres) {
+		
+		System.out.println(Arrays.toString(genres));
+		
+		return new ModelAndView("preferences");
 	}
 
 }
