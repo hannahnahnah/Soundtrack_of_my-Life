@@ -8,7 +8,17 @@
 <title>User Preferences</title>
 </head>
 <body>
+<script>
+$(function(){
+    var test = localStorage.input === 'true'? true: false;
+    $('input').prop('checked', test || false);
+});
 
+$('input').on('change', function() {
+    localStorage.input = $(this).is(':checked');
+    console.log($(this).is(':checked'));
+});
+</script>
 <div class="container">
 
 <fieldset>

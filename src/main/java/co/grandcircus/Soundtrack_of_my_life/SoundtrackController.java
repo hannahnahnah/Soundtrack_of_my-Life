@@ -79,7 +79,7 @@ public class SoundtrackController {
 		mv.addObject("temp", df2.format(temp));
 		mv.addObject("mainCondition", response.getWeather().get(0).getMain());
 		mv.addObject("description", response.getWeather().get(0).getDescription());
-		
+		mv.addObject("mood", mood);
 		String newMood = mood.replaceAll("\\s+", "+");
 		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists(newMood,Type.playlist);
 		List<TrackItems> trackList = spotifyApiService.showTracks(newMood, Type.track);
@@ -101,7 +101,7 @@ public class SoundtrackController {
 	
 	@RequestMapping("/preferences")
 	public ModelAndView displayPreferences(@RequestParam(value="genres", required=false) String[] genres) {
-		System.out.println(genres);
+		//System.out.println(genres);
 		String imploded=StringUtils.join(genres);
 		System.out.println(imploded);
 		//User test = JpaRepository.findByUsernameAndPassword("tester", "test");
