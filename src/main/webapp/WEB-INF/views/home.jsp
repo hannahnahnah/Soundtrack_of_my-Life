@@ -5,18 +5,23 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Welcome to Soundtrack of My Life!</title>
+<title>HOME</title>
 </head>
 <body>
-	<p>Username: <input type="text" name="username"> </p>
-	<p>Password: <input type="password" name="password"></p>
-	<p><button type="submit">Login</button>
-	
+	<div align="center">
+	<h1>Welcome to Soundtrack of My Life!</h1>
 	<form id="locForm" action="/welcome" method="get" onsubmit="getLocation(); return false;">
-		<button type="submit">Set Values</button>
+		<!-- <p>Username: <input type="text" name="username"> </p>
+		<p>Password: <input type="password" name="password"></p>-->
+		
 		<input type="hidden" name="latitude" id="lat" value="1" />
 		<input type="hidden" name="longitude" id="lon" value="1" />
+		<button type="submit">Login</button>
 	</form>
+	<!-- <form action="/register" method="get">
+	<p> Not registered? <button type="Submit">Create an Account</button>
+	</form> -->
+	</div>
 
 	<script>
 		var y = document.getElementById("lat");
@@ -29,9 +34,9 @@
 			}
 		}
 		function setValues(position) {
-				y.value = position.coords.latitude;
-				z.value = position.coords.longitude;
-				document.getElementById("locForm").submit();
+			y.value = position.coords.latitude;
+			z.value = position.coords.longitude;
+			document.getElementById("locForm").submit();
 		}
 	</script>
 
