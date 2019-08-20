@@ -35,14 +35,7 @@ public class SoundtrackController {
 	@RequestMapping("/")
 	public ModelAndView showHome() {
 		ModelAndView mv = new ModelAndView("home");
-		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists("sunny", Type.playlist);
-		List<TrackItems> trackList = spotifyApiService.showTracks("sunny", Type.track);
-		List<ArtistItems> artistList = spotifyApiService.showArtists("sunny", Type.artist);
-		List<AlbumtItems> albumList = spotifyApiService.showAlbums("sunny", Type.album);
-		mv.addObject("playlist", playlistList);
-		mv.addObject("track", trackList);
-		mv.addObject("artist", artistList);
-		mv.addObject("album", albumList);
+		
 		return mv;
 	}
 	

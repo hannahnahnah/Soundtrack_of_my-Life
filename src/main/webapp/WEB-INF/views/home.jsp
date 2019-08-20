@@ -5,91 +5,35 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Soundtracks</title>
+<title>Welcome to Soundtrack of My Life!</title>
 </head>
 <body>
-	<h1 class="text-primary">
-		<center>Sound Track of My Life</center>
-	</h1>
-	<div class="container" align="center">
-		<table class="table"
-			style="display: inline-block; border: 1px solid; float: left;">
-			<thead class="text-success">
-				<tr>
-					<th>Playlists</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${playlist}" var="playlists">
-					<tr>
-						<td><iframe
-								src="https://open.spotify.com/embed/playlist/${playlists.id}"
-								width="500" height="75" frameborder="0" allowtransparency="true"
-								allow="encrypted-media"></iframe></td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-		<h1 class="text-primary"></h1>
-		<table class="table" style="display: inline-block; border: 1px solid;">
-			<thead class="text-success">
-				<tr>
-					<th>Tracks</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${track}" var="tracks">
-					<tr>
-						<td><iframe
-								src="https://open.spotify.com/embed/track/${tracks.id}"
-								width="500" height="75" frameborder="0" allowtransparency="true"
-								allow="encrypted-media"></iframe></td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-	</div>
+	<p>Username: <input type="text" name="username"> </p>
+	<p>Password: <input type="password" name="password"></p>
+	<p><button type="submit">Login</button>
+	
+	<form id="locForm" action="/welcome" method="get" onsubmit="getLocation(); return false;">
+		<button type="submit">Set Values</button>
+		<input type="hidden" name="latitude" id="lat" value="1" />
+		<input type="hidden" name="longitude" id="lon" value="1" />
+	</form>
 
-	<div class="container" align="center">
-		<h1 class="text-primary"></h1>
-		<table class="table"
-			style="display: inline-block; border: 1px solid; float: left;">
-			<thead class="text-success">
-				<tr>
-					<th>Artists</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${artist}" var="artists">
-					<tr>
-						<td><iframe
-								src="https://open.spotify.com/embed/artist/${artists.id}"
-								width="500" height="75" frameborder="0" allowtransparency="true"
-								allow="encrypted-media"></iframe></td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-
-		<h1 class="text-primary"></h1>
-		<table class="table" style="display: inline-block; border: 1px solid;">
-			<thead class="text-success">
-				<tr>
-					<th>Albums</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${album}" var="albums">
-					<tr>
-						<td><iframe
-								src="https://open.spotify.com/embed/album/${albums.id}"
-								width="500" height="75" frameborder="0" allowtransparency="true"
-								allow="encrypted-media"></iframe></td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-	</div>
+	<script>
+		var y = document.getElementById("lat");
+		var z = document.getElementById("lon");
+		function getLocation() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(setValues);
+			} else {
+				x.innerHTML = "Geolocation is not supported by this browser.";
+			}
+		}
+		function setValues(position) {
+				y.value = position.coords.latitude;
+				z.value = position.coords.longitude;
+				document.getElementById("locForm").submit();
+		}
+	</script>
 
 </body>
 </html>

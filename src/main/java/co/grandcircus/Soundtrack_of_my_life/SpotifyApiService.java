@@ -28,11 +28,9 @@ import co.grandcircus.Soundtrack_of_my_life.model.spotify.Type;
 public class SpotifyApiService {
 	
 	
-	
-	private final String API_KEY = "d6a515f31243414b8a32f69ef1bcbac4";
 	private final String CLIENT_ID = "d6a515f31243414b8a32f69ef1bcbac4";
 	@Value("${spotify.CLIENT_SECRET}")
-	private final String CLIENT_SECRET;
+	private String CLIENT_SECRET;
 	private RestTemplate restTemplate;
     
     {
