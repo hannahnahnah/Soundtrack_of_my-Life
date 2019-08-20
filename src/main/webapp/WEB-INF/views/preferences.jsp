@@ -9,26 +9,27 @@
 </head>
 <body>
 	
-	<div class="container">
+<div class="container">
 
-		<fieldset>
-			<legend>I would not like to hear music from these genres:</legend>
-			<form action="/preferences">
+<fieldset>
+<legend>I would not like to hear music from these genres:</legend>
+<form action="/preferences"> 
 
-				<input type="checkbox" name="genres" value="Rock">Rock</br> 
-				<input type="checkbox" name="genres" value="Country">Country</br> 
-				<input type="checkbox" name="genres" value="Folk">Folk</br> 
-				<input type="checkbox" name="genres" value="Metal">Metal</br> 
-				<input type="checkbox" name="genres" value="Trance">Electronic/Trance</br>
-				<input type="checkbox" name="genres" value="Latin">Latin</br> 
-				<input type="checkbox" name="genres" value="Opera">Opera</br> 
-				<input type="checkbox" name="genres" value="Rap">Rap</br> 
-				<input type="checkbox" name="genres" value="Classical">Classical</br> 
-				<input type="checkbox" name="genres" value="Jazz">Jazz</br> 
-				<input type="submit" value="Submit">
+	<input type="checkbox" name="genres" value="Rock" <c:if test="${imploded.contains('Rock')}">checked</c:if>><label for="Rock">Rock</label></br>
+	<input type="checkbox" name="genres" value="Country" <c:if test="${imploded.contains('Country')}">checked</c:if>><label for="Country">Country</label></br>
+	<input type="checkbox" name="genres" value="Folk" <c:if test="${imploded.contains('Folk')}">checked</c:if>><label for="Folk">Folk</label></br>
+	<input type="checkbox" name="genres" value="Metal" <c:if test="${imploded.contains('Metal')}">checked</c:if>><label for="Metal">Metal</label></br>
+	<input type="checkbox" name="genres" value="Trance" <c:if test="${imploded.contains('Trance')}">checked</c:if>><label for="Trance">Trance</label></br>
+	<input type="checkbox" name="genres" value="Latin" <c:if test="${imploded.contains('Latin')}">checked</c:if>><label for="Latin">Latin</label></br>
+	<input type="checkbox" name="genres" value="Opera" <c:if test="${imploded.contains('Opera')}">checked</c:if>><label for="Opera">Opera</label></br>
+	<input type="checkbox" name="genres" value="Rap" <c:if test="${imploded.contains('Rap')}">checked</c:if>><label for="Rap">Rap</label></br>
+	<input type="checkbox" name="genres" value="Classical" <c:if test="${imploded.contains('Classical')}">checked</c:if>><label for="Classical">Classical</label></br>
+	<input type="checkbox" name="genres" value="Jazz" <c:if test="${imploded.contains('Jazz')}">checked</c:if>><label for="Jazz">Jazz</label></br>
 
-			</form>
-		</fieldset>
+<input type="submit" value="Submit" data-dismiss="alert">
+<%--//FIXME stretch goal. reset all <button type="reset" value="Reset" name="${ genres = null }">Reset</button> --%>
+
+
 
 
 

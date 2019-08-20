@@ -101,12 +101,14 @@ public class SoundtrackController {
 	
 	@RequestMapping("/preferences")
 	public ModelAndView displayPreferences(@RequestParam(value="genres", required=false) String[] genres) {
-		//System.out.println(genres);
+
 		String imploded=StringUtils.join(genres);
 		System.out.println(imploded);
 		//User test = JpaRepository.findByUsernameAndPassword("tester", "test");
 		//test.setGenrePreferences(genres);
-		return new ModelAndView("preferences");
+		ModelAndView mav = new ModelAndView("preferences");
+		mav.addObject( "imploded", imploded);
+		return mav;
 	}
 
 }
