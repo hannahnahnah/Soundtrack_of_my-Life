@@ -74,15 +74,16 @@ public class SpotifyApiService {
 		return accessToken;
     }
     
-    public List<TrackItems> showTracks(String q, Type type){
+    public List<TrackItems> showTracks(String q, Type type/*, String nots*/){
     	String accessToken = getAccessToken();
     	String limit = "10";
+//    	q = q + nots;
     	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
     			.queryParam("q", q)
 				.queryParam("type", type)
 				.queryParam("limit", limit)
 				.toUriString();
-    	System.out.println(url);
+    	
     	String bearerString = "Bearer " + accessToken;
     	HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", bearerString);

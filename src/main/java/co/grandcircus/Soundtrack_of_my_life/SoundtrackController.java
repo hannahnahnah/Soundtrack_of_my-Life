@@ -56,12 +56,17 @@ public class SoundtrackController {
 		mv.addObject("description", response.getWeather().get(0).getDescription());
 		mv.addObject(longitude);
 		mv.addObject(latitude);
+		
+//		String genreQuery =  dao.getGenrePreferences((long) 1);
+//		genreQuery = "+genre:+NOT+" + genreQuery.replaceAll(",", "+NOT+");
+//		System.out.println("genreQuery= " + genreQuery);
+		
 		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists(response.getWeather().get(0).getMain(),
-				Type.playlist);
-		List<TrackItems> trackList = spotifyApiService.showTracks(response.getWeather().get(0).getMain(), Type.track);
+				Type.playlist/*, genreQuery*/);
+		List<TrackItems> trackList = spotifyApiService.showTracks(response.getWeather().get(0).getMain(), Type.track/*, genreQuery*/);
 		List<ArtistItems> artistList = spotifyApiService.showArtists(response.getWeather().get(0).getMain(),
-				Type.artist);
-		List<AlbumtItems> albumList = spotifyApiService.showAlbums(response.getWeather().get(0).getMain(), Type.album);
+				Type.artist/*, genreQuery*/);
+		List<AlbumtItems> albumList = spotifyApiService.showAlbums(response.getWeather().get(0).getMain(), Type.album/*, genreQuery*/);
 		mv.addObject("playlist", playlistList);
 		mv.addObject("track", trackList);
 		mv.addObject("artist", artistList);
@@ -84,10 +89,15 @@ public class SoundtrackController {
 		mv.addObject("description", response.getWeather().get(0).getDescription());
 		mv.addObject("mood", mood);
 		String newMood = mood.replaceAll("\\s+", "+");
-		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists(newMood,Type.playlist);
-		List<TrackItems> trackList = spotifyApiService.showTracks(newMood, Type.track);
-		List<ArtistItems> artistList = spotifyApiService.showArtists(newMood,Type.artist);
-		List<AlbumtItems> albumList = spotifyApiService.showAlbums(newMood, Type.album);
+		
+//		String genreQuery =  dao.getGenrePreferences((long) 1);
+//		genreQuery = "+genre:NOT+" + genreQuery.replaceAll(",", "+NOT+");
+//		System.out.println("genreQuery= " + genreQuery);
+		
+		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists(newMood,Type.playlist/*, genreQuery*/);
+		List<TrackItems> trackList = spotifyApiService.showTracks(newMood, Type.track/*, genreQuery*/);
+		List<ArtistItems> artistList = spotifyApiService.showArtists(newMood,Type.artist/*, genreQuery*/);
+		List<AlbumtItems> albumList = spotifyApiService.showAlbums(newMood, Type.album/*, genreQuery*/);
 		mv.addObject("playlist", playlistList);
 		mv.addObject("track", trackList);
 		mv.addObject("artist", artistList);
@@ -106,9 +116,9 @@ public class SoundtrackController {
 	public ModelAndView displayPreferences(@RequestParam(value="genres", required=false) String[] genres) {
 
 		String imploded=StringUtils.join(genres);
-		System.out.println(imploded);
+		//System.out.println(imploded);
 		dao.update((long) 1, imploded);
-		System.out.println(dao.getGenrePreferences((long) 1));
+		//System.out.println(dao.getGenrePreferences((long) 1));
 		//User test = JpaRepository.findByUsernameAndPassword("tester", "test");
 		//test.setGenrePreferences(genres);
 		ModelAndView mav = new ModelAndView("preferences");
