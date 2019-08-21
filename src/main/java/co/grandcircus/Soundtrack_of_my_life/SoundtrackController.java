@@ -54,8 +54,8 @@ public class SoundtrackController {
 		mv.addObject("temp", df2.format(temp));
 		mv.addObject("mainCondition", response.getWeather().get(0).getMain());
 		mv.addObject("description", response.getWeather().get(0).getDescription());
-		mv.addObject(longitude);
-		mv.addObject(latitude);
+		mv.addObject("lon", longitude);
+		mv.addObject("lat", latitude);
 		
 //		String genreQuery =  dao.getGenrePreferences((long) 1);
 //		genreQuery = "+genre:+NOT+" + genreQuery.replaceAll(",", "+NOT+");
@@ -83,6 +83,8 @@ public class SoundtrackController {
 		weatherResponse response = weatherApi.showWeather(latitude, longitude);
 		double temp = response.getMain().getTemp();
 		temp = ((temp - 273.15) * 9 / 5 + 32);
+		mv.addObject("lon", longitude);
+		mv.addObject("lat", latitude);
 		mv.addObject("name", response.getcityName());
 		mv.addObject("temp", df2.format(temp));
 		mv.addObject("mainCondition", response.getWeather().get(0).getMain());

@@ -40,8 +40,8 @@
 	<form action="/welcome" method="post">
 	<p>Look up music based on your mood</p>
 	<p>Mood: <input type="text" name="mood" value="${mood}"></p>
-	<input type="hidden" name="latitude" id="lat" value="42.33603230000001" />
-	<input type="hidden" name="longitude" id="lon" value="-83.0500596" />
+	<input type="hidden" name="latitude" id="lat" value="${lat}" />
+	<input type="hidden" name="longitude" id="lon" value="${lon}" />
 	<button type="submit">Search</button>
 	</form>
 
