@@ -47,7 +47,7 @@
   		</fieldset>
   			
   			<fieldset class="form-group">
-  			<legend><label class="form-check-label">Mood Preferences</label></legend>
+  			<legend><label class="form-check-label">Mood Preference</label></legend>
   			<div class="form-check">
 	  			<input type="radio" class="form-check-input" name="mood" value="Happy"<c:if test="${mood.equals('Happy')}">checked</c:if>><label>Happy</label><br>
 	  			<input type="radio" class="form-check-input" name="mood" value="Sad"<c:if test="${mood.equals('Sad')}">checked</c:if>><label>Sad</label><br>
@@ -64,7 +64,7 @@
   			</fieldset>
   			
   			
-  			 <input type="submit" value="Submit" class="btn btn-success btn-lg btn-block col-sm-4">
+  			 <input type="submit" value="Submit" class="btn btn-success btn-lg btn-block col-sm-4"><br>
   			
 		</form>
 		<div>
