@@ -21,11 +21,22 @@ public class UserDao {
 		em.merge(user);
 	}
 	
+	public void updateUser(User user) {
+				
+		em.merge(user);
+	}
+	
+	
 	public String getGenrePreferences(Long id) {
 		String genrePreferences = em.find(User.class, id).getGenrePreferences();
 		return genrePreferences;
 		
 	}
 
+	public User findById(Long id) {
+		User user = em.find(User.class, id);
+		return user;
+		
+	}
 
 }

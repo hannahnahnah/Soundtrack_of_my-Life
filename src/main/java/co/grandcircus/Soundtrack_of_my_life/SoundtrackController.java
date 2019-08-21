@@ -3,6 +3,7 @@ package co.grandcircus.Soundtrack_of_my_life;
 import java.text.DecimalFormat;
 import java.util.List;
 
+
 import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.Soundtrack_of_my_life.dao.UserDao;
+import co.grandcircus.Soundtrack_of_my_life.entity.User;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.AlbumtItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.ArtistItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.PlaylistItems;
@@ -41,6 +43,15 @@ public class SoundtrackController {
 		return mv;
 	}
 
+	@PostMapping("/")
+	public ModelAndView showPostHome() {
+		
+		
+		dao.updateUser(user);
+		ModelAndView mv = new ModelAndView("home");
+		return mv;
+	}
+	
 	private static DecimalFormat df2 = new DecimalFormat("#.##");
 
 	@RequestMapping("/welcome")
@@ -116,15 +127,17 @@ public class SoundtrackController {
 	
 	@RequestMapping("/preferences")
 	public ModelAndView displayPreferences(@RequestParam(value="genres", required=false) String[] genres) {
-
-		String imploded=StringUtils.join(genres);
+		User user = dao.findById((long) 1);
+		System.out.println(user);
+		//String imploded=StringUtils.join(genres);
 		//System.out.println(imploded);
-		dao.update((long) 1, imploded);
+		//dao.update((long) 1, imploded);
 		//System.out.println(dao.getGenrePreferences((long) 1));
 		//User test = JpaRepository.findByUsernameAndPassword("tester", "test");
 		//test.setGenrePreferences(genres);
 		ModelAndView mav = new ModelAndView("preferences");
-		mav.addObject( "imploded", imploded);
+		//mav.addObject( "imploded", imploded);
+		mav.addObject("user", user);
 		return mav;
 	}
 
