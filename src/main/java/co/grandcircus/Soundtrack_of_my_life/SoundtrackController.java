@@ -1,10 +1,9 @@
 package co.grandcircus.Soundtrack_of_my_life;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
-
-import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -118,11 +117,23 @@ public class SoundtrackController {
 //		String genreQuery =  dao.getGenrePreferences((long) 1);
 //		genreQuery = "+genre:NOT+" + genreQuery.replaceAll(",", "+NOT+");
 //		System.out.println("genreQuery= " + genreQuery);
+		List<PlaylistItems> playlistList = new ArrayList<>();
+		List<TrackItems> trackList = new ArrayList<>();
+		List<ArtistItems> artistList = new ArrayList<>();
+		List<AlbumtItems> albumList = new ArrayList<>();
+		if(newMood.length() > 0) {
+			playlistList = spotifyApiService.showPlaylists(newMood,Type.playlist);
+			trackList = spotifyApiService.showTracks(newMood, Type.track);
+			artistList = spotifyApiService.showArtists(newMood,Type.artist);
+			albumList = spotifyApiService.showAlbums(newMood, Type.album);
+		} else {
+			playlistList = spotifyApiService.showPlaylists(response.getWeather().get(0).getMain(), Type.playlist);
+			trackList = spotifyApiService.showTracks(response.getWeather().get(0).getMain(), Type.track);
+			artistList = spotifyApiService.showArtists(response.getWeather().get(0).getMain(),Type.artist);
+			albumList = spotifyApiService.showAlbums(response.getWeather().get(0).getMain(), Type.album);
+			
+		}
 		
-		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists(newMood,Type.playlist/*, genreQuery*/);
-		List<TrackItems> trackList = spotifyApiService.showTracks(newMood, Type.track/*, genreQuery*/);
-		List<ArtistItems> artistList = spotifyApiService.showArtists(newMood,Type.artist/*, genreQuery*/);
-		List<AlbumtItems> albumList = spotifyApiService.showAlbums(newMood, Type.album/*, genreQuery*/);
 		mv.addObject("playlist", playlistList);
 		mv.addObject("track", trackList);
 		mv.addObject("artist", artistList);
