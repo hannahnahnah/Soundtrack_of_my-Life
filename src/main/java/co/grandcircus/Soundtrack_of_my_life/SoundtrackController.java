@@ -44,7 +44,19 @@ public class SoundtrackController {
 	}
 
 	@PostMapping("/")
-	public ModelAndView showPostHome() {
+	public ModelAndView showPostHome(
+			@RequestParam("firstName") String firstName,
+			@RequestParam("lastName") String lastName,
+			@RequestParam("userName") String userName,
+			@RequestParam("password") String password,
+			@RequestParam(value="mood", required=false) String mood
+			) {
+		User user = dao.findById((long) 1); //TODO use jpa method to find the user
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setUserName(userName);
+		user.setPassword(password);
+		user.setMoodPreferences(mood);
 		
 		
 		dao.updateUser(user);
@@ -138,6 +150,7 @@ public class SoundtrackController {
 		ModelAndView mav = new ModelAndView("preferences");
 		//mav.addObject( "imploded", imploded);
 		mav.addObject("user", user);
+		mav.addObject("mood", user.getMoodPreferences());
 		return mav;
 	}
 

@@ -26,17 +26,17 @@
   			<p><label>Password: </label><input type="password" name="password" value="${user.password }"></p>
   			
   			<p><label>Mood Preferences</label><br>
-  			<input type="radio" name="mood" value="Happy"><label>Happy</label><br>
-  			<input type="radio" name="mood" value="Sad"><label>Sad</label><br>
-  			<input type="radio" name="mood" value="Joyful"><label>Joyful</label><br>
-  			<input type="radio" name="mood" value="Angry"><label>Angry</label><br>
-  			<input type="radio" name="mood" value="Frustrated"><label>Frustrated</label><br>
-  			<input type="radio" name="mood" value="Loving"><label>Loving</label><br>
-  			<input type="radio" name="mood" value="Fearful"><label>Fearful</label><br>
-  			<input type="radio" name="mood" value="Peaceful"><label>Peaceful</label><br>
-  			<input type="radio" name="mood" value="Good Vibes"><label>Good Vibes</label><br>
-  			<input type="radio" name="mood" value="Relaxed"><label>Relaxed</label><br>
-  			<input type="radio" name="mood" value="Beast Mode"><label>Beast Mode</label><br>
+  			<input type="radio" name="mood" value="Happy"<c:if test="${mood.equals('Happy')}">checked</c:if>><label>Happy</label><br>
+  			<input type="radio" name="mood" value="Sad"<c:if test="${mood.equals('Sad')}">checked</c:if>><label>Sad</label><br>
+  			<input type="radio" name="mood" value="Joyful" <c:if test="${mood.equals('Joyful')}">checked</c:if>><label>Joyful</label><br>
+  			<input type="radio" name="mood" value="Angry" <c:if test="${mood.equals('Angry')}">checked</c:if>><label>Angry</label><br>
+  			<input type="radio" name="mood" value="Frustrated" <c:if test="${mood.equals('Frustrated')}">checked</c:if>><label>Frustrated</label><br>
+  			<input type="radio" name="mood" value="Loving" <c:if test="${mood.equals('Loving')}">checked</c:if>><label>Loving</label><br>
+  			<input type="radio" name="mood" value="Fearful" <c:if test="${mood.equals('Fearful')}">checked</c:if>><label>Fearful</label><br>
+  			<input type="radio" name="mood" value="Peaceful" <c:if test="${mood.equals('Peaceful')}">checked</c:if>><label>Peaceful</label><br>
+  			<input type="radio" name="mood" value="Good Vibes" <c:if test="${mood.equals('Good Vibes')}">checked</c:if>><label>Good Vibes</label><br>
+  			<input type="radio" name="mood" value="Relaxed" <c:if test="${mood.equals('Relaxed')}">checked</c:if>><label>Relaxed</label><br>
+  			<input type="radio" name="mood" value="Beast Mode" <c:if test="${mood.equals('Beast Mode')}">checked</c:if>><label>Beast Mode</label><br>
   			</p>
   			<input type="submit" value="Submit">
 		</form>
