@@ -23,7 +23,7 @@ public class User {
 	private String userName;
 	private String password;
 	@Column (name="genre_preferences")
-	private String[] genrePreferences;
+	private String genrePreferences;
 	@Column (name="mood_preferences")
 	private String moodPreferences;
 	
@@ -62,10 +62,10 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String[] getGenrePreferences() {
+	public String getGenrePreferences() {
 		return genrePreferences;
 	}
-	public void setGenrePreferences(String[] genrePreferences) {
+	public void setGenrePreferences(String genrePreferences) {
 		this.genrePreferences = genrePreferences;
 	}
 	public String getMoodPreferences() {

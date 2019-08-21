@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import co.grandcircus.Soundtrack_of_my_life.entity.User;
+import co.grandcircus.Soundtrack_of_my_life.dao.UserDao;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.AlbumtItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.ArtistItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.PlaylistItems;
@@ -30,6 +30,9 @@ public class SoundtrackController {
 
 	@Autowired
 	private SpotifyApiService spotifyApiService;
+	
+	@Autowired
+	private UserDao dao;
 
 	@RequestMapping("/")
 	public ModelAndView showHome() {
@@ -104,6 +107,8 @@ public class SoundtrackController {
 
 		String imploded=StringUtils.join(genres);
 		System.out.println(imploded);
+		dao.update((long) 1, imploded);
+		System.out.println(dao.getGenrePreferences((long) 1));
 		//User test = JpaRepository.findByUsernameAndPassword("tester", "test");
 		//test.setGenrePreferences(genres);
 		ModelAndView mav = new ModelAndView("preferences");
