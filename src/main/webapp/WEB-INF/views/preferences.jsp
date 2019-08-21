@@ -4,11 +4,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/darkly/bootstrap.min.css" crossorigin="anonymous">
 <meta charset="UTF-8">
 
 <title>User Preferences</title>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<ul class="navbar-nav ml-auto" >
+		<li class="nav-item"><a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a></li>
+		<li class="nav-item"><a class="nav-link" href="/preferences">User Preferences</a></li>
+	</ul>
+</nav>
 	
 <div class="container">
 
@@ -18,29 +25,52 @@
 	<div>
 		<h3> Set your profile preferences</h3>
 	</div>
-	<div>
+	<div >
 		<form action="/" method="post">
-  			<p><label>First name:</label><input type="text" name="firstName" value="${user.firstName }" ></p>
-  			<p><label>Last name: </label><input type="text" name="lastName" value="${user.lastName }"></p>
-  			<p><label>User name: </label><input type="text" name="userName" value="${user.userName }"></p>
-  			<p><label>Password: </label><input type="password" name="password" value="${user.password }"></p>
+		<fieldset >
+  			<div class="form-group"><label class="col-form-label">First name: </label>
+  				<div><input type="text" class="form-control col-sm-4" name="firstName" value="${user.firstName }"></div>
+  			</div>
+  		
+  			<div class="form-group"><label class="col-form-label">Last name: </label>
+  				<div><input type="text" class="form-control col-sm-4" name="lastName" value="${user.lastName }"></div>
+  			</div>
   			
-  			<p><label>Mood Preferences</label><br>
-  			<input type="radio" name="mood" value="Happy"<c:if test="${mood.equals('Happy')}">checked</c:if>><label>Happy</label><br>
-  			<input type="radio" name="mood" value="Sad"<c:if test="${mood.equals('Sad')}">checked</c:if>><label>Sad</label><br>
-  			<input type="radio" name="mood" value="Joyful" <c:if test="${mood.equals('Joyful')}">checked</c:if>><label>Joyful</label><br>
-  			<input type="radio" name="mood" value="Angry" <c:if test="${mood.equals('Angry')}">checked</c:if>><label>Angry</label><br>
-  			<input type="radio" name="mood" value="Frustrated" <c:if test="${mood.equals('Frustrated')}">checked</c:if>><label>Frustrated</label><br>
-  			<input type="radio" name="mood" value="Loving" <c:if test="${mood.equals('Loving')}">checked</c:if>><label>Loving</label><br>
-  			<input type="radio" name="mood" value="Fearful" <c:if test="${mood.equals('Fearful')}">checked</c:if>><label>Fearful</label><br>
-  			<input type="radio" name="mood" value="Peaceful" <c:if test="${mood.equals('Peaceful')}">checked</c:if>><label>Peaceful</label><br>
-  			<input type="radio" name="mood" value="Good Vibes" <c:if test="${mood.equals('Good Vibes')}">checked</c:if>><label>Good Vibes</label><br>
-  			<input type="radio" name="mood" value="Relaxed" <c:if test="${mood.equals('Relaxed')}">checked</c:if>><label>Relaxed</label><br>
-  			<input type="radio" name="mood" value="Beast Mode" <c:if test="${mood.equals('Beast Mode')}">checked</c:if>><label>Beast Mode</label><br>
-  			</p>
-  			<input type="submit" value="Submit">
+  			<div class="form-group"><label class="col-form-label">User name:</label>
+  				<div><input type="text" class="form-control col-sm-4" name="userName" value="${user.userName }"></div>
+  			</div>
+
+  			<div class="form-group"><label class="col-form-label">Password:</label>
+  				<div><input type="password" class="form-control col-sm-4" name="password" value="${user.password }"></div>
+  			</div>
+  			
+  		</fieldset>
+  			
+  			<fieldset class="form-group">
+  			<legend><label class="form-check-label">Mood Preferences</label></legend>
+  			<div class="form-check">
+	  			<input type="radio" class="form-check-input" name="mood" value="Happy"<c:if test="${mood.equals('Happy')}">checked</c:if>><label>Happy</label><br>
+	  			<input type="radio" class="form-check-input" name="mood" value="Sad"<c:if test="${mood.equals('Sad')}">checked</c:if>><label>Sad</label><br>
+	  			<input type="radio" class="form-check-input" name="mood" value="Joyful" <c:if test="${mood.equals('Joyful')}">checked</c:if>><label>Joyful</label><br>
+	  			<input type="radio" class="form-check-input" name="mood" value="Angry" <c:if test="${mood.equals('Angry')}">checked</c:if>><label>Angry</label><br>
+	  			<input type="radio" class="form-check-input" name="mood" value="Frustrated" <c:if test="${mood.equals('Frustrated')}">checked</c:if>><label>Frustrated</label><br>
+	  			<input type="radio" class="form-check-input" name="mood" value="Loving" <c:if test="${mood.equals('Loving')}">checked</c:if>><label>Loving</label><br>
+	  			<input type="radio" class="form-check-input" name="mood" value="Fearful" <c:if test="${mood.equals('Fearful')}">checked</c:if>><label>Fearful</label><br>
+	  			<input type="radio" class="form-check-input" name="mood" value="Peaceful" <c:if test="${mood.equals('Peaceful')}">checked</c:if>><label>Peaceful</label><br>
+	  			<input type="radio" class="form-check-input" name="mood" value="Good Vibes" <c:if test="${mood.equals('Good Vibes')}">checked</c:if>><label>Good Vibes</label><br>
+	  			<input type="radio" class="form-check-input" name="mood" value="Relaxed" <c:if test="${mood.equals('Relaxed')}">checked</c:if>><label>Relaxed</label><br>
+	  			<input type="radio" class="form-check-input" name="mood" value="Beast Mode" <c:if test="${mood.equals('Beast Mode')}">checked</c:if>><label>Beast Mode</label><br>
+	  			</div>
+  			</fieldset>
+  			
+  			
+  			 <input type="submit" value="Submit" class="btn btn-success btn-lg btn-block col-sm-4">
+  			
 		</form>
-		<a href="/" class="button">Cancel</a>
+		<div>
+		<a href="/" class="btn btn-primary btn-lg btn-block col-sm-4">Cancel</a><br>
+		</div>
+			
 	</div>
 
 

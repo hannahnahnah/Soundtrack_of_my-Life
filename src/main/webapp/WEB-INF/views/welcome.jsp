@@ -4,10 +4,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/darkly/bootstrap.min.css" crossorigin="anonymous">
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Welcome Page</title>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<ul class="navbar-nav ml-auto" >
+		<li class="nav-item"><a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a></li>
+		<li class="nav-item"><a class="nav-link" href="/preferences">User Preferences</a></li>
+	</ul>
+</nav>
+
+
 	<h1 class="text-primary">
 		<center>Sound Track of My Life</center>
 	</h1>

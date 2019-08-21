@@ -140,7 +140,7 @@ public class SoundtrackController {
 	@RequestMapping("/preferences")
 	public ModelAndView displayPreferences(@RequestParam(value="genres", required=false) String[] genres) {
 		User user = dao.findById((long) 1);
-		System.out.println(user);
+		
 		//String imploded=StringUtils.join(genres);
 		//System.out.println(imploded);
 		//dao.update((long) 1, imploded);
