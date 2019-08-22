@@ -11,6 +11,9 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<ul class="navbar-nav mr-auto" >
+		<li class="nav-item">${hour} ${user.firstName}</li>
+	</ul>
 	<ul class="navbar-nav ml-auto" >
 		<li class="nav-item"><a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a></li>
 		<li class="nav-item"><a class="nav-link" href="/preferences">User Preferences</a></li>

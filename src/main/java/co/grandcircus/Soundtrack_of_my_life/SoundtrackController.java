@@ -1,6 +1,7 @@
 package co.grandcircus.Soundtrack_of_my_life;
 
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,10 +63,14 @@ public class SoundtrackController {
 	}
 	
 	private static DecimalFormat df2 = new DecimalFormat("#.##");
+	
 
 	@RequestMapping("/welcome")
 	public ModelAndView showWelcome(@RequestParam("latitude") String latitude,
 			@RequestParam("longitude") String longitude) {
+		
+		User user = dao.findById((long) 1);
+		
 		weatherResponse response = weatherApi.showWeather(latitude, longitude);
 		ModelAndView mv = new ModelAndView("welcome");
 		double temp = response.getMain().getTemp();
@@ -76,9 +81,24 @@ public class SoundtrackController {
 		mv.addObject("description", response.getWeather().get(0).getDescription());
 		mv.addObject("lon", longitude);
 		mv.addObject("lat", latitude);
-		User user = dao.findById((long) 1);
-		
 		mv.addObject("defaultMood", user.getMoodPreferences());
+		mv.addObject("user", user);
+		
+		int hour = LocalDateTime.now().getHour();
+		if (hour >= 5 && hour < 12) {
+			String morning = "Good Morning";
+			mv.addObject("hour", morning);
+		} else if (hour >= 12 && hour < 17) {
+			String afternoon = "Good Afternoon";
+			mv.addObject("hour", afternoon);	
+		} else if (hour >= 17 && hour < 21) {
+			String evening = "Good Evening";
+			mv.addObject("hour", evening);
+		} else {
+			String night = "Good Night";
+			mv.addObject("hour", night);	
+		}
+	
 //		String genreQuery =  dao.getGenrePreferences((long) 1);
 //		genreQuery = "+genre:+NOT+" + genreQuery.replaceAll(",", "+NOT+");
 //		System.out.println("genreQuery= " + genreQuery);
@@ -102,6 +122,7 @@ public class SoundtrackController {
 			@RequestParam("longitude") String longitude) {
 		ModelAndView mv = new ModelAndView("welcome");
 		User user = dao.findById((long) 1);
+		
 		weatherResponse response = weatherApi.showWeather(latitude, longitude);
 		double temp = response.getMain().getTemp();
 		temp = ((temp - 273.15) * 9 / 5 + 32);
@@ -112,7 +133,22 @@ public class SoundtrackController {
 		mv.addObject("mainCondition", response.getWeather().get(0).getMain());
 		mv.addObject("description", response.getWeather().get(0).getDescription());
 		mv.addObject("mood", mood);
+		mv.addObject("user", user);
 		
+		int hour = LocalDateTime.now().getHour();
+		if (hour >= 5 && hour < 12) {
+			String morning = "Good Morning";
+			mv.addObject("hour", morning);
+		} else if (hour >= 12 && hour < 17) {
+			String afternoon = "Good Afternoon";
+			mv.addObject("hour", afternoon);	
+		} else if (hour >= 17 && hour < 21) {
+			String evening = "Good Evening";
+			mv.addObject("hour", evening);
+		} else {
+			String night = "Good Night";
+			mv.addObject("hour", night);	
+		}
 		
 //		String genreQuery =  dao.getGenrePreferences((long) 1);
 //		genreQuery = "+genre:NOT+" + genreQuery.replaceAll(",", "+NOT+");
@@ -152,6 +188,22 @@ public class SoundtrackController {
 	@RequestMapping("/preferences")
 	public ModelAndView displayPreferences(@RequestParam(value="genres", required=false) String[] genres) {
 		User user = dao.findById((long) 1);
+		ModelAndView mv = new ModelAndView("preferences");
+		
+		int hour = LocalDateTime.now().getHour();
+		if (hour >= 5 && hour < 12) {
+			String morning = "Good Morning";
+			mv.addObject("hour", morning);
+		} else if (hour >= 12 && hour < 17) {
+			String afternoon = "Good Afternoon";
+			mv.addObject("hour", afternoon);	
+		} else if (hour >= 17 && hour < 21) {
+			String evening = "Good Evening";
+			mv.addObject("hour", evening);
+		} else {
+			String night = "Good Night";
+			mv.addObject("hour", night);	
+		}
 		
 		//String imploded=StringUtils.join(genres);
 		//System.out.println(imploded);
@@ -159,11 +211,11 @@ public class SoundtrackController {
 		//System.out.println(dao.getGenrePreferences((long) 1));
 		//User test = JpaRepository.findByUsernameAndPassword("tester", "test");
 		//test.setGenrePreferences(genres);
-		ModelAndView mav = new ModelAndView("preferences");
+		
 		//mav.addObject( "imploded", imploded);
-		mav.addObject("user", user);
-		mav.addObject("mood", user.getMoodPreferences());
-		return mav;
+		mv.addObject("user", user);
+		mv.addObject("mood", user.getMoodPreferences());
+		return mv;
 	}
 
 }
