@@ -1,7 +1,6 @@
 package co.grandcircus.Soundtrack_of_my_life;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,6 @@ public class SoundtrackController {
 	@RequestMapping("/")
 	public ModelAndView showHome() {
 		ModelAndView mv = new ModelAndView("home");
-
 		return mv;
 	}
 
@@ -48,8 +46,9 @@ public class SoundtrackController {
 			@RequestParam("lastName") String lastName,
 			@RequestParam("userName") String userName,
 			@RequestParam("password") String password,
-			@RequestParam(value="mood", required=false) String mood
-			) {
+			@RequestParam(value="mood", required=false) String mood,
+			@RequestParam("latitude") String latitude,
+			@RequestParam("longitude") String longitude) {
 		User user = dao.findById((long) 1); //TODO use jpa method to find the user
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
@@ -57,9 +56,8 @@ public class SoundtrackController {
 		user.setPassword(password);
 		user.setMoodPreferences(mood);
 		
-		
 		dao.updateUser(user);
-		ModelAndView mv = new ModelAndView("home");
+		ModelAndView mv = new ModelAndView("redirect:/welcome?latitude=" + latitude + "&longitude=" + longitude);
 		return mv;
 	}
 	
@@ -78,7 +76,9 @@ public class SoundtrackController {
 		mv.addObject("description", response.getWeather().get(0).getDescription());
 		mv.addObject("lon", longitude);
 		mv.addObject("lat", latitude);
+		User user = dao.findById((long) 1);
 		
+		mv.addObject("defaultMood", user.getMoodPreferences());
 //		String genreQuery =  dao.getGenrePreferences((long) 1);
 //		genreQuery = "+genre:+NOT+" + genreQuery.replaceAll(",", "+NOT+");
 //		System.out.println("genreQuery= " + genreQuery);
@@ -93,7 +93,6 @@ public class SoundtrackController {
 		mv.addObject("track", trackList);
 		mv.addObject("artist", artistList);
 		mv.addObject("album", albumList);
-
 		return mv;
 	}
 
@@ -102,6 +101,7 @@ public class SoundtrackController {
 			@RequestParam("latitude") String latitude,
 			@RequestParam("longitude") String longitude) {
 		ModelAndView mv = new ModelAndView("welcome");
+		User user = dao.findById((long) 1);
 		weatherResponse response = weatherApi.showWeather(latitude, longitude);
 		double temp = response.getMain().getTemp();
 		temp = ((temp - 273.15) * 9 / 5 + 32);
@@ -112,41 +112,42 @@ public class SoundtrackController {
 		mv.addObject("mainCondition", response.getWeather().get(0).getMain());
 		mv.addObject("description", response.getWeather().get(0).getDescription());
 		mv.addObject("mood", mood);
-		String newMood = mood.replaceAll("\\s+", "+");
+		
 		
 //		String genreQuery =  dao.getGenrePreferences((long) 1);
 //		genreQuery = "+genre:NOT+" + genreQuery.replaceAll(",", "+NOT+");
 //		System.out.println("genreQuery= " + genreQuery);
-		List<PlaylistItems> playlistList = new ArrayList<>();
-		List<TrackItems> trackList = new ArrayList<>();
-		List<ArtistItems> artistList = new ArrayList<>();
-		List<AlbumtItems> albumList = new ArrayList<>();
-		if(newMood.length() > 0) {
-			playlistList = spotifyApiService.showPlaylists(newMood,Type.playlist);
-			trackList = spotifyApiService.showTracks(newMood, Type.track);
-			artistList = spotifyApiService.showArtists(newMood,Type.artist);
-			albumList = spotifyApiService.showAlbums(newMood, Type.album);
+		if(mood.length() > 0) {
+			mv.addObject("defaultMood", mood);
 		} else {
-			playlistList = spotifyApiService.showPlaylists(response.getWeather().get(0).getMain(), Type.playlist);
-			trackList = spotifyApiService.showTracks(response.getWeather().get(0).getMain(), Type.track);
-			artistList = spotifyApiService.showArtists(response.getWeather().get(0).getMain(),Type.artist);
-			albumList = spotifyApiService.showAlbums(response.getWeather().get(0).getMain(), Type.album);
-			
+			mv.addObject("defaultMood", user.getMoodPreferences());
 		}
+		
+		if(mood.length() > 0) {
+			mood = mood.replaceAll("\\s+", "+");
+		} else {
+			mood = user.getMoodPreferences();
+			mood = mood.replaceAll("\\s+", "+");
+		}
+		
+		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists(mood, Type.playlist);
+		List<TrackItems> trackList = spotifyApiService.showTracks(mood, Type.track);
+		List<ArtistItems> artistList = spotifyApiService.showArtists(mood,Type.artist);
+		List<AlbumtItems> albumList = spotifyApiService.showAlbums(mood, Type.album);
+		 
 		
 		mv.addObject("playlist", playlistList);
 		mv.addObject("track", trackList);
 		mv.addObject("artist", artistList);
 		mv.addObject("album", albumList);
-		
 		return mv;
 	}
 
-	@RequestMapping("/testwelcome")
-	public ModelAndView testWelcome() {
-
-		return new ModelAndView("testwelcome");
-	}
+//	@RequestMapping("/testwelcome")
+//	public ModelAndView testWelcome() {
+//
+//		return new ModelAndView("testwelcome");
+//	}
 	
 	@RequestMapping("/preferences")
 	public ModelAndView displayPreferences(@RequestParam(value="genres", required=false) String[] genres) {

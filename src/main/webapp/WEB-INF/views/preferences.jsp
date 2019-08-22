@@ -26,7 +26,7 @@
 		<h3> Set your profile preferences</h3>
 	</div>
 	<div >
-		<form action="/" method="post">
+		<form id="locForm" action="/" method="post" onsubmit="getLocation(); return false;">
 		<fieldset >
   			<div class="form-group"><label class="col-form-label">First name: </label>
   				<div><input type="text" class="form-control col-sm-4" name="firstName" value="${user.firstName }"></div>
@@ -63,8 +63,9 @@
 	  			</div>
   			</fieldset>
   			
-  			
-  			 <input type="submit" value="Submit" class="btn btn-success btn-lg btn-block col-sm-4"><br>
+  			<input type="hidden" name="latitude" id="lat" value="1" />
+			<input type="hidden" name="longitude" id="lon" value="1" />
+  			<input type="submit" value="Submit" class="btn btn-success btn-lg btn-block col-sm-4"><br>
   			
 		</form>
 		<div>
@@ -73,6 +74,22 @@
 			
 	</div>
 
+<script>
+		var y = document.getElementById("lat");
+		var z = document.getElementById("lon");
+		function getLocation() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(setValues);
+			} else {
+				x.innerHTML = "Geolocation is not supported by this browser.";
+			}
+		}
+		function setValues(position) {
+			y.value = position.coords.latitude;
+			z.value = position.coords.longitude;
+			document.getElementById("locForm").submit();
+		}
+	</script>
 
 
 

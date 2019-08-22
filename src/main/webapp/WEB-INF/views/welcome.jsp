@@ -49,11 +49,19 @@
 	
 	<form action="/welcome" method="post">
 	<p>Look up music based on your mood</p>
-	<p>Mood: <input type="text" name="mood" value="${mood}"></p>
+	<p>Mood: <input type="text" name="mood" placeholder="Ex: ${defaultMood}"></p>
 	<input type="hidden" name="latitude" id="lat" value="${lat}" />
 	<input type="hidden" name="longitude" id="lon" value="${lon}" />
 	<button type="submit">Search</button>
 	</form>
+	
+	<form action="/welcome" method="get">
+	<input type="hidden" name="weather" value="${mainCondition}" />
+	<input type="hidden" name="latitude" id="lat" value="${lat}" />
+	<input type="hidden" name="longitude" id="lon" value="${lon}" />
+	<button type="submit">Search by Weather Condition</button>
+	</form>
+	
 
 	<div class="container" align="center">
 		<table class="table"
