@@ -50,7 +50,7 @@ public class SoundtrackController {
 			@RequestParam(value="mood", required=false) String mood,
 			@RequestParam("latitude") String latitude,
 			@RequestParam("longitude") String longitude) {
-		User user = dao.findById((long) 1); //TODO use jpa method to find the user
+		User user = dao.findById((long) 1); 
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		user.setUserName(userName);
@@ -68,12 +68,15 @@ public class SoundtrackController {
 	@RequestMapping("/welcome")
 	public ModelAndView showWelcome(@RequestParam("latitude") String latitude,
 			@RequestParam("longitude") String longitude) {
+		ModelAndView mv = new ModelAndView("welcome");
 		
 		User user = dao.findById((long) 1);
+		mv.addObject("user", user);
+		mv.addObject("defaultMood", user.getMoodPreferences());
 		
 		weatherResponse response = weatherApi.showWeather(latitude, longitude);
-		ModelAndView mv = new ModelAndView("welcome");
 		double temp = response.getMain().getTemp();
+		//converting Kelvin to Fahrenheit
 		temp = ((temp - 273.15) * 9 / 5 + 32);
 		mv.addObject("name", response.getcityName());
 		mv.addObject("temp", df2.format(temp));
@@ -81,8 +84,7 @@ public class SoundtrackController {
 		mv.addObject("description", response.getWeather().get(0).getDescription());
 		mv.addObject("lon", longitude);
 		mv.addObject("lat", latitude);
-		mv.addObject("defaultMood", user.getMoodPreferences());
-		mv.addObject("user", user);
+		
 		
 		int hour = LocalDateTime.now().getHour();
 		if (hour >= 5 && hour < 12) {
@@ -98,17 +100,13 @@ public class SoundtrackController {
 			String night = "Good Night";
 			mv.addObject("hour", night);	
 		}
-	
-//		String genreQuery =  dao.getGenrePreferences((long) 1);
-//		genreQuery = "+genre:+NOT+" + genreQuery.replaceAll(",", "+NOT+");
-//		System.out.println("genreQuery= " + genreQuery);
 		
 		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists(response.getWeather().get(0).getMain(),
-				Type.playlist/*, genreQuery*/);
-		List<TrackItems> trackList = spotifyApiService.showTracks(response.getWeather().get(0).getMain(), Type.track/*, genreQuery*/);
+				Type.playlist);
+		List<TrackItems> trackList = spotifyApiService.showTracks(response.getWeather().get(0).getMain(), Type.track);
 		List<ArtistItems> artistList = spotifyApiService.showArtists(response.getWeather().get(0).getMain(),
-				Type.artist/*, genreQuery*/);
-		List<AlbumtItems> albumList = spotifyApiService.showAlbums(response.getWeather().get(0).getMain(), Type.album/*, genreQuery*/);
+				Type.artist);
+		List<AlbumtItems> albumList = spotifyApiService.showAlbums(response.getWeather().get(0).getMain(), Type.album);
 		mv.addObject("playlist", playlistList);
 		mv.addObject("track", trackList);
 		mv.addObject("artist", artistList);
@@ -122,6 +120,7 @@ public class SoundtrackController {
 			@RequestParam("longitude") String longitude) {
 		ModelAndView mv = new ModelAndView("welcome");
 		User user = dao.findById((long) 1);
+		mv.addObject("user", user);
 		
 		weatherResponse response = weatherApi.showWeather(latitude, longitude);
 		double temp = response.getMain().getTemp();
@@ -132,8 +131,7 @@ public class SoundtrackController {
 		mv.addObject("temp", df2.format(temp));
 		mv.addObject("mainCondition", response.getWeather().get(0).getMain());
 		mv.addObject("description", response.getWeather().get(0).getDescription());
-		mv.addObject("mood", mood);
-		mv.addObject("user", user);
+		mv.addObject("mood", mood); //passed in as request parameter from the post mapped form
 		
 		int hour = LocalDateTime.now().getHour();
 		if (hour >= 5 && hour < 12) {
@@ -150,9 +148,7 @@ public class SoundtrackController {
 			mv.addObject("hour", night);	
 		}
 		
-//		String genreQuery =  dao.getGenrePreferences((long) 1);
-//		genreQuery = "+genre:NOT+" + genreQuery.replaceAll(",", "+NOT+");
-//		System.out.println("genreQuery= " + genreQuery);
+
 		if(mood.length() > 0) {
 			mv.addObject("defaultMood", mood);
 		} else {
@@ -170,8 +166,6 @@ public class SoundtrackController {
 		List<TrackItems> trackList = spotifyApiService.showTracks(mood, Type.track);
 		List<ArtistItems> artistList = spotifyApiService.showArtists(mood,Type.artist);
 		List<AlbumtItems> albumList = spotifyApiService.showAlbums(mood, Type.album);
-		 
-		
 		mv.addObject("playlist", playlistList);
 		mv.addObject("track", trackList);
 		mv.addObject("artist", artistList);
@@ -179,16 +173,13 @@ public class SoundtrackController {
 		return mv;
 	}
 
-//	@RequestMapping("/testwelcome")
-//	public ModelAndView testWelcome() {
-//
-//		return new ModelAndView("testwelcome");
-//	}
 	
 	@RequestMapping("/preferences")
-	public ModelAndView displayPreferences(@RequestParam(value="genres", required=false) String[] genres) {
+	public ModelAndView displayPreferences() {
 		User user = dao.findById((long) 1);
 		ModelAndView mv = new ModelAndView("preferences");
+		mv.addObject("user", user);
+		mv.addObject("mood", user.getMoodPreferences());
 		
 		int hour = LocalDateTime.now().getHour();
 		if (hour >= 5 && hour < 12) {
@@ -205,16 +196,6 @@ public class SoundtrackController {
 			mv.addObject("hour", night);	
 		}
 		
-		//String imploded=StringUtils.join(genres);
-		//System.out.println(imploded);
-		//dao.update((long) 1, imploded);
-		//System.out.println(dao.getGenrePreferences((long) 1));
-		//User test = JpaRepository.findByUsernameAndPassword("tester", "test");
-		//test.setGenrePreferences(genres);
-		
-		//mav.addObject( "imploded", imploded);
-		mv.addObject("user", user);
-		mv.addObject("mood", user.getMoodPreferences());
 		return mv;
 	}
 
