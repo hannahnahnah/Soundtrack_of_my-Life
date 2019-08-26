@@ -66,13 +66,14 @@
 	<button type="submit">Search by Weather Condition</button>
 	</form>
 	
-
+<form action="/favorite" method="post">
 	<div class="container" align="center">
 		<table class="table"
 			style="display: inline-block; border: 1px solid; float: left;">
 			<thead class="text-success">
 				<tr>
 					<th>Playlists</th>
+					<th>Favorite</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -82,6 +83,7 @@
 								src="https://open.spotify.com/embed/playlist/${playlists.id}"
 								width="500" height="75" frameborder="0" allowtransparency="true"
 								allow="encrypted-media"></iframe></td>
+						<td><button type="submit" name="favorite" value="${playlists.id}">Favorite</button>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -146,6 +148,16 @@
 			</tbody>
 		</table>
 	</div>
+</form>
+<script>
+function check() {
+  document.getElementById("myCheck").checked = true;
+  
+}
 
+function uncheck() {
+  document.getElementById("myCheck").checked = false;
+}
+</script>
 </body>
 </html>

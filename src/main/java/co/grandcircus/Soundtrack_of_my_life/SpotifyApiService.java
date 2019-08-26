@@ -121,7 +121,7 @@ public class SpotifyApiService {
     
     public List<ArtistItems> showArtists(String q, Type type){
     	String accessToken = getAccessToken();
-    	String limit = "10";
+    	String limit = "3";
     	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
     			.queryParam("q", q)
 				.queryParam("type", type)
@@ -140,7 +140,7 @@ public class SpotifyApiService {
     
     public List<AlbumtItems> showAlbums(String q, Type type){
     	String accessToken = getAccessToken();
-    	String limit = "10";
+    	String limit = "3";
     	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
     			.queryParam("q", q)
 				.queryParam("type", type)
