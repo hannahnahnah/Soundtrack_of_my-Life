@@ -29,7 +29,7 @@
 		<h3> Set your profile preferences</h3>
 	</div>
 	<div >
-		<form id="locForm" action="/" method="post" onsubmit="getLocation(); return false;">
+		<form id="locForm" action="/" method="post">
 		<fieldset >
   			<div class="form-group"><label class="col-form-label">First name: </label>
   				<div><input type="text" class="form-control col-sm-4" name="firstName" value="${user.firstName }"></div>
@@ -66,18 +66,18 @@
 	  			</div>
   			</fieldset>
   			
-  			<input type="hidden" name="latitude" id="lat" value="1" />
-			<input type="hidden" name="longitude" id="lon" value="1" />
+  			<!-- <input type="hidden" name="latitude" id="lat" value="1" />
+			<input type="hidden" name="longitude" id="lon" value="1" /> -->
   			<input type="submit" value="Submit" class="btn btn-success btn-lg btn-block col-sm-4"><br>
   			
 		</form>
 		<div>
-		<a href="/" class="btn btn-primary btn-lg btn-block col-sm-4">Cancel</a><br>
+		<a href="/welcome" class="btn btn-primary btn-lg btn-block col-sm-4">Cancel</a><br>
 		</div>
 			
 	</div>
 
-<script>
+<!-- <script>
 		var y = document.getElementById("lat");
 		var z = document.getElementById("lon");
 		function getLocation() {
@@ -92,7 +92,7 @@
 			z.value = position.coords.longitude;
 			document.getElementById("locForm").submit();
 		}
-	</script>
+	</script> -->
 
 
 

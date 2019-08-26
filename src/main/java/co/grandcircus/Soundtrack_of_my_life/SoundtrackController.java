@@ -52,8 +52,7 @@ public class SoundtrackController {
 			@RequestParam("userName") String userName,
 			@RequestParam("password") String password,
 			@RequestParam(value="mood", required=false) String mood,
-			@RequestParam("latitude") String latitude,
-			@RequestParam("longitude") String longitude) {
+			@SessionAttribute(name="coords") Coordinates coords) {
 		User user = dao.findById((long) 1); 
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
@@ -62,20 +61,25 @@ public class SoundtrackController {
 		user.setMoodPreferences(mood);
 		
 		dao.updateUser(user);
-		ModelAndView mv = new ModelAndView("redirect:/welcome?latitude=" + latitude + "&longitude=" + longitude);
+		ModelAndView mv = new ModelAndView("redirect:/welcome");
 		return mv;
 	}
 	
-	private static DecimalFormat df2 = new DecimalFormat("#.##");
+	
 	
 	@RequestMapping("/session/set")
-		public ModelAndView setSession(Coordinates coords, HttpSession session) {
+		public ModelAndView setSession(@RequestParam("latitude") String lat,
+				@RequestParam("longitude") String lon,
+				Coordinates coords, HttpSession session) {
+		coords.setLatitude(lat);
+		coords.setLongitude(lon);
 		session.setAttribute("coords", coords);
 		return new ModelAndView("redirect:/welcome");
 	}
-
+	
+	private static DecimalFormat df2 = new DecimalFormat("#.##");
 	@RequestMapping("/welcome")
-	public ModelAndView showWelcome(@SessionAttribute(name="coordinates") Coordinates coords) {
+	public ModelAndView showWelcome(@SessionAttribute(name="coords") Coordinates coords) {
 		ModelAndView mv = new ModelAndView("welcome");
 		
 		User user = dao.findById((long) 1);
@@ -131,7 +135,8 @@ public class SoundtrackController {
 	
 	@PostMapping("/welcome")
 	public ModelAndView moodWelcome(@RequestParam("mood") String mood,
-			@SessionAttribute(name="coordinates") Coordinates coords) {
+			@SessionAttribute(name="coords") Coordinates coords) {
+		
 		ModelAndView mv = new ModelAndView("welcome");
 		User user = dao.findById((long) 1);
 		mv.addObject("user", user);
