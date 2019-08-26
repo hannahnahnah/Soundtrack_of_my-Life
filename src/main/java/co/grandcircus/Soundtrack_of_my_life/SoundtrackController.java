@@ -39,11 +39,13 @@ public class SoundtrackController {
 	@Autowired
 	private UserDao dao;
 
+	
 	@RequestMapping("/")
 	public ModelAndView showHome() {
 		ModelAndView mv = new ModelAndView("home");
 		return mv;
 	}
+	
 
 	@PostMapping("/")
 	public ModelAndView showPostHome(
@@ -70,6 +72,7 @@ public class SoundtrackController {
 			@SessionAttribute(name="coords") Coordinates coords) {
 		
 		User user = dao.findById((long) 1); 
+		
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		user.setUserName(userName);
@@ -125,10 +128,7 @@ public class SoundtrackController {
 		mv.addObject("name", response.getcityName());
 		mv.addObject("temp", df2.format(temp));
 		mv.addObject("mainCondition", response.getWeather().get(0).getMain());
-		mv.addObject("description", response.getWeather().get(0).getDescription());
-//		mv.addObject("lon", longitude);
-//		mv.addObject("lat", latitude);
-		
+		mv.addObject("description", response.getWeather().get(0).getDescription());		
 		
 		int hour = LocalDateTime.now().getHour();
 		if (hour >= 5 && hour < 12) {
@@ -145,12 +145,44 @@ public class SoundtrackController {
 			mv.addObject("hour", night);	
 		}
 		
-		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists(response.getWeather().get(0).getMain(),
-				Type.playlist);
-		List<TrackItems> trackList = spotifyApiService.showTracks(response.getWeather().get(0).getMain(), Type.track);
-		List<ArtistItems> artistList = spotifyApiService.showArtists(response.getWeather().get(0).getMain(),
-				Type.artist);
-		List<AlbumtItems> albumList = spotifyApiService.showAlbums(response.getWeather().get(0).getMain(), Type.album);
+		String weatherFeeling = "";
+		if(response.getWeather().get(0).getMain().equalsIgnoreCase("thunderstorm")) {
+			weatherFeeling = user.getThunderstorm();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("drizzle")) {
+			weatherFeeling = user.getDrizzle();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("rain")) {
+			weatherFeeling = user.getRain();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("snow")) {
+			weatherFeeling = user.getSnow();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("mist")) {
+			weatherFeeling = user.getMist();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("smoke")) {
+			weatherFeeling = user.getSmoke();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("haze")) {
+			weatherFeeling = user.getHaze();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("fog")) {
+			weatherFeeling = user.getFog();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("sand")) {
+			weatherFeeling = user.getSmoke();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("dust")) {
+			weatherFeeling = user.getDust();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("ash")) {
+			weatherFeeling = user.getAsh();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("squall")) {
+			weatherFeeling = user.getSquall();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("tornado")) {
+			weatherFeeling = user.getTornado();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("clear")) {
+			weatherFeeling = user.getClear();
+		}else {
+			weatherFeeling = user.getClouds();
+		}	
+			
+						
+		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists(response.getWeather().get(0).getMain(),Type.playlist,weatherFeeling);
+		List<TrackItems> trackList = spotifyApiService.showTracks(response.getWeather().get(0).getMain(), Type.track, weatherFeeling);
+		List<ArtistItems> artistList = spotifyApiService.showArtists(response.getWeather().get(0).getMain(),Type.artist,weatherFeeling);
+		List<AlbumtItems> albumList = spotifyApiService.showAlbums(response.getWeather().get(0).getMain(), Type.album, weatherFeeling);
 		mv.addObject("playlist", playlistList);
 		mv.addObject("track", trackList);
 		mv.addObject("artist", artistList);
@@ -176,8 +208,6 @@ public class SoundtrackController {
 		weatherResponse response = weatherApi.showWeather(coords.getLatitude(), coords.getLongitude());
 		double temp = response.getMain().getTemp();
 		temp = ((temp - 273.15) * 9 / 5 + 32);
-//		mv.addObject("lon", longitude);
-//		mv.addObject("lat", latitude);
 		mv.addObject("name", response.getcityName());
 		mv.addObject("temp", df2.format(temp));
 		mv.addObject("mainCondition", response.getWeather().get(0).getMain());
@@ -213,10 +243,45 @@ public class SoundtrackController {
 			mood = mood.replaceAll("\\s+", "+");
 		}
 		
-		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists(mood, Type.playlist);
-		List<TrackItems> trackList = spotifyApiService.showTracks(mood, Type.track);
-		List<ArtistItems> artistList = spotifyApiService.showArtists(mood,Type.artist);
-		List<AlbumtItems> albumList = spotifyApiService.showAlbums(mood, Type.album);
+		
+		String weatherFeeling = "";
+		if(response.getWeather().get(0).getMain().equalsIgnoreCase("thunderstorm")) {
+			weatherFeeling = user.getThunderstorm();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("drizzle")) {
+			weatherFeeling = user.getDrizzle();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("rain")) {
+			weatherFeeling = user.getRain();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("snow")) {
+			weatherFeeling = user.getSnow();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("mist")) {
+			weatherFeeling = user.getMist();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("smoke")) {
+			weatherFeeling = user.getSmoke();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("haze")) {
+			weatherFeeling = user.getHaze();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("fog")) {
+			weatherFeeling = user.getFog();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("sand")) {
+			weatherFeeling = user.getSmoke();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("dust")) {
+			weatherFeeling = user.getDust();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("ash")) {
+			weatherFeeling = user.getAsh();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("squall")) {
+			weatherFeeling = user.getSquall();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("tornado")) {
+			weatherFeeling = user.getTornado();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("clear")) {
+			weatherFeeling = user.getClear();
+		}else {
+			weatherFeeling = user.getClouds();
+		}	
+			
+			
+		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists(mood, Type.playlist, weatherFeeling);
+		List<TrackItems> trackList = spotifyApiService.showTracks(mood, Type.track, weatherFeeling);
+		List<ArtistItems> artistList = spotifyApiService.showArtists(mood,Type.artist, weatherFeeling);
+		List<AlbumtItems> albumList = spotifyApiService.showAlbums(mood, Type.album, weatherFeeling);
 		mv.addObject("playlist", playlistList);
 		mv.addObject("track", trackList);
 		mv.addObject("artist", artistList);
