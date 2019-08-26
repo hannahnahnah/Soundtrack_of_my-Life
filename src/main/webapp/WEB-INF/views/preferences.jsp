@@ -181,13 +181,9 @@
 		</div>
 			
 	</div>
-<<<<<<< HEAD
-	
-	<script>
-=======
 
-<!-- <script>
->>>>>>> sessions
+	
+<!-- 	<script>
 		var y = document.getElementById("lat");
 		var z = document.getElementById("lon");
 		function getLocation() {

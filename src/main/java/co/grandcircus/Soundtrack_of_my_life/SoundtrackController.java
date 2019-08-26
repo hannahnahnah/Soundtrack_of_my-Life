@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+import co.grandcircus.Soundtrack_of_my_life.dao.FavoritesDao;
 import co.grandcircus.Soundtrack_of_my_life.dao.UserDao;
 import co.grandcircus.Soundtrack_of_my_life.entity.Coordinates;
+import co.grandcircus.Soundtrack_of_my_life.entity.PlaylistFavorites;
 import co.grandcircus.Soundtrack_of_my_life.entity.User;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.AlbumtItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.ArtistItems;
@@ -38,6 +40,9 @@ public class SoundtrackController {
 	
 	@Autowired
 	private UserDao dao;
+	
+	@Autowired
+	private FavoritesDao favDao;
 
 	
 	@RequestMapping("/")
@@ -100,10 +105,8 @@ public class SoundtrackController {
 		return mv;
 	}
 	
-	
-	
 	@RequestMapping("/session/set")
-		public ModelAndView setSession(@RequestParam("latitude") String lat,
+	public ModelAndView setSession(@RequestParam("latitude") String lat,
 				@RequestParam("longitude") String lon,
 				Coordinates coords, HttpSession session) {
 		coords.setLatitude(lat);
@@ -190,12 +193,34 @@ public class SoundtrackController {
 		return mv;
 	}
 
-	@PostMapping("/favorite")
-	public ModelAndView addFavorites(@RequestParam("favorite") String id) {
+	@PostMapping("/favorite/playlist")
+	public ModelAndView addFavoritePlaylist(@RequestParam("favorite") String id) {
+		PlaylistFavorites fav = new PlaylistFavorites();
+		User user = dao.findById((long) 1);
+		fav.setUserId(user.getId());
+		fav.setPlaylistId(id);
+		favDao.create(fav);
 		ModelAndView mv = new ModelAndView("redirect:/welcome");
-				
 		return mv;
 	}
+//	@PostMapping("/favorite/")
+//	public ModelAndView addFavorite(@RequestParam("favorite") String id) {
+//		ModelAndView mv = new ModelAndView("redirect:/welcome");
+//		
+//		return mv;
+//	}
+//	@PostMapping("/favorite/")
+//	public ModelAndView addFavorites(@RequestParam("favorite") String id) {
+//		ModelAndView mv = new ModelAndView("redirect:/welcome");
+//		
+//		return mv;
+//	}
+//	@PostMapping("/favorite/")
+//	public ModelAndView addFavorite(@RequestParam("favorite") String id) {
+//		ModelAndView mv = new ModelAndView("redirect:/welcome");
+//		
+//		return mv;
+//	}
 	
 	@PostMapping("/welcome")
 	public ModelAndView moodWelcome(@RequestParam("mood") String mood,
