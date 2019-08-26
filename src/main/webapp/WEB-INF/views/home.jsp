@@ -12,7 +12,7 @@
 <body>
 	<div align="center">
 	<h1>Welcome to Soundtrack of My Life!</h1>
-	<form id="locForm" action="/welcome" method="get" onsubmit="getLocation(); return false;">
+	<form id="locForm" action="/session/set" method="get" onsubmit="getLocation(); return false;">
 		<!-- <p>Username: <input type="text" name="username"> </p>
 		<p>Password: <input type="password" name="password"></p>-->
 		

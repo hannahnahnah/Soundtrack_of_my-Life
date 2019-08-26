@@ -4,14 +4,18 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.Soundtrack_of_my_life.dao.UserDao;
+import co.grandcircus.Soundtrack_of_my_life.entity.Coordinates;
 import co.grandcircus.Soundtrack_of_my_life.entity.User;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.AlbumtItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.ArtistItems;
@@ -48,8 +52,6 @@ public class SoundtrackController {
 			@RequestParam("userName") String userName,
 			@RequestParam("password") String password,
 			@RequestParam(value="mood", required=false) String mood,
-			
-			
 			@RequestParam(value="feelingThunderstorm", required=false) String thunderstorm,
 			@RequestParam(value="feelingDrizzle", required=false) String drizzle,
 			@RequestParam(value="feelingRain", required=false) String rain,
@@ -65,10 +67,8 @@ public class SoundtrackController {
 			@RequestParam(value="feelingTornado", required=false) String tornado,
 			@RequestParam(value="feelingClear", required=false) String clear,
 			@RequestParam(value="feelingClouds", required=false) String clouds,
-			
-			
-			@RequestParam("latitude") String latitude,
-			@RequestParam("longitude") String longitude) {
+			@SessionAttribute(name="coords") Coordinates coords) {
+		
 		User user = dao.findById((long) 1); 
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
@@ -92,28 +92,33 @@ public class SoundtrackController {
 		user.setClear(clear);
 		user.setClouds(clouds);
 		
-		
-		
-		
-		
 		dao.updateUser(user);
-		ModelAndView mv = new ModelAndView("redirect:/welcome?latitude=" + latitude + "&longitude=" + longitude);
+		ModelAndView mv = new ModelAndView("redirect:/welcome");
 		return mv;
 	}
 	
-	private static DecimalFormat df2 = new DecimalFormat("#.##");
 	
-
+	
+	@RequestMapping("/session/set")
+		public ModelAndView setSession(@RequestParam("latitude") String lat,
+				@RequestParam("longitude") String lon,
+				Coordinates coords, HttpSession session) {
+		coords.setLatitude(lat);
+		coords.setLongitude(lon);
+		session.setAttribute("coords", coords);
+		return new ModelAndView("redirect:/welcome");
+	}
+	
+	private static DecimalFormat df2 = new DecimalFormat("#.##");
 	@RequestMapping("/welcome")
-	public ModelAndView showWelcome(@RequestParam("latitude") String latitude,
-			@RequestParam("longitude") String longitude) {
+	public ModelAndView showWelcome(@SessionAttribute(name="coords") Coordinates coords) {
 		ModelAndView mv = new ModelAndView("welcome");
 		
 		User user = dao.findById((long) 1);
 		mv.addObject("user", user);
 		mv.addObject("defaultMood", user.getMoodPreferences());
 		
-		weatherResponse response = weatherApi.showWeather(latitude, longitude);
+		weatherResponse response = weatherApi.showWeather(coords.getLatitude(), coords.getLongitude());
 		double temp = response.getMain().getTemp();
 		//converting Kelvin to Fahrenheit
 		temp = ((temp - 273.15) * 9 / 5 + 32);
@@ -121,8 +126,8 @@ public class SoundtrackController {
 		mv.addObject("temp", df2.format(temp));
 		mv.addObject("mainCondition", response.getWeather().get(0).getMain());
 		mv.addObject("description", response.getWeather().get(0).getDescription());
-		mv.addObject("lon", longitude);
-		mv.addObject("lat", latitude);
+//		mv.addObject("lon", longitude);
+//		mv.addObject("lat", latitude);
 		
 		
 		int hour = LocalDateTime.now().getHour();
@@ -153,19 +158,26 @@ public class SoundtrackController {
 		return mv;
 	}
 
+	@PostMapping("/favorite")
+	public ModelAndView addFavorites(@RequestParam("favorite") String id) {
+		ModelAndView mv = new ModelAndView("redirect:/welcome");
+				
+		return mv;
+	}
+	
 	@PostMapping("/welcome")
 	public ModelAndView moodWelcome(@RequestParam("mood") String mood,
-			@RequestParam("latitude") String latitude,
-			@RequestParam("longitude") String longitude) {
+			@SessionAttribute(name="coords") Coordinates coords) {
+		
 		ModelAndView mv = new ModelAndView("welcome");
 		User user = dao.findById((long) 1);
 		mv.addObject("user", user);
 		
-		weatherResponse response = weatherApi.showWeather(latitude, longitude);
+		weatherResponse response = weatherApi.showWeather(coords.getLatitude(), coords.getLongitude());
 		double temp = response.getMain().getTemp();
 		temp = ((temp - 273.15) * 9 / 5 + 32);
-		mv.addObject("lon", longitude);
-		mv.addObject("lat", latitude);
+//		mv.addObject("lon", longitude);
+//		mv.addObject("lat", latitude);
 		mv.addObject("name", response.getcityName());
 		mv.addObject("temp", df2.format(temp));
 		mv.addObject("mainCondition", response.getWeather().get(0).getMain());
