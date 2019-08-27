@@ -54,18 +54,15 @@
 	<form action="/welcome" method="post">
 	<p>Look up music based on your mood</p>
 	<p>Mood: <input type="text" name="mood" placeholder="Ex: ${defaultMood}"></p>
-	<%-- <input type="hidden" name="latitude" id="lat" value="${lat}" />
-	<input type="hidden" name="longitude" id="lon" value="${lon}" /> --%>
 	<button type="submit">Search</button>
 	</form>
 	
 	<form action="/welcome" method="get">
 	<input type="hidden" name="weather" value="${mainCondition}" />
-	<%-- <input type="hidden" name="latitude" id="lat" value="${lat}" />
-	<input type="hidden" name="longitude" id="lon" value="${lon}" /> --%>
 	<button type="submit">Search by Weather Condition</button>
 	</form>
 	
+
 
 	<div >
 	<p>Search Song by date (range)</p>
@@ -75,8 +72,6 @@
 	<label>Select Start Date: </label><input type="date" name="selectStartDate" ><br>
 	<label>Select End Date: </label><input type="date" name="selectEndDate" max=2019 ><label> (optional) </label><br>
 	<button type="submit" >Go.</button><br>
-	<input type="hidden" name="latitude" id="lat" value="${lat}" />
-	<input type="hidden" name="longitude" id="lon" value="${lon}" />
 	</form>
 	</div>
 	
@@ -97,6 +92,8 @@
 	
 
 
+
+<form action="/favorite/playlist" method="post">
 	<div class="container" align="center">
 		<table class="table"
 			style="display: inline-block; border: 1px solid; float: left;">
@@ -118,6 +115,7 @@
 				</c:forEach>
 			</tbody>
 		</table>
+</form>
 		<h1 class="text-primary"></h1>
 		<table class="table" style="display: inline-block; border: 1px solid;">
 			<thead class="text-success">
@@ -178,7 +176,7 @@
 			</tbody>
 		</table>
 	</div>
-</form>
+
 <script>
 function check() {
   document.getElementById("myCheck").checked = true;

@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+import co.grandcircus.Soundtrack_of_my_life.dao.FavoritesDao;
 import co.grandcircus.Soundtrack_of_my_life.dao.UserDao;
 import co.grandcircus.Soundtrack_of_my_life.entity.Coordinates;
+import co.grandcircus.Soundtrack_of_my_life.entity.PlaylistFavorites;
 import co.grandcircus.Soundtrack_of_my_life.entity.User;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.AlbumtItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.ArtistItems;
@@ -41,12 +43,17 @@ public class SoundtrackController {
 	
 	@Autowired
 	private UserDao dao;
+	
+	@Autowired
+	private FavoritesDao favDao;
 
+	
 	@RequestMapping("/")
 	public ModelAndView showHome() {
 		ModelAndView mv = new ModelAndView("home");
 		return mv;
 	}
+	
 
 	@PostMapping("/")
 	public ModelAndView showPostHome(
@@ -73,6 +80,7 @@ public class SoundtrackController {
 			@SessionAttribute(name="coords") Coordinates coords) {
 		
 		User user = dao.findById((long) 1); 
+		
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		user.setUserName(userName);
@@ -100,10 +108,8 @@ public class SoundtrackController {
 		return mv;
 	}
 	
-	
-	
 	@RequestMapping("/session/set")
-		public ModelAndView setSession(@RequestParam("latitude") String lat,
+	public ModelAndView setSession(@RequestParam("latitude") String lat,
 				@RequestParam("longitude") String lon,
 				Coordinates coords, HttpSession session) {
 		coords.setLatitude(lat);
@@ -128,10 +134,7 @@ public class SoundtrackController {
 		mv.addObject("name", response.getcityName());
 		mv.addObject("temp", df2.format(temp));
 		mv.addObject("mainCondition", response.getWeather().get(0).getMain());
-		mv.addObject("description", response.getWeather().get(0).getDescription());
-//		mv.addObject("lon", longitude);
-//		mv.addObject("lat", latitude);
-		
+		mv.addObject("description", response.getWeather().get(0).getDescription());		
 		
 		int hour = LocalDateTime.now().getHour();
 		if (hour >= 5 && hour < 12) {
@@ -148,12 +151,44 @@ public class SoundtrackController {
 			mv.addObject("hour", night);	
 		}
 		
-		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists(response.getWeather().get(0).getMain(),
-				Type.playlist);
-		List<TrackItems> trackList = spotifyApiService.showTracks(response.getWeather().get(0).getMain(), Type.track);
-		List<ArtistItems> artistList = spotifyApiService.showArtists(response.getWeather().get(0).getMain(),
-				Type.artist);
-		List<AlbumtItems> albumList = spotifyApiService.showAlbums(response.getWeather().get(0).getMain(), Type.album);
+		String weatherFeeling = "";
+		if(response.getWeather().get(0).getMain().equalsIgnoreCase("thunderstorm")) {
+			weatherFeeling = user.getThunderstorm();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("drizzle")) {
+			weatherFeeling = user.getDrizzle();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("rain")) {
+			weatherFeeling = user.getRain();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("snow")) {
+			weatherFeeling = user.getSnow();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("mist")) {
+			weatherFeeling = user.getMist();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("smoke")) {
+			weatherFeeling = user.getSmoke();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("haze")) {
+			weatherFeeling = user.getHaze();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("fog")) {
+			weatherFeeling = user.getFog();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("sand")) {
+			weatherFeeling = user.getSmoke();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("dust")) {
+			weatherFeeling = user.getDust();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("ash")) {
+			weatherFeeling = user.getAsh();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("squall")) {
+			weatherFeeling = user.getSquall();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("tornado")) {
+			weatherFeeling = user.getTornado();
+		}else if(response.getWeather().get(0).getMain().equalsIgnoreCase("clear")) {
+			weatherFeeling = user.getClear();
+		}else {
+			weatherFeeling = user.getClouds();
+		}	
+			
+						
+		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists(response.getWeather().get(0).getMain(),Type.playlist,weatherFeeling);
+		List<TrackItems> trackList = spotifyApiService.showTracks(response.getWeather().get(0).getMain(), Type.track, weatherFeeling);
+		List<ArtistItems> artistList = spotifyApiService.showArtists(response.getWeather().get(0).getMain(),Type.artist,weatherFeeling);
+		List<AlbumtItems> albumList = spotifyApiService.showAlbums(response.getWeather().get(0).getMain(), Type.album, weatherFeeling);
 		mv.addObject("playlist", playlistList);
 		mv.addObject("track", trackList);
 		mv.addObject("artist", artistList);
@@ -162,8 +197,6 @@ public class SoundtrackController {
 	}
 
 
-	
-	
 //	@PostMapping("/welcome")
 //	public ModelAndView moodWelcome(@RequestParam("mood") String mood,
 //			@SessionAttribute(name="coords") Coordinates coords) {
@@ -221,6 +254,33 @@ public class SoundtrackController {
 //		mv.addObject("artist", artistList);
 //		mv.addObject("album", albumList);
 //		
+
+	@PostMapping("/favorite/playlist")
+	public ModelAndView addFavoritePlaylist(@RequestParam("favorite") String id) {
+		PlaylistFavorites fav = new PlaylistFavorites();
+		User user = dao.findById((long) 1);
+		fav.setUserId(user.getId());
+		fav.setPlaylistId(id);
+		favDao.create(fav);
+		ModelAndView mv = new ModelAndView("redirect:/welcome");
+		return mv;
+	}
+//	@PostMapping("/favorite/")
+//	public ModelAndView addFavorite(@RequestParam("favorite") String id) {
+//		ModelAndView mv = new ModelAndView("redirect:/welcome");
+//		
+//		return mv;
+//	}
+//	@PostMapping("/favorite/")
+//	public ModelAndView addFavorites(@RequestParam("favorite") String id) {
+//		ModelAndView mv = new ModelAndView("redirect:/welcome");
+//		
+//		return mv;
+//	}
+//	@PostMapping("/favorite/")
+//	public ModelAndView addFavorite(@RequestParam("favorite") String id) {
+//		ModelAndView mv = new ModelAndView("redirect:/welcome");
+
 //		
 //		return mv;
 //	}
@@ -289,6 +349,7 @@ public class SoundtrackController {
 		mv.addObject("user", user);
 		
 
+
 		System.out.println("Latitude: " + geocodeApiService.getLatitude(city, state, country));
 		System.out.println("Longitude: " +  geocodeApiService.getLongitude(city, state, country));
 		
@@ -325,7 +386,7 @@ public class SoundtrackController {
 			mv.addObject("album", albumList);
 		}
 		
-		
+
 		
 		int hour = LocalDateTime.now().getHour();
 		if (hour >= 5 && hour < 12) {
@@ -343,7 +404,7 @@ public class SoundtrackController {
 		}
 		
 
-		
+
 		return mv;
 	}
 
