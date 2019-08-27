@@ -66,7 +66,37 @@
 	<button type="submit">Search by Weather Condition</button>
 	</form>
 	
-<form action="/favorite" method="post">
+
+	<div >
+	<p>Search Song by date (range)</p>
+	<form action="/welcome" method="post">
+	<input type="radio" name="whichDate" value="current"><label>Current</label><br>
+	<input type="radio" name="whichDate" value="selected"><label>Select</label><br>
+	<label>Select Start Date: </label><input type="date" name="selectStartDate" ><br>
+	<label>Select End Date: </label><input type="date" name="selectEndDate" max=2019 ><label> (optional) </label><br>
+	<button type="submit" >Go.</button><br>
+	<input type="hidden" name="latitude" id="lat" value="${lat}" />
+	<input type="hidden" name="longitude" id="lon" value="${lon}" />
+	</form>
+	</div>
+	
+	<div>
+	<p>Search by alternate location: </p>
+	<form action="/welcome" method="post">
+	<label>country</label><input type="country" name=country >
+	<label>state</label><input type="state" name=state >
+	<label>city</label><input  type="city" name=city >
+	<button type="submit" >Go.</button><br>
+	</form>
+	</div>
+	
+	<label class="switch">
+  <input type="checkbox">
+  <span class="slider round"></span>
+</label>
+	
+
+
 	<div class="container" align="center">
 		<table class="table"
 			style="display: inline-block; border: 1px solid; float: left;">
