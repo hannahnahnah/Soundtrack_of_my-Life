@@ -19,6 +19,7 @@
 	<ul class="navbar-nav ml-auto">
 		<li class="nav-item"><a class="nav-link" href="/">Home<span
 				class="sr-only">(current)</span></a></li>
+		<li class="nav-item"><a class="nav-link" href="/favorites">Favorites</a>
 		<li class="nav-item"><a class="nav-link" href="/preferences">User
 				Preferences</a></li>
 	</ul>
@@ -116,6 +117,7 @@
 									allowtransparency="true" allow="encrypted-media"></iframe></td>
 							<td><button type="submit" name="favorite"
 									value="${playlists.id}">Favorite</button>
+							<td><button onclick="addPlaylist">JS Add</button></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -196,5 +198,12 @@
 			</table>
 		</form>
 	</div>
+	
+	<script>
+	function addPlaylist(){
+		
+	}
+	</script>
+	
 </body>
 </html>

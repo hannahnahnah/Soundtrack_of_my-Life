@@ -20,7 +20,7 @@ public class FavoritesDao {
 	@PersistenceContext
 	private EntityManager em;
 	
-	public List<PlaylistFavorites> findAll(){
+	public List<PlaylistFavorites> findAllPlaylists(){
 		return em.createQuery("FROM PlaylistFavorites", PlaylistFavorites.class).getResultList();
 	}
 	
@@ -33,6 +33,10 @@ public class FavoritesDao {
 		em.remove(fav);
 	}
 	
+	public List<ArtistFavorites> findAllArtists(){
+		return em.createQuery("FROM ArtistFavorites", ArtistFavorites.class).getResultList();
+	}
+	
 	public void createArtist(ArtistFavorites fav) {
 		em.persist(fav);
 	}
@@ -42,6 +46,9 @@ public class FavoritesDao {
 		em.remove(fav);
 	}
 	
+	public List<AlbumFavorites> findAllAlbums(){
+		return em.createQuery("FROM AlbumFavorites", AlbumFavorites.class).getResultList();
+	}
 	public void createAlbum(AlbumFavorites fav) {
 		em.persist(fav);
 	}
@@ -51,6 +58,9 @@ public class FavoritesDao {
 		em.remove(fav);
 	}
 	
+	public List<TrackFavorites> findAllTracks(){
+		return em.createQuery("FROM TrackFavorites", TrackFavorites.class).getResultList();
+	}
 	public void createTrack(TrackFavorites fav) {
 		em.persist(fav);
 	}

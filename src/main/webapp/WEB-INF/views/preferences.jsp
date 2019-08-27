@@ -16,6 +16,7 @@
 	</ul>
 	<ul class="navbar-nav ml-auto" >
 		<li class="nav-item"><a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a></li>
+		<li class="nav-item"><a class="nav-link" href="/favorites">Favorites</a>
 		<li class="nav-item"><a class="nav-link" href="/preferences">User Preferences</a></li>
 	</ul>
 </nav>

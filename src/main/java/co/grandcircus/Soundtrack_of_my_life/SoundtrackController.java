@@ -532,5 +532,58 @@ public class SoundtrackController {
 
 		return mv;
 	}
-
-}
+	
+	@RequestMapping("/favorites")
+	public ModelAndView displayFavorites() {
+		ModelAndView mv = new ModelAndView();
+		User user = dao.findById((long) 1);
+		mv.addObject("user", user);
+		
+		List<AlbumFavorites> albumFavs = favDao.findAllAlbums();
+		List<ArtistFavorites> artistFavs = favDao.findAllArtists();
+		List<PlaylistFavorites> playlistFavs = favDao.findAllPlaylists();
+		List<TrackFavorites> trackFavs = favDao.findAllTracks();
+		mv.addObject("albumFavs", albumFavs);
+		mv.addObject("artistFavs", artistFavs);
+		mv.addObject("playlistFavs", playlistFavs);
+		mv.addObject("trackFavs", trackFavs);
+		
+		int hour = LocalDateTime.now().getHour();
+		if (hour >= 5 && hour < 12) {
+			String morning = "Good Morning";
+			mv.addObject("hour", morning);
+		} else if (hour >= 12 && hour < 17) {
+			String afternoon = "Good Afternoon";
+			mv.addObject("hour", afternoon);
+		} else if (hour >= 17 && hour < 21) {
+			String evening = "Good Evening";
+			mv.addObject("hour", evening);
+		} else {
+			String night = "Good Night";
+			mv.addObject("hour", night);
+		}
+		return mv;
+	}
+	
+	@PostMapping("/favorite/playlist/delete")
+	public ModelAndView deleteFavoritePlaylist(@RequestParam("favorite") Long id) {
+		favDao.deletePlaylist(id);
+		return new ModelAndView("redirect:/favorites");
+	}
+	@PostMapping("/favorite/track/delete")
+	public ModelAndView deleteFavoriteTrack(@RequestParam("favorite") Long id) {
+		favDao.deleteTrack(id);
+		return new ModelAndView("redirect:/favorites");
+	}
+	@PostMapping("/favorite/artist/delete")
+	public ModelAndView deleteFavoriteArtist(@RequestParam("favorite") Long id) {
+		favDao.deleteArtist(id);
+		return new ModelAndView("redirect:/favorites");
+	}
+	@PostMapping("/favorite/album/delete")
+	public ModelAndView deleteFavoriteAlbum(@RequestParam("favorite") Long id) {
+		favDao.deleteAlbum(id);
+		return new ModelAndView("redirect:/favorites");
+	}
+	
+}//class
