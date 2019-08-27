@@ -1,6 +1,12 @@
 package co.grandcircus.Soundtrack_of_my_life.entity;
 
-public class Coordinates {
+import java.io.Serializable;
+
+public class Coordinates implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String longitude;
 	private String latitude;
 	public String getLongitude() {

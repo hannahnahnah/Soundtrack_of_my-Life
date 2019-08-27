@@ -4,28 +4,32 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/darkly/bootstrap.min.css" crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/darkly/bootstrap.min.css"
+	crossorigin="anonymous">
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Welcome Page</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-	<ul class="navbar-nav mr-auto" >
-		<li class="nav-item">${hour} ${user.firstName}</li>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<ul class="navbar-nav mr-auto">
+		<li class="nav-item">${hour}${user.firstName}</li>
 	</ul>
-	<ul class="navbar-nav ml-auto" >
-		<li class="nav-item"><a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a></li>
-		<li class="nav-item"><a class="nav-link" href="/preferences">User Preferences</a></li>
+	<ul class="navbar-nav ml-auto">
+		<li class="nav-item"><a class="nav-link" href="/">Home<span
+				class="sr-only">(current)</span></a></li>
+		<li class="nav-item"><a class="nav-link" href="/preferences">User
+				Preferences</a></li>
 	</ul>
-	
-</nav>
+
+	</nav>
 
 
 	<h1 class="text-primary">
 		<center>Soundtrack of My Life</center>
 	</h1>
-	
+
 	<div class="container" align="center">
 		<h1 class="text-primary"></h1>
 		<table class="table">
@@ -50,19 +54,21 @@
 			</tbody>
 		</table>
 	</div>
-	
-	<form action="/welcome" method="post">
-	<p>Look up music based on your mood</p>
-	<p>Mood: <input type="text" name="mood" placeholder="Ex: ${defaultMood}"></p>
-	<button type="submit">Search</button>
-	</form>
-	
-	<form action="/welcome" method="get">
-	<input type="hidden" name="weather" value="${mainCondition}" />
-	<button type="submit">Search by Weather Condition</button>
-	</form>
-	
 
+	<form action="/welcome/mood">
+		<p>Look up music based on your mood</p>
+		<p>
+			Mood: <input type="text" name="mood"
+				placeholder="Ex:<c:if test="${empty mood}">${defaultMood}</c:if>
+	<c:if test="${not empty mood}">${mood}</c:if>" />
+		</p>
+		<button type="submit">Search</button>
+	</form>
+
+	<form action="/welcome" method="get">
+		<input type="hidden" name="weather" value="${mainCondition}" />
+		<button type="submit">Search by Weather Condition</button>
+	</form>
 
 	<div >
 	<p>Search Song by date (range)</p>
@@ -91,101 +97,104 @@
 </label>
 	
 
-
-
-<form action="/favorite/playlist" method="post">
 	<div class="container" align="center">
-		<table class="table"
-			style="display: inline-block; border: 1px solid; float: left;">
-			<thead class="text-success">
-				<tr>
-					<th>Playlists</th>
-					<th>Favorite</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${playlist}" var="playlists">
+		<form action="/favorite/playlist" method="post">
+			<table class="table"
+				style="display: inline-block; border: 1px solid; float: left;">
+				<thead class="text-success">
 					<tr>
-						<td><iframe
-								src="https://open.spotify.com/embed/playlist/${playlists.id}"
-								width="500" height="75" frameborder="0" allowtransparency="true"
-								allow="encrypted-media"></iframe></td>
-						<td><button type="submit" name="favorite" value="${playlists.id}">Favorite</button>
+						<th>Playlists</th>
+						<th>Favorite</th>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-</form>
-		<h1 class="text-primary"></h1>
-		<table class="table" style="display: inline-block; border: 1px solid;">
-			<thead class="text-success">
-				<tr>
-					<th>Tracks</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${track}" var="tracks">
+				</thead>
+				<tbody>
+					<c:forEach items="${playlist}" var="playlists">
+						<tr>
+							<td><iframe
+									src="https://open.spotify.com/embed/playlist/${playlists.id}"
+									width="500" height="75" frameborder="0"
+									allowtransparency="true" allow="encrypted-media"></iframe></td>
+							<td><button type="submit" name="favorite"
+									value="${playlists.id}">Favorite</button>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</form>
+		<form action="/favorite/track" method="post">
+			<h1 class="text-primary"></h1>
+			<table class="table"
+				style="display: inline-block; border: 1px solid;">
+				<thead class="text-success">
 					<tr>
-						<td><iframe
-								src="https://open.spotify.com/embed/track/${tracks.id}"
-								width="500" height="75" frameborder="0" allowtransparency="true"
-								allow="encrypted-media"></iframe></td>
+						<th>Tracks</th>
+						<th>Favorite</th>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<c:forEach items="${track}" var="tracks">
+						<tr>
+							<td><iframe
+									src="https://open.spotify.com/embed/track/${tracks.id}"
+									width="500" height="75" frameborder="0"
+									allowtransparency="true" allow="encrypted-media"></iframe></td>
+							<td><button type="submit" name="favorite"
+									value="${tracks.id}">Favorite</button>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</form>
 	</div>
-
 	<div class="container" align="center">
-		<h1 class="text-primary"></h1>
-		<table class="table"
-			style="display: inline-block; border: 1px solid; float: left;">
-			<thead class="text-success">
-				<tr>
-					<th>Artists</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${artist}" var="artists">
+		<form action="/favorite/artist" method="post">
+			<h1 class="text-primary"></h1>
+			<table class="table"
+				style="display: inline-block; border: 1px solid; float: left;">
+				<thead class="text-success">
 					<tr>
-						<td><iframe
-								src="https://open.spotify.com/embed/artist/${artists.id}"
-								width="500" height="75" frameborder="0" allowtransparency="true"
-								allow="encrypted-media"></iframe></td>
+						<th>Artists</th>
+						<th>Favorite</th>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-
-		<h1 class="text-primary"></h1>
-		<table class="table" style="display: inline-block; border: 1px solid;">
-			<thead class="text-success">
-				<tr>
-					<th>Albums</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${album}" var="albums">
+				</thead>
+				<tbody>
+					<c:forEach items="${artist}" var="artists">
+						<tr>
+							<td><iframe
+									src="https://open.spotify.com/embed/artist/${artists.id}"
+									width="500" height="75" frameborder="0"
+									allowtransparency="true" allow="encrypted-media"></iframe></td>
+							<td><button type="submit" name="favorite"
+									value="${artists.id}">Favorite</button>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</form>
+		<form action="/favorite/album" method="post">
+			<h1 class="text-primary"></h1>
+			<table class="table"
+				style="display: inline-block; border: 1px solid;">
+				<thead class="text-success">
 					<tr>
-						<td><iframe
-								src="https://open.spotify.com/embed/album/${albums.id}"
-								width="500" height="75" frameborder="0" allowtransparency="true"
-								allow="encrypted-media"></iframe></td>
+						<th>Albums</th>
+						<th>Favorite</th>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<c:forEach items="${album}" var="albums">
+						<tr>
+							<td><iframe
+									src="https://open.spotify.com/embed/album/${albums.id}"
+									width="500" height="75" frameborder="0"
+									allowtransparency="true" allow="encrypted-media"></iframe></td>
+							<td><button type="submit" name="favorite"
+									value="${albums.id}">Favorite</button>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</form>
 	</div>
-
-<script>
-function check() {
-  document.getElementById("myCheck").checked = true;
-  
-}
-
-function uncheck() {
-  document.getElementById("myCheck").checked = false;
-}
-</script>
 </body>
 </html>

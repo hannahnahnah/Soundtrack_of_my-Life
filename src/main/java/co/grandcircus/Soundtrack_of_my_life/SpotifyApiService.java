@@ -133,8 +133,6 @@ public class SpotifyApiService {
 		myList.addAll(response2.getPlaylist().getItems());
     	return myList;  	
     }
-
-    
     
     public List<ArtistItems> showArtists(String q, Type type, String q2){
     	String accessToken = getAccessToken();
@@ -162,7 +160,6 @@ public class SpotifyApiService {
 		return myArtist;
    }
     
-    
     public List<AlbumtItems> showAlbums(String q, Type type, String q2){
     	String accessToken = getAccessToken();
     	String limit = "5";
@@ -189,9 +186,82 @@ public class SpotifyApiService {
 		return myAlbum;
      }
     
+    public List<TrackItems> showTracksMood(String q, Type type){
+    	String accessToken = getAccessToken();
+    	String limit = "10";
+    	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
+    			.queryParam("q", q)
+				.queryParam("type", type)
+				.queryParam("limit", limit)
+				.toUriString();
+    	
+    	String bearerString = "Bearer " + accessToken;
+    	HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", bearerString);
+		SpotifyResponse response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), 
+				SpotifyResponse.class).getBody();
+		List<TrackItems> myTrack = response.getTrack().getItems();
+		return myTrack;
+    	
+    }
+    
+    public List<PlaylistItems> showPlaylistsMood(String q, Type type) {
+    	String accessToken = getAccessToken();
+    	String limit = "10";
+    	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
+				.queryParam("q", q)
+				.queryParam("type", type)
+				.queryParam("limit", limit)
+				.toUriString();
+    	
+    	//System.out.println(url);
+    	
+    	String bearerString = "Bearer " + accessToken;
+    	
+    	HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", bearerString);
+		//System.out.println(headers);
+		
+		SpotifyResponse response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), 
+    													SpotifyResponse.class).getBody();
+		List<PlaylistItems> myList = response.getPlaylist().getItems();
+    	return myList;  	
+    }
+    
+    public List<ArtistItems> showArtistsMood(String q, Type type){
+    	String accessToken = getAccessToken();
+    	String limit = "10";
+    	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
+    			.queryParam("q", q)
+				.queryParam("type", type)
+				.queryParam("limit", limit)
+				.toUriString();
+    	String bearerString = "Bearer " + accessToken;
+    	HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", bearerString);
+		SpotifyResponse response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), 
+				SpotifyResponse.class).getBody();
+		List<ArtistItems> myArtist = response.getArtist().getItems();
+		return myArtist;
+   }
+     
+    public List<AlbumtItems> showAlbumsMood(String q, Type type){
+    	String accessToken = getAccessToken();
+    	String limit = "10";
+    	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
+    			.queryParam("q", q)
+				.queryParam("type", type)
+				.queryParam("limit", limit)
+				.toUriString();
+    	String bearerString = "Bearer " + accessToken;
+    	HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", bearerString);
+		SpotifyResponse response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), 
+				SpotifyResponse.class).getBody();
+		List<AlbumtItems> myAlbum = response.getAlbum().getItems();
+		return myAlbum;
+     }
   
-    
-    
-    
-    
-}
+
+}//apiService class
+

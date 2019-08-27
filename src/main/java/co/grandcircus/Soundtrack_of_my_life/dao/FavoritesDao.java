@@ -8,7 +8,10 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
+import co.grandcircus.Soundtrack_of_my_life.entity.AlbumFavorites;
+import co.grandcircus.Soundtrack_of_my_life.entity.ArtistFavorites;
 import co.grandcircus.Soundtrack_of_my_life.entity.PlaylistFavorites;
+import co.grandcircus.Soundtrack_of_my_life.entity.TrackFavorites;
 
 @Repository
 @Transactional
@@ -21,12 +24,40 @@ public class FavoritesDao {
 		return em.createQuery("FROM PlaylistFavorites", PlaylistFavorites.class).getResultList();
 	}
 	
-	public void create(PlaylistFavorites fav) {
+	public void createPlaylist(PlaylistFavorites fav) {
 		em.persist(fav);
 	}
 	
-	public void delete(Long id) {
+	public void deletePlaylist(Long id) {
 		PlaylistFavorites fav = em.getReference(PlaylistFavorites.class, id);
 		em.remove(fav);
 	}
+	
+	public void createArtist(ArtistFavorites fav) {
+		em.persist(fav);
+	}
+	
+	public void deleteArtist(Long id) {
+		ArtistFavorites fav = em.getReference(ArtistFavorites.class, id);
+		em.remove(fav);
+	}
+	
+	public void createAlbum(AlbumFavorites fav) {
+		em.persist(fav);
+	}
+	
+	public void deleteAlbum(Long id) {
+		AlbumFavorites fav = em.getReference(AlbumFavorites.class, id);
+		em.remove(fav);
+	}
+	
+	public void createTrack(TrackFavorites fav) {
+		em.persist(fav);
+	}
+	
+	public void deleteTrack(Long id) {
+		TrackFavorites fav = em.getReference(TrackFavorites.class, id);
+		em.remove(fav);
+	}
+	
 }
