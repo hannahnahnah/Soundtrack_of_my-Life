@@ -192,7 +192,9 @@ public class SoundtrackController {
 	public ModelAndView showWelcome(@SessionAttribute(name = "coords") Coordinates coords,
 			@SessionAttribute(name="search", required=false) Search search) {
 		ModelAndView mv = new ModelAndView("welcome");
-
+		
+		
+		
 		if(search == null) {
 		User user = dao.findById((long) 1);
 		mv.addObject("user", user);
@@ -233,18 +235,21 @@ public class SoundtrackController {
 		mv.addObject("album", albumList);
 		return mv;
 		}else {
+			String query = "";
 			User user = dao.findById((long) 1);
 			mv.addObject("user", user);
 			mv.addObject("hour", displayGreeting());
 			
 			String yearQ = "";
-			if (search.getSelectStartDate() != "") {
+			if (search.isSearchReleaseDate()) {
 				if (search.getSelectEndDate() != "") {
 					yearQ = buildDateQ(search.getSelectStartDate(), search.getSelectEndDate());
 				} else {
 					yearQ = buildDateQ(search.getSelectStartDate());
 				}
 			}
+			
+			
 
 			List<PlaylistItems> playlistLocalWeather = new ArrayList<>();
 			List<PlaylistItems> playlistAltLocal = new ArrayList<>();
@@ -282,11 +287,10 @@ public class SoundtrackController {
 			mv.addObject("description", currentResponse.getWeather().get(0).getDescription());
 
 		//add alternate date to current location weather
-
-			if (search.getSelectStartDate() != "") {
+			if (search.isSearchReleaseDate()) {
 
 				String weatherQ = currentResponse.getWeather().get(0).getMain();
-				String query = weatherQ + yearQ;
+				query = weatherQ + yearQ;
 				
 				System.out.println("local weather query: " + query);
 				
@@ -297,7 +301,7 @@ public class SoundtrackController {
 			}
 		
 		//current weather at selected location (with date option)
-			if (search.getCity() != "") {
+			if (search.isUseCurrentLocation() == false && search.getCity() != "") {
 				Double Lat = geocodeApiService.getLatitude(search.getCity(), search.getState(), search.getCountry());
 				String selectedLat = Double.toString(Lat);
 				Double Long = geocodeApiService.getLongitude(search.getCity(), search.getState(), search.getCountry());
@@ -313,9 +317,11 @@ public class SoundtrackController {
 
 				String weatherQ = selectedResponse.getWeather().get(0).getMain();
 				
-
-				String query = weatherQ + yearQ;
-				
+				if (search.isSearchReleaseDate()) {
+					query = weatherQ + yearQ;
+				} else {
+					query = weatherQ;
+				}
 				System.out.println("alt local query: " + query);
 
 				playlistAltLocal = spotifyApiService.showPlaylists(query, Type.playlist);
@@ -326,10 +332,14 @@ public class SoundtrackController {
 			}
 			
 		//weather feeling for local and alternate place (with date option)
-			if (search.getCity().equals("")) {
+			if (search.isUseCurrentLocation()) {
 				String localWeatherFeeling = getWeatherFeeling(currentResponse);
 				
-				String query = localWeatherFeeling + yearQ;
+				if (search.isSearchReleaseDate()) {
+					query = localWeatherFeeling + yearQ;
+				} else {
+					query = localWeatherFeeling;
+				}
 				System.out.println("local weather feeling query: " + query);
 				
 				playlistWeatherFeeling = spotifyApiService.showPlaylists(query, Type.playlist);
@@ -337,7 +347,7 @@ public class SoundtrackController {
 				artistWeatherFeeling = spotifyApiService.showArtists(query, Type.artist);
 				albumWeatherFeeling = spotifyApiService.showAlbums(query, Type.album);
 				
-			} else {
+			} else if (search.isUseCurrentLocation() == false && search.getCity() != "") {
 				Double Lat = geocodeApiService.getLatitude(search.getCity(), search.getState(), search.getCountry());
 				String selectedLat = Double.toString(Lat);
 				Double Long = geocodeApiService.getLongitude(search.getCity(), search.getState(), search.getCountry());
@@ -353,8 +363,11 @@ public class SoundtrackController {
 				
 				String altWeatherFeeling = getWeatherFeeling(selectedResponse);
 				
-
-				String query = altWeatherFeeling + yearQ;
+				if (search.isSearchReleaseDate()) {
+					query = altWeatherFeeling + yearQ;
+				} else {
+					query = altWeatherFeeling;
+				}
 				System.out.println("alt local weather feeling query: " + query);
 				
 				playlistWeatherFeeling = spotifyApiService.showPlaylists(query, Type.playlist);
@@ -363,7 +376,7 @@ public class SoundtrackController {
 				albumWeatherFeeling = spotifyApiService.showAlbums(query, Type.album);
 			}
 			
-			if (!search.getMood().equals("")) {
+			if (search.isByMood()) {
 				playlistMood = spotifyApiService.showPlaylists(search.getMood(), Type.playlist);
 				trackMood = spotifyApiService.showTracks(search.getMood(), Type.track);
 				artistMood = spotifyApiService.showArtists(search.getMood(), Type.artist);
@@ -455,6 +468,7 @@ public class SoundtrackController {
 			@SessionAttribute(name = "coords") Coordinates coords,
 			@SessionAttribute(name="search", required=false) Search sessionSearch,
 			HttpSession session) {
+		//search.normalize();
 		session.setAttribute("search", search);
 		
 		return new ModelAndView("redirect:/welcome");

@@ -113,7 +113,7 @@
        <input type="text" name=state class="form-control mb-2 mr-sm-2" id="state" placeholder="State">
 		
 	   <label class="sr-only" for="city">City</label>
-	   <input type="text" name=city  class="form-control mb-2 mr-sm-2" id="city" placeholder="City">
+	   <input type="text" name=city  class="form-control mb-2 mr-sm-2" id="city" placeholder="City" >
 	</div>
 	
 	<h3>Date</h3>
