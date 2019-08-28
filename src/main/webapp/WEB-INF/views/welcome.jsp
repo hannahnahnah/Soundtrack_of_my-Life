@@ -7,6 +7,7 @@
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/darkly/bootstrap.min.css"
 	crossorigin="anonymous">
+<link rel="stylesheet" href="style.css">
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Welcome Page</title>
@@ -17,7 +18,7 @@
 		<li class="nav-item">${hour} ${user.firstName}</li>
 	</ul>
 	<ul class="navbar-nav ml-auto">
-		<li class="nav-item"><a class="nav-link" href="/">Home<span
+		<li class="nav-item"><a class="nav-link" href="/welcome">Home<span
 				class="sr-only">(current)</span></a></li>
 		<li class="nav-item"><a class="nav-link" href="/favorites">Favorites</a>
 		<li class="nav-item"><a class="nav-link" href="/preferences">User
@@ -27,12 +28,13 @@
 
 	</nav>
 
-
+	<div class="container">
+	
 	<h1 class="text-primary">
 		<center>Soundtrack of My Life</center>
 	</h1>
 
-	<div class="container" align="center">
+	<div align="center">
 		<h1 class="text-primary"></h1>
 		<table class="table">
 
@@ -57,11 +59,95 @@
 		</table>
 	</div>
 
-	
+<script>
+	function toggleSelectLocation() {
+		let checkbox = document.getElementById("useCurrentLocation");
+		let locationFormRow = document.getElementById("locationFormRow");
+		let useCurrentLocation = checkbox.checked;
 		
+		if (useCurrentLocation) {
+			locationFormRow.classList.add("use-current-location");
+		} else {
+			locationFormRow.classList.remove("use-current-location");
+		}
+	}
 
-	<div >
+	function toggleSelectDate() {
+		let checkbox = document.getElementById("releaseDate");
+		let dateFormRow = document.getElementById("dateFormRow");
+		let releaseDate = checkbox.checked;
+		
+		if (releaseDate) {
+			dateFormRow.classList.add("use-release-date");
+		} else {
+			dateFormRow.classList.remove("use-release-date");
+		}
+	}
 	
+	function toggleSelectMood() {
+		let checkbox = document.getElementById("mood");
+		let formMood = document.getElementById("formMood");
+		let mood = checkbox.checked;
+		
+		if (mood) {
+			formMood.classList.add("use-release-mood");
+		} else {
+			formMood.classList.remove("use-release-mood");
+		}
+	}
+</script>		
+
+  <div >
+	<h3>Location</h3>
+	<div id="locationFormRow" class="form-inline">
+		<div class="form-check mb-2 mr-sm-2">
+		    <input class="form-check-input" type="checkbox" id="useCurrentLocation" onchange="toggleSelectLocation()">
+		    <label class="form-check-label" for="useCurrentLocation">
+		      Use Current
+		    </label>
+	  	</div>
+	
+		<label class="sr-only" for="country">Country</label>
+	    <input type="text" class="form-control mb-2 mr-sm-2" id="country" placeholder="Country">
+		
+	   <label class="sr-only" for="state">State</label>
+       <input type="text" class="form-control mb-2 mr-sm-2" id="state" placeholder="State">
+		
+	   <label class="sr-only" for="city">City</label>
+	   <input type="text" class="form-control mb-2 mr-sm-2" id="city" placeholder="City">
+	</div>
+	
+	<h3>Date</h3>
+	<div id="dateFormRow" class="form-row">
+			<div class="form-group col-auto">
+			  <div class="form-check">
+			    <input class="form-check-input" type="checkbox" id="releaseDate" onchange="toggleSelectDate()">
+			    <label class="form-check-label" for="releaseDate">
+			      Search By Release Date
+			    </label>
+		  	  </div>
+		  	</div>
+		    <div class="form-group col-auto date-selector">
+		      <label for="inputEmail4">Start Date</label>
+		      <input type="date" class="form-control" id="inputEmail4">
+		    </div>
+		    <div class="form-group col-auto date-selector">
+		      <label for="inputPassword4">End Date (Optional)</label>
+		      <input type="date" class="form-control" id="inputPassword4">
+		    </div>
+		  </div>	
+	
+	<h3>Mood</h3>
+	<div id="formMood" class="form-inline">
+		<div class="form-check mb-2 mr-sm-2">
+		    <input class="form-check-input" type="checkbox" id="mood" onchange="toggleSelectMood()">
+		    <label class="form-check-label" for="mood">
+		      Optional Enter Your Mood
+		    </label>
+	  	</div>
+		<label class="sr-only" for="mood">Mood</label>
+	    <input type="text" class="form-control mb-2 mr-sm-2" id="mood" placeholder="Mood">	
+	</div>
 	
 	
 	<form action="/welcome" method="post">
@@ -93,7 +179,7 @@
 		<input type="hidden" name="weather" value="${mainCondition}" />
 		<button type="submit"  >Search by Current Location</button>
 	</form>
-	</div>
+</div>
 	
 	
 	<label class="switch">
@@ -202,5 +288,6 @@
 		</form>
 	</div>
 	
+
 </body>
 </html>

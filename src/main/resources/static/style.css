@@ -1,0 +1,33 @@
+/* form inputs inside of class use-current-location --> hide them */
+
+.use-current-location #country {
+	display: none;
+}
+
+.use-current-location #state {
+	display: none;
+}
+
+.use-current-location #city {
+	display: none;
+}
+
+/* form inputs inside of class use-release-date --> show them */
+.date-selector {
+	display: none;
+}
+
+.use-release-date .date-selector {
+	display: block;
+}
+
+
+/* form inputs inside of class use-release-mood --> show it */
+.release-mood {
+	display: none;
+}
+
+.use-release-mood .release-mood {
+	display: block;
+}
+
