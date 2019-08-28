@@ -112,9 +112,10 @@ public class SpotifyApiService {
 				.queryParam("limit", limit)
 				.toUriString();
     	
-    	//System.out.println(url);
+    	System.out.println("playlists 2 service: " + url);
     	
     	String bearerString = "Bearer " + accessToken;
+    	System.out.println(bearerString);
     	
     	HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", bearerString);
@@ -205,6 +206,7 @@ public class SpotifyApiService {
     }
     
     public List<PlaylistItems> showPlaylists(String q, Type type) {
+    	System.out.println("in playlist api service");
     	String accessToken = getAccessToken();
     	String limit = "10";
     	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
@@ -213,7 +215,7 @@ public class SpotifyApiService {
 				.queryParam("limit", limit)
 				.toUriString();
     	
-    	//System.out.println(url);
+    	System.out.println("@@query url: " + url);
     	
     	String bearerString = "Bearer " + accessToken;
     	
@@ -224,6 +226,8 @@ public class SpotifyApiService {
 		SpotifyResponse response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), 
     													SpotifyResponse.class).getBody();
 		List<PlaylistItems> myList = response.getPlaylist().getItems();
+		System.out.println("@@myList: " + myList.size());
+		
     	return myList;  	
     }
     

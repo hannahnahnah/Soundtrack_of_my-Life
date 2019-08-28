@@ -33,7 +33,6 @@ public class GeocodeApiService {
     			.queryParam("address", city + "," + state + "," + country)
 				.queryParam("key", API_KEY)
 				.toUriString();
-    	System.out.println(url);
     	
     	Double response = restTemplate.getForObject(url, GeocodeResponse.class)
     			.getResults()[0]
@@ -50,14 +49,12 @@ public class GeocodeApiService {
     			.queryParam("address", city + "," + state + "," + country)
 				.queryParam("key", API_KEY)
 				.toUriString();
-    	System.out.println(url);
     	
     	Double response = restTemplate.getForObject(url, GeocodeResponse.class)
     			.getResults()[0]
     			.getGeometry()
     			.getLocation()
     			.getLongitude();
-    	System.out.println(response);
     	
     	return response;
     	
@@ -69,12 +66,10 @@ public class GeocodeApiService {
     			.queryParam("latlng", latitude + "," + longitude)
 				.queryParam("key", API_KEY)
 				.toUriString();
-    	System.out.println(url);
     	
     	String response = restTemplate.getForObject(url, ReverseGeocodeResponse.class)
     			.getResults()[0]
     			.getFormattedAddress();
-    	System.out.println(response);
 
     	
     	return response;

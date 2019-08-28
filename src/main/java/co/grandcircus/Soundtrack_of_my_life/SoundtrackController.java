@@ -174,14 +174,14 @@ public class SoundtrackController {
 	
 	private String buildDateQ(String startDate) {
 		String startYear = startDate.substring(0, 4);
-		String yearQ = "year:" + startYear;
+		String yearQ = "+year=" + startYear;
 		return yearQ; 
 	}
 	
 	private String buildDateQ(String startDate, String endDate) {
 		String startYear = startDate.substring(0, 4);
 		String endYear = endDate.substring(0, 4);
-		String yearQ = "year:" + startYear + "-" + endYear;
+		String yearQ = "+year=" + startYear + "-" + endYear;
 		return yearQ; 
 	}
 	
@@ -337,39 +337,40 @@ public class SoundtrackController {
 			@RequestParam(name = "city", required = false) String city,
 			@RequestParam(value="mood", required = false) String mood,
 			@SessionAttribute(name = "coords") Coordinates coords) {
-		String yearQ = null;
+		
 		ModelAndView mv = new ModelAndView("welcome");
 		User user = dao.findById((long) 1);
 		mv.addObject("user", user);
 		mv.addObject("hour", displayGreeting());
-
-		System.out.println("startDate: " + startDate);
-		System.out.println("endDate: " + endDate);
-		System.out.println("whichDate: " + whichDate);
-		System.out.println("country: " + country);
-		System.out.println("state: " + state);
-		System.out.println("city: " + city);
-		System.out.println("coords: " + coords);
-		System.out.println("mood: " + mood);
 		
+		String yearQ = "";
+		if (startDate != "") {
+			if (endDate != "") {
+				yearQ = buildDateQ(startDate, endDate);
+			} else {
+				yearQ = buildDateQ(startDate);
+			}
+		} 
+
 		List<PlaylistItems> playlistLocalWeather = new ArrayList<>();
 		List<PlaylistItems> playlistAltLocal = new ArrayList<>();
 		List<PlaylistItems> playlistWeatherFeeling = new ArrayList<>();
-		
+		List<PlaylistItems> playlistMasterList = new ArrayList<>();
 		
 		List<TrackItems> trackLocalWeather = new ArrayList<>();
 		List<TrackItems> trackAltLocal = new ArrayList<>();
 		List<TrackItems> trackWeatherFeeling = new ArrayList<>();
-		
+		List<TrackItems> trackMasterList = new ArrayList<>();
 		
 		List<ArtistItems> artistLocalWeather = new ArrayList<>();
 		List<ArtistItems> artistAltLocal = new ArrayList<>();
 		List<ArtistItems> artistWeatherFeeling = new ArrayList<>(); 
-		
+		List<ArtistItems> artistMasterList = new ArrayList<>();
 		
 		List<AlbumtItems> albumLocalWeather = new ArrayList<>();
 		List<AlbumtItems> albumAltLocal = new ArrayList<>();
 		List<AlbumtItems> albumWeatherFeeling = new ArrayList<>();
+		List<AlbumtItems> albumMasterList = new ArrayList<>();
 		
 
 	//current location weather on current date
@@ -383,18 +384,15 @@ public class SoundtrackController {
 
 	//add alternate date to current location weather
 		if (startDate != "") {
-			if (endDate != "") {
-				yearQ = buildDateQ(startDate, endDate);
-			} else {
-				yearQ = buildDateQ(startDate);
-			}
 			String weatherQ = currentResponse.getWeather().get(0).getMain();
-			String query = weatherQ + "+" + yearQ;
+			String query = weatherQ + yearQ;
+			
+			System.out.println("local weather query: " + query);
 			
 			playlistLocalWeather = spotifyApiService.showPlaylists(query, Type.playlist);
 			trackLocalWeather = spotifyApiService.showTracks(query, Type.track);
 			artistLocalWeather = spotifyApiService.showArtists(query, Type.artist);
-			albumLocalWeather = spotifyApiService.showAlbums(query, Type.album);	
+			albumLocalWeather = spotifyApiService.showAlbums(query, Type.album);
 		}
 	
 	//current weather at selected location (with date option)
@@ -414,13 +412,9 @@ public class SoundtrackController {
 
 			String weatherQ = selectedResponse.getWeather().get(0).getMain();
 			
-			if (startDate != "") {
-				if (endDate != "") {
-					yearQ = buildDateQ(startDate, endDate);
-				} else {
-					yearQ = buildDateQ(startDate);
-				}
-			} String query = weatherQ + "+" + yearQ;
+			String query = weatherQ + yearQ;
+			
+			System.out.println("alt local query: " + query);
 
 			playlistAltLocal = spotifyApiService.showPlaylists(query, Type.playlist);
 			trackAltLocal = spotifyApiService.showTracks(query, Type.track);
@@ -433,13 +427,9 @@ public class SoundtrackController {
 		if (city.equals("")) {
 			String localWeatherFeeling = getWeatherFeeling(currentResponse);
 			
-			if (startDate != "") {
-				if (endDate != "") {
-					yearQ = buildDateQ(startDate, endDate);
-				} else {
-					yearQ = buildDateQ(startDate);
-				}
-			} String query = localWeatherFeeling + "+" + yearQ;
+			String query = localWeatherFeeling + yearQ;
+			
+			System.out.println("local weather feeling query: " + query);
 			
 			playlistWeatherFeeling = spotifyApiService.showPlaylists(query, Type.playlist);
 			trackWeatherFeeling = spotifyApiService.showTracks(query, Type.track);
@@ -462,29 +452,58 @@ public class SoundtrackController {
 			
 			String altWeatherFeeling = getWeatherFeeling(selectedResponse);
 			
-			if (startDate != "") {
-				if (endDate != "") {
-					yearQ = buildDateQ(startDate, endDate);
-				} else {
-					yearQ = buildDateQ(startDate);
-				}
-			} String query = altWeatherFeeling + "+" + yearQ;
+			String query = altWeatherFeeling + yearQ;
+			
+			System.out.println("alt local weather feeling query: " + query);
 			
 			playlistWeatherFeeling = spotifyApiService.showPlaylists(query, Type.playlist);
 			trackWeatherFeeling = spotifyApiService.showTracks(query, Type.track);
 			artistWeatherFeeling = spotifyApiService.showArtists(query, Type.artist);
 			albumWeatherFeeling = spotifyApiService.showAlbums(query, Type.album);
-			
 		}
 		
-		
-		
-		
-			
-		
-		
 	
+		
+	//merge playlists
+		playlistMasterList = mergeLists(playlistLocalWeather, playlistAltLocal, playlistWeatherFeeling);
+	
+	//merge track lists
+		trackMasterList = mergeLists(trackLocalWeather, trackAltLocal, trackWeatherFeeling);
+		
+	//merge artist lists
+		artistMasterList = mergeLists(artistLocalWeather, artistAltLocal, artistWeatherFeeling);
+		
+	//merge album lists
+		albumMasterList = mergeLists(albumLocalWeather, albumAltLocal, albumWeatherFeeling);
+
+
+		mv.addObject("playlist", playlistMasterList);
+		mv.addObject("track", trackMasterList);
+		mv.addObject("album", albumMasterList);
+		mv.addObject("artist", artistMasterList);
+		
 		return mv;
+	}
+	
+	@SafeVarargs
+	private final <T> List<T> mergeLists(List<T>... lists) {
+		List<T> masterList = new ArrayList<>();
+		
+		int maxTlLen = 0;
+		for (List<T> list : lists) {
+			if (list.size() > maxTlLen) {
+				maxTlLen = list.size();
+			}
+		}
+		for (int i = 0; i < maxTlLen; i++) {
+			for (List<T> list : lists) {
+				if (i < list.size()) {
+					masterList.add(list.get(i));
+				}
+			}
+		}
+		
+		return masterList;
 	}
 
 	@RequestMapping("/welcome/mood")
