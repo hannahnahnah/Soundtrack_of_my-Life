@@ -218,6 +218,7 @@ public class SpotifyApiService {
     	System.out.println("@@query url: " + url);
     	
     	String bearerString = "Bearer " + accessToken;
+    	System.out.println("Bearer " + accessToken);
     	
     	HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", bearerString);

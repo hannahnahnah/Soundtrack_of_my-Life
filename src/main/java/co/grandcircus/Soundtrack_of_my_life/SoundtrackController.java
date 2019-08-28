@@ -170,14 +170,14 @@ public class SoundtrackController {
 	
 	private String buildDateQ(String startDate) {
 		String startYear = startDate.substring(0, 4);
-		String yearQ = "+year=" + startYear;
+		String yearQ = "+year:" + startYear;
 		return yearQ; 
 	}
 	
 	private String buildDateQ(String startDate, String endDate) {
 		String startYear = startDate.substring(0, 4);
 		String endYear = endDate.substring(0, 4);
-		String yearQ = "+year=" + startYear + "-" + endYear;
+		String yearQ = "+year:" + startYear + "-" + endYear;
 		return yearQ; 
 	}
 	
@@ -212,10 +212,21 @@ public class SoundtrackController {
 		String weatherFeeling = getWeatherFeeling(response);
 		String localWeather = response.getWeather().get(0).getMain();
 
-		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists2(localWeather, Type.playlist, weatherFeeling);
-		List<TrackItems> trackList = spotifyApiService.showTracks2(localWeather, Type.track, weatherFeeling);
-		List<ArtistItems> artistList = spotifyApiService.showArtists2(localWeather, Type.artist, weatherFeeling);
-		List<AlbumtItems> albumList = spotifyApiService.showAlbums2(localWeather, Type.album, weatherFeeling);
+		List<PlaylistItems> playlistWeather = spotifyApiService.showPlaylists(localWeather, Type.playlist);
+		List<TrackItems> trackWeather = spotifyApiService.showTracks(localWeather, Type.track);
+		List<ArtistItems> artistWeather = spotifyApiService.showArtists(localWeather, Type.artist);
+		List<AlbumtItems> albumWeather = spotifyApiService.showAlbums(localWeather, Type.album);
+		
+		List<PlaylistItems> playlistFeeling = spotifyApiService.showPlaylists(weatherFeeling, Type.playlist);
+		List<TrackItems> trackFeeling = spotifyApiService.showTracks(weatherFeeling, Type.track);
+		List<ArtistItems> artistFeeling = spotifyApiService.showArtists(weatherFeeling, Type.artist);
+		List<AlbumtItems> albumFeeling = spotifyApiService.showAlbums(weatherFeeling, Type.album);
+		
+		List<PlaylistItems> playlistList = mergeLists(playlistWeather, playlistFeeling);
+		List<TrackItems> trackList = mergeLists(trackWeather, trackFeeling);
+		List<ArtistItems> artistList = mergeLists(artistWeather, artistFeeling);
+		List<AlbumtItems> albumList = mergeLists(albumWeather, albumFeeling);
+		
 		mv.addObject("playlist", playlistList);
 		mv.addObject("track", trackList);
 		mv.addObject("artist", artistList);
@@ -624,6 +635,9 @@ public class SoundtrackController {
 			}
 		}
 		
+		if (masterList.size() > 10) {
+			masterList = masterList.subList(0, 10);
+		}
 		return masterList;
 	}
 
