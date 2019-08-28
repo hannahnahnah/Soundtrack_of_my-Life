@@ -17,17 +17,17 @@
 	display: none;
 }
 
-.use-release-date .date-selector {
+.search-by-release-date .date-selector {
 	display: block;
 }
 
 
 /* form inputs inside of class use-release-mood --> show it */
-.release-mood {
+#formMood .mood-input {
 	display: none;
 }
 
-.use-release-mood .release-mood {
-	display: block;
+#formMood.use-release-mood .mood-input {
+	display: inline-block;
 }
 

@@ -78,9 +78,9 @@
 		let releaseDate = checkbox.checked;
 		
 		if (releaseDate) {
-			dateFormRow.classList.add("use-release-date");
+			dateFormRow.classList.add("search-by-release-date");
 		} else {
-			dateFormRow.classList.remove("use-release-date");
+			dateFormRow.classList.remove("search-by-release-date");
 		}
 	}
 	
@@ -96,98 +96,69 @@
 		}
 	}
 </script>		
-
+<form action="/welcome" method="post">
   <div >
 	<h3>Location</h3>
 	<div id="locationFormRow" class="form-inline">
 		<div class="form-check mb-2 mr-sm-2">
-		    <input class="form-check-input" type="checkbox" id="useCurrentLocation" onchange="toggleSelectLocation()">
+		    <input name="useCurrentLocation" value="on" class="form-check-input" type="checkbox" id="useCurrentLocation" onchange="toggleSelectLocation()">
 		    <label class="form-check-label" for="useCurrentLocation">
 		      Use Current
 		    </label>
 	  	</div>
-	
 		<label class="sr-only" for="country">Country</label>
-	    <input type="text" class="form-control mb-2 mr-sm-2" id="country" placeholder="Country">
+	    <input type="text" name=country class="form-control mb-2 mr-sm-2" id="country" placeholder="Country">
 		
 	   <label class="sr-only" for="state">State</label>
-       <input type="text" class="form-control mb-2 mr-sm-2" id="state" placeholder="State">
+       <input type="text" name=state class="form-control mb-2 mr-sm-2" id="state" placeholder="State">
 		
 	   <label class="sr-only" for="city">City</label>
-	   <input type="text" class="form-control mb-2 mr-sm-2" id="city" placeholder="City">
+	   <input type="text" name=city  class="form-control mb-2 mr-sm-2" id="city" placeholder="City">
 	</div>
 	
 	<h3>Date</h3>
 	<div id="dateFormRow" class="form-row">
 			<div class="form-group col-auto">
 			  <div class="form-check">
-			    <input class="form-check-input" type="checkbox" id="releaseDate" onchange="toggleSelectDate()">
+			    <input name="searchReleaseDate" value="on" class="form-check-input" type="checkbox" id="releaseDate" onchange="toggleSelectDate()">
 			    <label class="form-check-label" for="releaseDate">
 			      Search By Release Date
 			    </label>
 		  	  </div>
 		  	</div>
 		    <div class="form-group col-auto date-selector">
-		      <label for="inputEmail4">Start Date</label>
-		      <input type="date" class="form-control" id="inputEmail4">
+		      <label for="inputStartDate">Start Date</label>
+		      <input type="date" name="selectStartDate" class="form-control" id="inputStartDate">
 		    </div>
 		    <div class="form-group col-auto date-selector">
-		      <label for="inputPassword4">End Date (Optional)</label>
-		      <input type="date" class="form-control" id="inputPassword4">
+		      <label for="inputEndDate">End Date (Optional)</label>
+		      <input type="date" name="selectEndDate" max=2019 class="form-control" id="inputEndDate">
 		    </div>
 		  </div>	
+		  
+		  	
 	
 	<h3>Mood</h3>
 	<div id="formMood" class="form-inline">
 		<div class="form-check mb-2 mr-sm-2">
-		    <input class="form-check-input" type="checkbox" id="mood" onchange="toggleSelectMood()">
+		    <input name="byMood" value="on" class="form-check-input" type="checkbox" id="mood" onchange="toggleSelectMood()">
 		    <label class="form-check-label" for="mood">
-		      Optional Enter Your Mood
+				Look up music based on your Mood
 		    </label>
 	  	</div>
 		<label class="sr-only" for="mood">Mood</label>
-	    <input type="text" class="form-control mb-2 mr-sm-2" id="mood" placeholder="Mood">	
+	    <input type="text" name="mood" class="form-control mb-2 mr-sm-2 mood-input" id="mood" placeholder="Ex:<c:if test="${empty mood}">${defaultMood}</c:if>
+	<c:if test="${not empty mood}">${mood}</c:if>" />	
 	</div>
 	
-	
-	<form action="/welcome" method="post">
-	<p>Look up music based on your mood</p>
-		<p>
-			Mood: <input type="text" name="mood"
-				placeholder="Ex:<c:if test="${empty mood}">${defaultMood}</c:if>
-	<c:if test="${not empty mood}">${mood}</c:if>" />
-		</p>
-	
-	<p>Search Song by date (range)</p>
-	<input type="radio" name="whichDate" value="current"><label>Current</label><br>
-	<input type="radio" name="whichDate" value="selected"><label>Select</label><br>
-	<label>Select Start Date: </label><input type="date" name="selectStartDate" ><br>
-	<label>Select End Date: </label><input type="date" name="selectEndDate" max=2019 ><label> (optional) </label><br>
-	
-	<p>Search by alternate location: </p>
-	<label>country</label><input type="country" name=country >
-	<label>state</label><input type="state" name=state >
-	<label>city</label><input  type="city" name=city >
+	<input type="submit" value="Submit" class="btn btn-success btn-md btn-block col-sm-2"><br>			
+
+</form>
 	
 	
 	
-	<button type="submit" >Go.</button><br>
-	</form>
-	
-	
-	<form action="/currentlocation" method="get">
-		<input type="hidden" name="weather" value="${mainCondition}" />
-		<button type="submit"  >Search by Current Location</button>
-	</form>
 </div>
 	
-	
-	<label class="switch">
-  <input type="checkbox">
-  <span class="slider round"></span>
-</label>
-	
-
 	<div class="container" align="center">
 		<form action="/favorite/playlist" method="post">
 			<table class="table"
