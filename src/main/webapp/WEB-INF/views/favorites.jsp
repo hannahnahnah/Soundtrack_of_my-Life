@@ -13,7 +13,7 @@
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 	<ul class="navbar-nav mr-auto">
-		<li class="nav-item">${hour}${user.firstName}</li>
+		<li class="nav-item">${hour} ${user.firstName}</li>
 	</ul>
 	<ul class="navbar-nav ml-auto">
 		<li class="nav-item"><a class="nav-link" href="/">Home<span
@@ -21,6 +21,7 @@
 		<li class="nav-item"><a class="nav-link" href="/favorites">Favorites</a>
 		<li class="nav-item"><a class="nav-link" href="/preferences">User
 				Preferences</a></li>
+		<li class="nav-item"><a class="nav-link" href="/">Logout</a></li>
 	</ul>
 	</nav>
 

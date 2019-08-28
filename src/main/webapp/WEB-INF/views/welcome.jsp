@@ -22,6 +22,7 @@
 		<li class="nav-item"><a class="nav-link" href="/favorites">Favorites</a>
 		<li class="nav-item"><a class="nav-link" href="/preferences">User
 				Preferences</a></li>
+		<li class="nav-item"><a class="nav-link" href="/">Logout</a></li>
 	</ul>
 
 	</nav>
@@ -88,7 +89,7 @@
 	</form>
 	
 	
-	<form action="/welcome" method="get">
+	<form action="/currentlocation" method="get">
 		<input type="hidden" name="weather" value="${mainCondition}" />
 		<button type="submit"  >Search by Current Location</button>
 	</form>
@@ -120,13 +121,12 @@
 									allowtransparency="true" allow="encrypted-media"></iframe></td>
 							<td><button type="submit" name="favorite"
 									value="${playlists.id}">Favorite</button>
-							<td><button onclick="addPlaylist">JS Add</button></td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
 		</form>
-		<form action="/favorite/track" method="post">
+ 		<form action="/favorite/track" method="post">
 			<h1 class="text-primary"></h1>
 			<table class="table"
 				style="display: inline-block; border: 1px solid;">
@@ -201,12 +201,6 @@
 			</table>
 		</form>
 	</div>
-	
-	<script>
-	function addPlaylist(){
-		
-	}
-	</script>
 	
 </body>
 </html>
