@@ -2,6 +2,7 @@ package co.grandcircus.Soundtrack_of_my_life;
 
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -116,6 +117,74 @@ public class SoundtrackController {
 	}
 
 	private static DecimalFormat df2 = new DecimalFormat("#.##");
+	
+	private String getWeatherFeeling(weatherResponse weatherResponse) {
+		User user = dao.findById((long) 1);
+		
+		String weatherString = weatherResponse.getWeather().get(0).getMain();
+		String weatherFeeling = "";
+		if (weatherString.equalsIgnoreCase("thunderstorm")) {
+			weatherFeeling = user.getThunderstorm();
+		} else if (weatherString.equalsIgnoreCase("drizzle")) {
+			weatherFeeling = user.getDrizzle();
+		} else if (weatherString.equalsIgnoreCase("rain")) {
+			weatherFeeling = user.getRain();
+		} else if (weatherString.equalsIgnoreCase("snow")) {
+			weatherFeeling = user.getSnow();
+		} else if (weatherString.equalsIgnoreCase("mist")) {
+			weatherFeeling = user.getMist();
+		} else if (weatherString.equalsIgnoreCase("smoke")) {
+			weatherFeeling = user.getSmoke();
+		} else if (weatherString.equalsIgnoreCase("haze")) {
+			weatherFeeling = user.getHaze();
+		} else if (weatherString.equalsIgnoreCase("fog")) {
+			weatherFeeling = user.getFog();
+		} else if (weatherString.equalsIgnoreCase("sand")) {
+			weatherFeeling = user.getSmoke();
+		} else if (weatherString.equalsIgnoreCase("dust")) {
+			weatherFeeling = user.getDust();
+		} else if (weatherString.equalsIgnoreCase("ash")) {
+			weatherFeeling = user.getAsh();
+		} else if (weatherString.equalsIgnoreCase("squall")) {
+			weatherFeeling = user.getSquall();
+		} else if (weatherString.equalsIgnoreCase("tornado")) {
+			weatherFeeling = user.getTornado();
+		} else if (weatherString.equalsIgnoreCase("clear")) {
+			weatherFeeling = user.getClear();
+		} else {
+			weatherFeeling = user.getClouds();
+		}
+		return weatherFeeling;
+	}
+	
+	private String displayGreeting() {
+		String timeIsh = null;
+		int hour = LocalDateTime.now().getHour();
+		if (hour >= 5 && hour < 12) {
+			timeIsh = "Good Morning";
+		} else if (hour >= 12 && hour < 17) {
+			timeIsh = "Good Afternoon";
+		} else if (hour >= 17 && hour < 21) {
+			timeIsh = "Good Evening";
+		} else {
+			timeIsh = "Good Night";
+		}
+		return timeIsh;
+	}
+	
+	private String buildDateQ(String startDate) {
+		String startYear = startDate.substring(0, 4);
+		String yearQ = "year:" + startYear;
+		return yearQ; 
+	}
+	
+	private String buildDateQ(String startDate, String endDate) {
+		String startYear = startDate.substring(0, 4);
+		String endYear = endDate.substring(0, 4);
+		String yearQ = "year:" + startYear + "-" + endYear;
+		return yearQ; 
+	}
+	
 
 	@RequestMapping("/welcome")
 	public ModelAndView showWelcome(@SessionAttribute(name = "coords") Coordinates coords) {
@@ -134,62 +203,15 @@ public class SoundtrackController {
 		mv.addObject("mainCondition", response.getWeather().get(0).getMain());
 		mv.addObject("description", response.getWeather().get(0).getDescription());
 
-		int hour = LocalDateTime.now().getHour();
-		if (hour >= 5 && hour < 12) {
-			String morning = "Good Morning";
-			mv.addObject("hour", morning);
-		} else if (hour >= 12 && hour < 17) {
-			String afternoon = "Good Afternoon";
-			mv.addObject("hour", afternoon);
-		} else if (hour >= 17 && hour < 21) {
-			String evening = "Good Evening";
-			mv.addObject("hour", evening);
-		} else {
-			String night = "Good Night";
-			mv.addObject("hour", night);
-		}
+		mv.addObject("hour", displayGreeting());
 
-		String weatherFeeling = "";
-		if (response.getWeather().get(0).getMain().equalsIgnoreCase("thunderstorm")) {
-			weatherFeeling = user.getThunderstorm();
-		} else if (response.getWeather().get(0).getMain().equalsIgnoreCase("drizzle")) {
-			weatherFeeling = user.getDrizzle();
-		} else if (response.getWeather().get(0).getMain().equalsIgnoreCase("rain")) {
-			weatherFeeling = user.getRain();
-		} else if (response.getWeather().get(0).getMain().equalsIgnoreCase("snow")) {
-			weatherFeeling = user.getSnow();
-		} else if (response.getWeather().get(0).getMain().equalsIgnoreCase("mist")) {
-			weatherFeeling = user.getMist();
-		} else if (response.getWeather().get(0).getMain().equalsIgnoreCase("smoke")) {
-			weatherFeeling = user.getSmoke();
-		} else if (response.getWeather().get(0).getMain().equalsIgnoreCase("haze")) {
-			weatherFeeling = user.getHaze();
-		} else if (response.getWeather().get(0).getMain().equalsIgnoreCase("fog")) {
-			weatherFeeling = user.getFog();
-		} else if (response.getWeather().get(0).getMain().equalsIgnoreCase("sand")) {
-			weatherFeeling = user.getSmoke();
-		} else if (response.getWeather().get(0).getMain().equalsIgnoreCase("dust")) {
-			weatherFeeling = user.getDust();
-		} else if (response.getWeather().get(0).getMain().equalsIgnoreCase("ash")) {
-			weatherFeeling = user.getAsh();
-		} else if (response.getWeather().get(0).getMain().equalsIgnoreCase("squall")) {
-			weatherFeeling = user.getSquall();
-		} else if (response.getWeather().get(0).getMain().equalsIgnoreCase("tornado")) {
-			weatherFeeling = user.getTornado();
-		} else if (response.getWeather().get(0).getMain().equalsIgnoreCase("clear")) {
-			weatherFeeling = user.getClear();
-		} else {
-			weatherFeeling = user.getClouds();
-		}
+		String weatherFeeling = getWeatherFeeling(response);
+		String localWeather = response.getWeather().get(0).getMain();
 
-		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists(response.getWeather().get(0).getMain(),
-				Type.playlist, weatherFeeling);
-		List<TrackItems> trackList = spotifyApiService.showTracks(response.getWeather().get(0).getMain(), Type.track,
-				weatherFeeling);
-		List<ArtistItems> artistList = spotifyApiService.showArtists(response.getWeather().get(0).getMain(),
-				Type.artist, weatherFeeling);
-		List<AlbumtItems> albumList = spotifyApiService.showAlbums(response.getWeather().get(0).getMain(), Type.album,
-				weatherFeeling);
+		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists2(localWeather, Type.playlist, weatherFeeling);
+		List<TrackItems> trackList = spotifyApiService.showTracks2(localWeather, Type.track, weatherFeeling);
+		List<ArtistItems> artistList = spotifyApiService.showArtists2(localWeather, Type.artist, weatherFeeling);
+		List<AlbumtItems> albumList = spotifyApiService.showAlbums2(localWeather, Type.album, weatherFeeling);
 		mv.addObject("playlist", playlistList);
 		mv.addObject("track", trackList);
 		mv.addObject("artist", artistList);
@@ -216,22 +238,6 @@ public class SoundtrackController {
 	// mv.addObject("description", response.getWeather().get(0).getDescription());
 	// mv.addObject("mood", mood); //passed in as request parameter from the post
 	// mapped form
-	//
-	// int hour = LocalDateTime.now().getHour();
-	// if (hour >= 5 && hour < 12) {
-	// String morning = "Good Morning";
-	// mv.addObject("hour", morning);
-	// } else if (hour >= 12 && hour < 17) {
-	// String afternoon = "Good Afternoon";
-	// mv.addObject("hour", afternoon);
-	// } else if (hour >= 17 && hour < 21) {
-	// String evening = "Good Evening";
-	// mv.addObject("hour", evening);
-	// } else {
-	// String night = "Good Night";
-	// mv.addObject("hour", night);
-	// }
-	//
 	//
 	// if(mood.length() > 0) {
 	// mv.addObject("defaultMood", mood);
@@ -329,55 +335,70 @@ public class SoundtrackController {
 			@RequestParam(name = "country", required = false) String country,
 			@RequestParam(name = "state", required = false) String state,
 			@RequestParam(name = "city", required = false) String city,
+			@RequestParam(value="mood", required = false) String mood,
 			@SessionAttribute(name = "coords") Coordinates coords) {
+		String yearQ = null;
 		ModelAndView mv = new ModelAndView("welcome");
-		mv.addObject("startDate", startDate);
-		mv.addObject("endDate", endDate);
+		User user = dao.findById((long) 1);
+		mv.addObject("user", user);
+		mv.addObject("hour", displayGreeting());
 
-		System.out.println("whichDate: " + whichDate);
 		System.out.println("startDate: " + startDate);
 		System.out.println("endDate: " + endDate);
+		System.out.println("whichDate: " + whichDate);
+		System.out.println("country: " + country);
+		System.out.println("state: " + state);
+		System.out.println("city: " + city);
+		System.out.println("coords: " + coords);
+		System.out.println("mood: " + mood);
+		
+		List<PlaylistItems> playlistLocalWeather = new ArrayList<>();
+		List<PlaylistItems> playlistAltLocal = new ArrayList<>();
+		List<PlaylistItems> playlistWeatherFeeling = new ArrayList<>();
+		
+		
+		List<TrackItems> trackLocalWeather = new ArrayList<>();
+		List<TrackItems> trackAltLocal = new ArrayList<>();
+		List<TrackItems> trackWeatherFeeling = new ArrayList<>();
+		
+		
+		List<ArtistItems> artistLocalWeather = new ArrayList<>();
+		List<ArtistItems> artistAltLocal = new ArrayList<>();
+		List<ArtistItems> artistWeatherFeeling = new ArrayList<>(); 
+		
+		
+		List<AlbumtItems> albumLocalWeather = new ArrayList<>();
+		List<AlbumtItems> albumAltLocal = new ArrayList<>();
+		List<AlbumtItems> albumWeatherFeeling = new ArrayList<>();
+		
 
-		// if (whichDate.equals("current")) {
+	//current location weather on current date
 		weatherResponse currentResponse = weatherApi.showWeather(coords.getLatitude(), coords.getLongitude());
 		double temp = currentResponse.getMain().getTemp();
 		temp = ((temp - 273.15) * 9 / 5 + 32);
-
 		mv.addObject("name", currentResponse.getcityName());
 		mv.addObject("temp", df2.format(temp));
 		mv.addObject("mainCondition", currentResponse.getWeather().get(0).getMain());
 		mv.addObject("description", currentResponse.getWeather().get(0).getDescription());
 
-		// } else if (whichDate.equals("selected")) {
-		if (startDate != null) {
-			String startYear = startDate.substring(0, 4);
-			System.out.println("Start year: " + startYear);
-
-			String yearQ = null;
+	//add alternate date to current location weather
+		if (startDate != "") {
 			if (endDate != "") {
-				String endYear = endDate.substring(0, 4);
-				System.out.println("End year: " + endYear);
-				yearQ = "year:" + startYear + "-" + endYear;
-			} else if (startDate != null) {
-				yearQ = "year:" + startYear;
+				yearQ = buildDateQ(startDate, endDate);
+			} else {
+				yearQ = buildDateQ(startDate);
 			}
 			String weatherQ = currentResponse.getWeather().get(0).getMain();
 			String query = weatherQ + "+" + yearQ;
-			System.out.println("currentDate query: " + query);
-
-			List<PlaylistItems> playlistList = spotifyApiService.showPlaylists(query, Type.playlist);
-			List<TrackItems> trackList = spotifyApiService.showTracks(query, Type.track);
-			List<ArtistItems> artistList = spotifyApiService.showArtists(query, Type.artist);
-			List<AlbumtItems> albumList = spotifyApiService.showAlbums(query, Type.album);
-			mv.addObject("playlist", playlistList);
-			mv.addObject("track", trackList);
-			mv.addObject("artist", artistList);
-			mv.addObject("album", albumList);
+			
+			playlistLocalWeather = spotifyApiService.showPlaylists(query, Type.playlist);
+			trackLocalWeather = spotifyApiService.showTracks(query, Type.track);
+			artistLocalWeather = spotifyApiService.showArtists(query, Type.artist);
+			albumLocalWeather = spotifyApiService.showAlbums(query, Type.album);	
 		}
-		System.out.println("Latitude: " + geocodeApiService.getLatitude(city, state, country));
-		System.out.println("Longitude: " + geocodeApiService.getLongitude(city, state, country));
-
-		if (city != null) {
+	
+	//current weather at selected location (with date option)
+		if (city != "") {
 			Double Lat = geocodeApiService.getLatitude(city, state, country);
 			String selectedLat = Double.toString(Lat);
 			Double Long = geocodeApiService.getLongitude(city, state, country);
@@ -386,41 +407,83 @@ public class SoundtrackController {
 			weatherResponse selectedResponse = weatherApi.showWeather(selectedLat, selectedLong);
 			double selectedtemp = selectedResponse.getMain().getTemp();
 			selectedtemp = ((selectedtemp - 273.15) * 9 / 5 + 32);
-
 			mv.addObject("name", selectedResponse.getcityName());
 			mv.addObject("temp", df2.format(selectedtemp));
 			mv.addObject("mainCondition", selectedResponse.getWeather().get(0).getMain());
 			mv.addObject("description", selectedResponse.getWeather().get(0).getDescription());
 
-			System.out.println("selected name: " + selectedResponse.getcityName());
-
 			String weatherQ = selectedResponse.getWeather().get(0).getMain();
-			// String query = weatherQ + "+" + yearQ;
-			// System.out.println("currentDate query: " + query);
+			
+			if (startDate != "") {
+				if (endDate != "") {
+					yearQ = buildDateQ(startDate, endDate);
+				} else {
+					yearQ = buildDateQ(startDate);
+				}
+			} String query = weatherQ + "+" + yearQ;
 
-			List<PlaylistItems> playlistList = spotifyApiService.showPlaylists(weatherQ, Type.playlist);
-			List<TrackItems> trackList = spotifyApiService.showTracks(weatherQ, Type.track);
-			List<ArtistItems> artistList = spotifyApiService.showArtists(weatherQ, Type.artist);
-			List<AlbumtItems> albumList = spotifyApiService.showAlbums(weatherQ, Type.album);
-			mv.addObject("playlist", playlistList);
-			mv.addObject("track", trackList);
-			mv.addObject("artist", artistList);
-			mv.addObject("album", albumList);
+			playlistAltLocal = spotifyApiService.showPlaylists(query, Type.playlist);
+			trackAltLocal = spotifyApiService.showTracks(query, Type.track);
+			artistAltLocal = spotifyApiService.showArtists(query, Type.artist);
+			albumAltLocal = spotifyApiService.showAlbums(query, Type.album);
+			
 		}
-		int hour = LocalDateTime.now().getHour();
-		if (hour >= 5 && hour < 12) {
-			String morning = "Good Morning";
-			mv.addObject("hour", morning);
-		} else if (hour >= 12 && hour < 17) {
-			String afternoon = "Good Afternoon";
-			mv.addObject("hour", afternoon);
-		} else if (hour >= 17 && hour < 21) {
-			String evening = "Good Evening";
-			mv.addObject("hour", evening);
+		
+	//weather feeling for local and alternate place (with date option)
+		if (city.equals("")) {
+			String localWeatherFeeling = getWeatherFeeling(currentResponse);
+			
+			if (startDate != "") {
+				if (endDate != "") {
+					yearQ = buildDateQ(startDate, endDate);
+				} else {
+					yearQ = buildDateQ(startDate);
+				}
+			} String query = localWeatherFeeling + "+" + yearQ;
+			
+			playlistWeatherFeeling = spotifyApiService.showPlaylists(query, Type.playlist);
+			trackWeatherFeeling = spotifyApiService.showTracks(query, Type.track);
+			artistWeatherFeeling = spotifyApiService.showArtists(query, Type.artist);
+			albumWeatherFeeling = spotifyApiService.showAlbums(query, Type.album);
+			
 		} else {
-			String night = "Good Night";
-			mv.addObject("hour", night);
+			Double Lat = geocodeApiService.getLatitude(city, state, country);
+			String selectedLat = Double.toString(Lat);
+			Double Long = geocodeApiService.getLongitude(city, state, country);
+			String selectedLong = Double.toString(Long);
+
+			weatherResponse selectedResponse = weatherApi.showWeather(selectedLat, selectedLong);
+			double selectedtemp = selectedResponse.getMain().getTemp();
+			selectedtemp = ((selectedtemp - 273.15) * 9 / 5 + 32);
+			mv.addObject("name", selectedResponse.getcityName());
+			mv.addObject("temp", df2.format(selectedtemp));
+			mv.addObject("mainCondition", selectedResponse.getWeather().get(0).getMain());
+			mv.addObject("description", selectedResponse.getWeather().get(0).getDescription());
+			
+			String altWeatherFeeling = getWeatherFeeling(selectedResponse);
+			
+			if (startDate != "") {
+				if (endDate != "") {
+					yearQ = buildDateQ(startDate, endDate);
+				} else {
+					yearQ = buildDateQ(startDate);
+				}
+			} String query = altWeatherFeeling + "+" + yearQ;
+			
+			playlistWeatherFeeling = spotifyApiService.showPlaylists(query, Type.playlist);
+			trackWeatherFeeling = spotifyApiService.showTracks(query, Type.track);
+			artistWeatherFeeling = spotifyApiService.showArtists(query, Type.artist);
+			albumWeatherFeeling = spotifyApiService.showAlbums(query, Type.album);
+			
 		}
+		
+		
+		
+		
+			
+		
+		
+	
 		return mv;
 	}
 
@@ -447,22 +510,7 @@ public class SoundtrackController {
 		mv.addObject("mainCondition", response.getWeather().get(0).getMain());
 		mv.addObject("description", response.getWeather().get(0).getDescription());
 		mv.addObject("mood", mood); // passed in as request parameter from the post mapped form
-
-
-		int hour = LocalDateTime.now().getHour();
-		if (hour >= 5 && hour < 12) {
-			String morning = "Good Morning";
-			mv.addObject("hour", morning);
-		} else if (hour >= 12 && hour < 17) {
-			String afternoon = "Good Afternoon";
-			mv.addObject("hour", afternoon);
-		} else if (hour >= 17 && hour < 21) {
-			String evening = "Good Evening";
-			mv.addObject("hour", evening);
-		} else {
-			String night = "Good Night";
-			mv.addObject("hour", night);
-		}
+		mv.addObject("hour", displayGreeting());
 
 			if (mood != null) {
 				mv.addObject("defaultMood", mood);
@@ -481,10 +529,10 @@ public class SoundtrackController {
 				session.setAttribute("sessionMood", mood);
 			}
 		
-		List<PlaylistItems> playlistList = spotifyApiService.showPlaylistsMood(mood, Type.playlist);
-		List<TrackItems> trackList = spotifyApiService.showTracksMood(mood, Type.track);
-		List<ArtistItems> artistList = spotifyApiService.showArtistsMood(mood, Type.artist);
-		List<AlbumtItems> albumList = spotifyApiService.showAlbumsMood(mood, Type.album);
+		List<PlaylistItems> playlistList = spotifyApiService.showPlaylists(mood, Type.playlist);
+		List<TrackItems> trackList = spotifyApiService.showTracks(mood, Type.track);
+		List<ArtistItems> artistList = spotifyApiService.showArtists(mood, Type.artist);
+		List<AlbumtItems> albumList = spotifyApiService.showAlbums(mood, Type.album);
 		mv.addObject("playlist", playlistList);
 		mv.addObject("track", trackList);
 		mv.addObject("artist", artistList);
@@ -515,20 +563,7 @@ public class SoundtrackController {
 		mv.addObject("feelingClear", user.getClear());
 		mv.addObject("feelingClouds", user.getClouds());
 
-		int hour = LocalDateTime.now().getHour();
-		if (hour >= 5 && hour < 12) {
-			String morning = "Good Morning";
-			mv.addObject("hour", morning);
-		} else if (hour >= 12 && hour < 17) {
-			String afternoon = "Good Afternoon";
-			mv.addObject("hour", afternoon);
-		} else if (hour >= 17 && hour < 21) {
-			String evening = "Good Evening";
-			mv.addObject("hour", evening);
-		} else {
-			String night = "Good Night";
-			mv.addObject("hour", night);
-		}
+		mv.addObject("hour", displayGreeting());
 
 		return mv;
 	}
@@ -547,21 +582,7 @@ public class SoundtrackController {
 		mv.addObject("artistFavs", artistFavs);
 		mv.addObject("playlistFavs", playlistFavs);
 		mv.addObject("trackFavs", trackFavs);
-		
-		int hour = LocalDateTime.now().getHour();
-		if (hour >= 5 && hour < 12) {
-			String morning = "Good Morning";
-			mv.addObject("hour", morning);
-		} else if (hour >= 12 && hour < 17) {
-			String afternoon = "Good Afternoon";
-			mv.addObject("hour", afternoon);
-		} else if (hour >= 17 && hour < 21) {
-			String evening = "Good Evening";
-			mv.addObject("hour", evening);
-		} else {
-			String night = "Good Night";
-			mv.addObject("hour", night);
-		}
+		mv.addObject("hour", displayGreeting());
 		return mv;
 	}
 	

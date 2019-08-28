@@ -43,7 +43,7 @@ public class SpotifyApiService {
     
     
     public String getAccessToken() {
-//String url = "https://api.spotify.com/v1/search?q=" + q + "&type=" + type;
+    	//String url = "https://api.spotify.com/v1/search?q=" + q + "&type=" + type;
     	
     	String url = "https://accounts.spotify.com/api/token";
     	//System.out.println(url);
@@ -74,7 +74,9 @@ public class SpotifyApiService {
 		return accessToken;
     }
     
-    public List<TrackItems> showTracks(String q, Type type, String q2){
+    
+    
+    public List<TrackItems> showTracks2(String q, Type type, String q2){
     	String accessToken = getAccessToken();
     	String limit = "5";
     	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
@@ -101,8 +103,7 @@ public class SpotifyApiService {
 		return myTrack;
     	
     }
-    
-    public List<PlaylistItems> showPlaylists(String q, Type type, String q2) {
+    public List<PlaylistItems> showPlaylists2(String q, Type type, String q2) {
     	String accessToken = getAccessToken();
     	String limit = "5";
     	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
@@ -133,8 +134,7 @@ public class SpotifyApiService {
 		myList.addAll(response2.getPlaylist().getItems());
     	return myList;  	
     }
-    
-    public List<ArtistItems> showArtists(String q, Type type, String q2){
+    public List<ArtistItems> showArtists2(String q, Type type, String q2){
     	String accessToken = getAccessToken();
     	String limit = "5";
     	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
@@ -159,8 +159,7 @@ public class SpotifyApiService {
 		myArtist.addAll(response2.getArtist().getItems());
 		return myArtist;
    }
-    
-    public List<AlbumtItems> showAlbums(String q, Type type, String q2){
+    public List<AlbumtItems> showAlbums2(String q, Type type, String q2){
     	String accessToken = getAccessToken();
     	String limit = "5";
     	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
@@ -186,7 +185,7 @@ public class SpotifyApiService {
 		return myAlbum;
      }
     
-    public List<TrackItems> showTracksMood(String q, Type type){
+    public List<TrackItems> showTracks(String q, Type type){
     	String accessToken = getAccessToken();
     	String limit = "10";
     	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
@@ -205,7 +204,7 @@ public class SpotifyApiService {
     	
     }
     
-    public List<PlaylistItems> showPlaylistsMood(String q, Type type) {
+    public List<PlaylistItems> showPlaylists(String q, Type type) {
     	String accessToken = getAccessToken();
     	String limit = "10";
     	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
@@ -228,7 +227,7 @@ public class SpotifyApiService {
     	return myList;  	
     }
     
-    public List<ArtistItems> showArtistsMood(String q, Type type){
+    public List<ArtistItems> showArtists(String q, Type type){
     	String accessToken = getAccessToken();
     	String limit = "10";
     	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
@@ -244,8 +243,8 @@ public class SpotifyApiService {
 		List<ArtistItems> myArtist = response.getArtist().getItems();
 		return myArtist;
    }
-     
-    public List<AlbumtItems> showAlbumsMood(String q, Type type){
+    
+    public List<AlbumtItems> showAlbums(String q, Type type){
     	String accessToken = getAccessToken();
     	String limit = "10";
     	String url = UriComponentsBuilder.fromHttpUrl("https://api.spotify.com/v1/search")
@@ -261,6 +260,7 @@ public class SpotifyApiService {
 		List<AlbumtItems> myAlbum = response.getAlbum().getItems();
 		return myAlbum;
      }
+    
   
 
 }//apiService class
