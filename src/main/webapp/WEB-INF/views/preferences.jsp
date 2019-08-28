@@ -54,96 +54,96 @@
   			<fieldset class="form-group">
 	  			<legend><label class=" ">Choose your feeling</label></legend>
   				
-  				 <h3 class="col-form-label">How make you feel when the weather is Thunderstorm?</h3>
+  				 <h3 class="col-form-label">How do you feel when the weather is Thunderstorm?</h3>
   					<div class="form-check">
-	  					<input type="radio" class="form-check-input" name="feelingThunderstorm" value="excited"<c:if test="${feelingThunderstorm.equals('excited')}">checked</c:if>><label>excited</label><br>
-	  					<input type="radio" class="form-check-input" name="feelingThunderstorm" value="scared"<c:if test="${feelingThunderstorm.equals('scared')}">checked</c:if>><label>scared</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingThunderstorm" value="excited"<c:if test="${feelingThunderstorm.equalsIgnoreCase('excited')}">checked</c:if>><label>Excited</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingThunderstorm" value="scared"<c:if test="${feelingThunderstorm.equalsIgnoreCase('scared')}">checked</c:if>><label>Scared</label><br>
   					</div>
   					
-  				<h3 class="col-form-label">How make you feel when the weather is Drizzle?</h3>
+  				<h3 class="col-form-label">How do you feel when the weather is Drizzle?</h3>
   					<div class="form-check">
-	  					<input type="radio" class="form-check-input" name="feelingDrizzle" value="romantic"<c:if test="${feelingDrizzle.equals('romantic')}">checked</c:if>><label>romantic</label><br>
-	  					<input type="radio" class="form-check-input" name="feelingDrizzle" value="sad"<c:if test="${feelingDrizzle.equals('sad')}">checked</c:if>><label>sad</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingDrizzle" value="romantic"<c:if test="${feelingDrizzle.equalsIgnoreCase('romantic')}">checked</c:if>><label>Romantic</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingDrizzle" value="sad"<c:if test="${feelingDrizzle.equalsIgnoreCase('sad')}">checked</c:if>><label>Sad</label><br>
   					</div>
   					
-  				<h3 class="col-form-label">How make you feel when the weather is Rain?</h3>
+  				<h3 class="col-form-label">How do you feel when the weather is Rain?</h3>
   					<div class="form-check">
-	  					<input type="radio" class="form-check-input" name="feelingRain" value="relax"<c:if test="${feelingRain.equals('relax')}">checked</c:if>><label>relax</label><br>
-	  					<input type="radio" class="form-check-input" name="feelingRain" value="pissed"<c:if test="${feelingRain.equals('pissed')}">checked</c:if>><label>pissed</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingRain" value="relax"<c:if test="${feelingRain.equalsIgnoreCase('relax')}">checked</c:if>><label>Relax</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingRain" value="pissed"<c:if test="${feelingRain.equalsIgnoreCase('pissed')}">checked</c:if>><label>Pissed</label><br>
   					</div>
   					
-  				<h3 class="col-form-label">How make you feel when the weather is Snow?</h3>
+  				<h3 class="col-form-label">How do you feel when the weather is Snow?</h3>
   					<div class="form-check">
-	  					<input type="radio" class="form-check-input" name="feelingSnow" value="peaceful"<c:if test="${feelingSnow.equals('peaceful')}">checked</c:if>><label>peaceful</label><br>
-	  					<input type="radio" class="form-check-input" name="feelingSnow" value="lonely"<c:if test="${feelingSnow.equals('lonely')}">checked</c:if>><label>lonely</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingSnow" value="peaceful"<c:if test="${feelingSnow.equalsIgnoreCase('peaceful')}">checked</c:if>><label>Peaceful</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingSnow" value="lonely"<c:if test="${feelingSnow.equalsIgnoreCase('lonely')}">checked</c:if>><label>Lonely</label><br>
   					</div>
   					
   				<h3 class="col-form-label">How make you feel when the weather is Mist?</h3>
   					<div class="form-check">
-	  					<input type="radio" class="form-check-input" name="feelingMist" value="curious"<c:if test="${feelingMist.equals('curious')}">checked</c:if>><label>curious</label><br>
-	  					<input type="radio" class="form-check-input" name="feelingMist" value="afraid"<c:if test="${feelingMist.equals('afraid')}">checked</c:if>><label>afraid</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingMist" value="curious"<c:if test="${feelingMist.equalsIgnoreCase('curious')}">checked</c:if>><label>Curious</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingMist" value="afraid"<c:if test="${feelingMist.equalsIgnoreCase('afraid')}">checked</c:if>><label>Afraid</label><br>
   					</div>
   					
-  				<h3 class="col-form-label">How make you feel when the weather is Smoke?</h3>
+  				<h3 class="col-form-label">How do you feel when the weather is Smoke?</h3>
   					<div class="form-check">
-	  					<input type="radio" class="form-check-input" name="feelingSmoke" value="surprising"<c:if test="${feelingSmoke.equals('surprising')}">checked</c:if>><label>surprising</label><br>
-	  					<input type="radio" class="form-check-input" name="feelingSmoke" value="anxiety"<c:if test="${feelingSmoke.equals('anxiety')}">checked</c:if>><label>anxiety</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingSmoke" value="surprising"<c:if test="${feelingSmoke.equalsIgnoreCase('surprising')}">checked</c:if>><label>Surprising</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingSmoke" value="anxiety"<c:if test="${feelingSmoke.equalsIgnoreCase('anxiety')}">checked</c:if>><label>Anxiety</label><br>
   					</div>
   			
-  			<h3 class="col-form-label">How make you feel when the weather is Haze?</h3>
+  			<h3 class="col-form-label">How do you feel when the weather is Haze?</h3>
   					<div class="form-check">
-	  					<input type="radio" class="form-check-input" name="feelingHaze" value="interested"<c:if test="${feelingHaze.equals('interested')}">checked</c:if>><label>interested</label><br>
-	  					<input type="radio" class="form-check-input" name="feelingHaze" value="lazy"<c:if test="${feelingHaze.equals('lazy')}">checked</c:if>><label>lazy</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingHaze" value="interested"<c:if test="${feelingHaze.equalsIgnoreCase('interested')}">checked</c:if>><label>Interested</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingHaze" value="lazy"<c:if test="${feelingHaze.equalsIgnoreCase('lazy')}">checked</c:if>><label>Lazy</label><br>
   					</div>
   			
-  			<h3 class="col-form-label">How make you feel when the weather is Fog?</h3>
+  			<h3 class="col-form-label">How do you feel when the weather is Fog?</h3>
   					<div class="form-check">
-	  					<input type="radio" class="form-check-input" name="feelingFog" value="romantic"<c:if test="${feelingFog.equals('romantic')}">checked</c:if>><label>romantic</label><br>
-	  					<input type="radio" class="form-check-input" name="feelingFog" value="confussed"<c:if test="${feelingFog.equals('confussed')}">checked</c:if>><label>confussed</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingFog" value="romantic"<c:if test="${feelingFog.equalsIgnoreCase('romantic')}">checked</c:if>><label>Romantic</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingFog" value="confussed"<c:if test="${feelingFog.equalsIgnoreCase('confussed')}">checked</c:if>><label>Confussed</label><br>
   					</div>
   					
   					
-  			<h3 class="col-form-label">How make you feel when the weather is Sand?</h3>
+  			<h3 class="col-form-label">How do you feel when the weather is Sand?</h3>
   					<div class="form-check">
-	  					<input type="radio" class="form-check-input" name="feelingSand" value="thoughtful"<c:if test="${feelingSand.equals('thoughtful')}">checked</c:if>><label>thoughtful</label><br>
-	  					<input type="radio" class="form-check-input" name="feelingSand" value="grubby"<c:if test="${feelingSand.equals('grubby')}">checked</c:if>><label>grubby</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingSand" value="thoughtful"<c:if test="${feelingSand.equalsIgnoreCase('thoughtful')}">checked</c:if>><label>Thoughtful</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingSand" value="grubby"<c:if test="${feelingSand.equalsIgnoreCase('grubby')}">checked</c:if>><label>Grubby</label><br>
   					</div>
   					
-  			<h3 class="col-form-label">How make you feel when the weather is Dust?</h3>
+  			<h3 class="col-form-label">How do you feel when the weather is Dust?</h3>
   					<div class="form-check">
-	  					<input type="radio" class="form-check-input" name="feelingDust" value="pensive"<c:if test="${feelingDust.equals('pensive')}">checked</c:if>><label>pensive</label><br>
-	  					<input type="radio" class="form-check-input" name="feelingDust" value="irritated"<c:if test="${feelingDust.equals('irritated')}">checked</c:if>><label>irritated</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingDust" value="pensive"<c:if test="${feelingDust.equalsIgnoreCase('pensive')}">checked</c:if>><label>Pensive</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingDust" value="irritated"<c:if test="${feelingDust.equalsIgnoreCase('irritated')}">checked</c:if>><label>Irritated</label><br>
   					</div>		
   					
-  			<h3 class="col-form-label">How make you feel when the weather is Ash?</h3>
+  			<h3 class="col-form-label">How do you feel when the weather is Ash?</h3>
   					<div class="form-check">
-	  					<input type="radio" class="form-check-input" name="feelingAsh" value="reflective"<c:if test="${feelingAsh.equals('reflective')}">checked</c:if>><label>reflective</label><br>
-	  					<input type="radio" class="form-check-input" name="feelingAsh" value="dirty"<c:if test="${feelingAsh.equals('dirty')}">checked</c:if>><label>dirty</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingAsh" value="reflective"<c:if test="${feelingAsh.equalsIgnoreCase('reflective')}">checked</c:if>><label>Reflective</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingAsh" value="dirty"<c:if test="${feelingAsh.equalsIgnoreCase('dirty')}">checked</c:if>><label>Dirty</label><br>
   					</div>	
   					
-  			<h3 class="col-form-label">How make you feel when the weather is Squall?</h3>
+  			<h3 class="col-form-label">How do you feel when the weather is Squall?</h3>
   					<div class="form-check">
-	  					<input type="radio" class="form-check-input" name="feelingSquall" value="alert"<c:if test="${feelingSquall.equals('alert')}">checked</c:if>><label>alert</label><br>
-	  					<input type="radio" class="form-check-input" name="feelingSquall" value="stress"<c:if test="${feelingSquall.equals('stress')}">checked</c:if>><label>stress</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingSquall" value="alert"<c:if test="${feelingSquall.equalsIgnoreCase('alert')}">checked</c:if>><label>Alert</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingSquall" value="stress"<c:if test="${feelingSquall.equalsIgnoreCase('stress')}">checked</c:if>><label>Stress</label><br>
   					</div>			
   			
-  			<h3 class="col-form-label">How make you feel when the weather is Tornado?</h3>
+  			<h3 class="col-form-label">How do you feel when the weather is Tornado?</h3>
   					<div class="form-check">
-	  					<input type="radio" class="form-check-input" name="feelingTornado" value="awake"<c:if test="${feelingTornado.equals('awake')}">checked</c:if>><label>awake</label><br>
-	  					<input type="radio" class="form-check-input" name="feelingTornado" value="crazy"<c:if test="${feelingTornado.equals('crazy')}">checked</c:if>><label>crazy</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingTornado" value="awake"<c:if test="${feelingTornado.equalsIgnoreCase('awake')}">checked</c:if>><label>Awake</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingTornado" value="crazy"<c:if test="${feelingTornado.equalsIgnoreCase('crazy')}">checked</c:if>><label>Crazy</label><br>
   					</div>				
   				
   			<h3 class="col-form-label">How make you feel when the weather is Clear?</h3>
   					<div class="form-check">
-	  					<input type="radio" class="form-check-input" name="feelingClear" value="hope"<c:if test="${feelingClear.equals('hope')}">checked</c:if>><label>hope</label><br>
-	  					<input type="radio" class="form-check-input" name="feelingClear" value="annoying"<c:if test="${feelingClear.equals('annoying')}">checked</c:if>><label>annoying</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingClear" value="sunny"<c:if test="${feelingClear.equalsIgnoreCase('sunny')}">checked</c:if>><label>Sunny</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingClear" value="bright"<c:if test="${feelingClear.equalsIgnoreCase('bright')}">checked</c:if>><label>Bright</label><br>
   					</div>		
   					
   					
-  			<h3 class="col-form-label">How make you feel when the weather is Clouds?</h3>
+  			<h3 class="col-form-label">How do you feel when the weather is Clouds?</h3>
   					<div class="form-check">
-	  					<input type="radio" class="form-check-input" name="feelingClouds" value="calm"<c:if test="${feelingClouds.equals('calm')}">checked</c:if>><label>calm</label><br>
-	  					<input type="radio" class="form-check-input" name="feelingClouds" value="drowsy"<c:if test="${feelingClouds.equals('drowsy')}">checked</c:if>><label>drowsy</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingClouds" value="calm"<c:if test="${feelingClouds.equalsIgnoreCase('calm')}">checked</c:if>><label>Calm</label><br>
+	  					<input type="radio" class="form-check-input" name="feelingClouds" value="drowsy"<c:if test="${feelingClouds.equalsIgnoreCase('drowsy')}">checked</c:if>><label>Drowsy</label><br>
   					</div>	
   					
   			</fieldset>
