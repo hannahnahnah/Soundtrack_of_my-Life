@@ -181,7 +181,7 @@ public class SoundtrackController {
 		return yearQ; 
 	}
 	
-	@RequestMapping("/currentlocation")
+	@RequestMapping("/logout")
 	public ModelAndView removeSearchSession(HttpSession session) {
 		session.removeAttribute("search");
 		return new ModelAndView("redirect:/");
@@ -375,10 +375,11 @@ public class SoundtrackController {
 			}
 			
 			if (search.isByMood()) {
-				playlistMood = spotifyApiService.showPlaylists(search.getMood(), Type.playlist);
-				trackMood = spotifyApiService.showTracks(search.getMood(), Type.track);
-				artistMood = spotifyApiService.showArtists(search.getMood(), Type.artist);
-				albumMood = spotifyApiService.showAlbums(search.getMood(), Type.album);
+				String mood = search.getMood().replaceAll("\\s+", "+");
+				playlistMood = spotifyApiService.showPlaylists(mood, Type.playlist);
+				trackMood = spotifyApiService.showTracks(mood, Type.track);
+				artistMood = spotifyApiService.showArtists(mood, Type.artist);
+				albumMood = spotifyApiService.showAlbums(mood, Type.album);
 				mv.addObject("mood", search.getMood());
 			}
 			

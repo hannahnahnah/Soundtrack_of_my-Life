@@ -20,6 +20,7 @@
 		<input type="hidden" name="longitude" id="lon" value="1" />
 		<button type="submit">Login</button>
 	</form>
+	
 	<!-- <form action="/register" method="get">
 	<p> Not registered? <button type="Submit">Create an Account</button>
 	</form> -->
@@ -30,6 +31,7 @@
 		var z = document.getElementById("lon");
 		function getLocation() {
 			if (navigator.geolocation) {
+				
 				navigator.geolocation.getCurrentPosition(setValues);
 			} else {
 				x.innerHTML = "Geolocation is not supported by this browser.";

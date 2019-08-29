@@ -28,9 +28,9 @@ public class GeocodeApiService {
     }
     
     public Double getLatitude(String city, String state, String country) {
-    	
+    	String cityParam = city.replaceAll("\\s+", "");
     	String url = UriComponentsBuilder.fromHttpUrl("https://maps.googleapis.com/maps/api/geocode/json?")
-    			.queryParam("address", city + "," + state + "," + country)
+    			.queryParam("address", cityParam + "," + state + "," + country)
 				.queryParam("key", API_KEY)
 				.toUriString();
     	
@@ -44,9 +44,9 @@ public class GeocodeApiService {
     }
     
     public Double getLongitude(String city, String state, String country) {
-    	
+    	String cityParam = city.replaceAll("\\s+", "");
     	String url = UriComponentsBuilder.fromHttpUrl("https://maps.googleapis.com/maps/api/geocode/json?")
-    			.queryParam("address", city + "," + state + "," + country)
+    			.queryParam("address", cityParam + "," + state + "," + country)
 				.queryParam("key", API_KEY)
 				.toUriString();
     	
