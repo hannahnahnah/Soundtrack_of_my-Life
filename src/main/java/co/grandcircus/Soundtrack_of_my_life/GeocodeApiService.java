@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import co.grandcircus.Soundtrack_of_my_life.model.geocode.GeocodeResponse;
+import co.grandcircus.Soundtrack_of_my_life.model.geocode.Location;
 import co.grandcircus.Soundtrack_of_my_life.model.geocode.ReverseGeocodeResponse;
 
 @Component
@@ -27,38 +28,25 @@ public class GeocodeApiService {
         restTemplate = new RestTemplateBuilder().additionalInterceptors(interceptor).build();
     }
     
-    public Double getLatitude(String city, String state, String country) {
-    	
+    public Location getLocation(String city, String state, String country) {
+    	Location response;
     	String url = UriComponentsBuilder.fromHttpUrl("https://maps.googleapis.com/maps/api/geocode/json?")
     			.queryParam("address", city + "," + state + "," + country)
 				.queryParam("key", API_KEY)
 				.toUriString();
     	
-    	Double response = restTemplate.getForObject(url, GeocodeResponse.class)
+    	if (!(restTemplate.getForObject(url, GeocodeResponse.class).getStatus().equalsIgnoreCase("OK"))) {
+    		response = null;
+    	} else {
+    		response = restTemplate.getForObject(url, GeocodeResponse.class)
     			.getResults()[0]
     			.getGeometry()
-    			.getLocation()
-    			.getLatitude();
+    			.getLocation();
+    	}
     	return response;
     	
     }
     
-    public Double getLongitude(String city, String state, String country) {
-    	
-    	String url = UriComponentsBuilder.fromHttpUrl("https://maps.googleapis.com/maps/api/geocode/json?")
-    			.queryParam("address", city + "," + state + "," + country)
-				.queryParam("key", API_KEY)
-				.toUriString();
-    	
-    	Double response = restTemplate.getForObject(url, GeocodeResponse.class)
-    			.getResults()[0]
-    			.getGeometry()
-    			.getLocation()
-    			.getLongitude();
-    	
-    	return response;
-    	
-    }
     
     public String getCity(Double latitude, Double longitude) {
     	

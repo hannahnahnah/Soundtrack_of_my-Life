@@ -24,6 +24,7 @@ import co.grandcircus.Soundtrack_of_my_life.entity.PlaylistFavorites;
 import co.grandcircus.Soundtrack_of_my_life.entity.Search;
 import co.grandcircus.Soundtrack_of_my_life.entity.TrackFavorites;
 import co.grandcircus.Soundtrack_of_my_life.entity.User;
+import co.grandcircus.Soundtrack_of_my_life.model.geocode.Location;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.AlbumtItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.ArtistItems;
 import co.grandcircus.Soundtrack_of_my_life.model.spotify.PlaylistItems;
@@ -187,10 +188,16 @@ public class SoundtrackController {
 		return new ModelAndView("redirect:/");
 	}
 	
+	public ModelAndView resetSession(HttpSession session) {
+		session.removeAttribute("search");
+		return new ModelAndView("redirect:/welcome");
+	}
+	
 
 	@RequestMapping("/welcome")
 	public ModelAndView showWelcome(@SessionAttribute(name = "coords") Coordinates coords,
-			@SessionAttribute(name="search", required=false) Search search) {
+			@SessionAttribute(name="search", required=false) Search search,
+			HttpSession session) {
 		ModelAndView mv = new ModelAndView("welcome");
 		
 		if(search == null) {
@@ -302,10 +309,17 @@ public class SoundtrackController {
 		
 		//current weather at selected location (with date option)
 			if (!search.isUseCurrentLocation() && search.getCity() != "") {
-				Double Lat = geocodeApiService.getLatitude(search.getCity(), search.getState(), search.getCountry());
-				String selectedLat = Double.toString(Lat);
-				Double Long = geocodeApiService.getLongitude(search.getCity(), search.getState(), search.getCountry());
-				String selectedLong = Double.toString(Long);
+				String selectedLat = "";
+				String selectedLong = "";
+				
+				Location loc = geocodeApiService.getLocation(search.getCity(), search.getState(), search.getCountry());
+				
+				if (loc == null) {
+					return resetSession(session);
+				} else {
+					selectedLat = Double.toString(loc.getLatitude());
+					selectedLong = Double.toString(loc.getLongitude());
+				}
 
 				weatherResponse selectedResponse = weatherApi.showWeather(selectedLat, selectedLong);
 				double selectedtemp = selectedResponse.getMain().getTemp();
@@ -347,10 +361,17 @@ public class SoundtrackController {
 				albumWeatherFeeling = spotifyApiService.showAlbums(query, Type.album);
 				
 			} else if (!search.isUseCurrentLocation() && search.getCity() != "") {
-				Double Lat = geocodeApiService.getLatitude(search.getCity(), search.getState(), search.getCountry());
-				String selectedLat = Double.toString(Lat);
-				Double Long = geocodeApiService.getLongitude(search.getCity(), search.getState(), search.getCountry());
-				String selectedLong = Double.toString(Long);
+				String selectedLat = "";
+				String selectedLong = "";
+				Location loc = geocodeApiService.getLocation(search.getCity(), search.getState(), search.getCountry());
+				
+				if (loc == null) {
+					return resetSession(session);
+				} else {
+					selectedLat = Double.toString(loc.getLatitude());
+					selectedLong = Double.toString(loc.getLongitude());
+				}
+
 
 				weatherResponse selectedResponse = weatherApi.showWeather(selectedLat, selectedLong);
 				double selectedtemp = selectedResponse.getMain().getTemp();
@@ -382,19 +403,11 @@ public class SoundtrackController {
 				mv.addObject("mood", search.getMood());
 			}
 			
-		//merge playlists
 			playlistMasterList = mergeLists(playlistLocalWeather, playlistAltLocal, playlistWeatherFeeling, playlistMood);
-		
-		//merge track lists
 			trackMasterList = mergeLists(trackLocalWeather, trackAltLocal, trackWeatherFeeling, trackMood);
-			
-		//merge artist lists
 			artistMasterList = mergeLists(artistLocalWeather, artistAltLocal, artistWeatherFeeling, artistMood);
-			
-		//merge album lists
 			albumMasterList = mergeLists(albumLocalWeather, albumAltLocal, albumWeatherFeeling, albumMood);
 
-			
 			mv.addObject("playlist", playlistMasterList);
 			mv.addObject("track", trackMasterList);
 			mv.addObject("album", albumMasterList);
@@ -633,13 +646,13 @@ public class SoundtrackController {
 	private final <T> List<T> mergeLists(List<T>... lists) {
 		List<T> masterList = new ArrayList<>();
 		
-		int maxTlLen = 0;
+		int maxLen = 0;
 		for (List<T> list : lists) {
-			if (list.size() > maxTlLen) {
-				maxTlLen = list.size();
+			if (list.size() > maxLen) {
+				maxLen = list.size();
 			}
 		}
-		for (int i = 0; i < maxTlLen; i++) {
+		for (int i = 0; i < maxLen; i++) {
 			for (List<T> list : lists) {
 				if (i < list.size()) {
 					masterList.add(list.get(i));
