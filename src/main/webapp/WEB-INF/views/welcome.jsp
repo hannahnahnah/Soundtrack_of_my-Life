@@ -15,7 +15,7 @@
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 	<ul class="navbar-nav mr-auto">
-		<li class="nav-item">${hour} ${user.firstName}</li>
+		<li class="nav-item">${hour}${user.firstName}</li>
 	</ul>
 	<ul class="navbar-nav ml-auto">
 		<li class="nav-item"><a class="nav-link" href="/welcome">Home<span
@@ -101,23 +101,29 @@
 		<form action="/welcome" method="post">
 			<div>
 				<h3>Location</h3>
-				<div id="locationFormRow" class="form-inline">
+				<div 
+					id="locationFormRow" class="form-inline">
 					<div class="form-check mb-2 mr-sm-2">
 						<input name="useCurrentLocation" value="on"
 							class="form-check-input" type="checkbox" id="useCurrentLocation"
-							onchange="toggleSelectLocation()"> <label
-							class="form-check-label" for="useCurrentLocation"> Use
-							Current </label>
+							onchange="toggleSelectLocation()" <c:if test="${search.useCurrentLocation}">checked</c:if>> 
+							<label class="form-check-label" for="useCurrentLocation"> Use Current </label>
 					</div>
-					<label class="sr-only" for="country">Country</label> <input
+					
+					<label class="sr-only" for="country">Country</label>
+					<input
 						type="text" name="country" class="form-control mb-2 mr-sm-2"
-						id="country" placeholder="Country"> <label class="sr-only"
-						for="state">State</label> <input type="text" name="state"
-						class="form-control mb-2 mr-sm-2" id="state" placeholder="State">
-
-					<label class="sr-only" for="city">City</label> <input type="text"
-						name="city" class="form-control mb-2 mr-sm-2" id="city"
-						placeholder="City">
+						id="country" value="${search.country}" placeholder="Country" />
+						
+					<label class="sr-only" for="state">State</label>
+					<input
+						type="text" name="state" class="form-control mb-2 mr-sm-2"
+						id="state" value="${search.state}" placeholder="State">
+						
+					<label class="sr-only" for="city">City</label>
+					<input 
+						type="text"	name="city" class="form-control mb-2 mr-sm-2" id="city"
+						value="${search.city}" placeholder="City">
 				</div>
 
 				<h3>Date</h3>
@@ -126,9 +132,8 @@
 						<div class="form-check">
 							<input name="searchReleaseDate" value="on"
 								class="form-check-input" type="checkbox" id="releaseDate"
-								onchange="toggleSelectDate()"> <label
-								class="form-check-label" for="releaseDate"> Search By
-								Release Date </label>
+								onchange="toggleSelectDate()" <c:if test="${search.searchReleaseDate}">checked</c:if>> 
+								<label class="form-check-label" for="releaseDate"> Search By Release Date </label>
 						</div>
 					</div>
 					<div class="form-group col-auto date-selector">
@@ -148,14 +153,13 @@
 				<div id="formMood" class="form-inline">
 					<div class="form-check mb-2 mr-sm-2">
 						<input name="byMood" value="on" class="form-check-input"
-							type="checkbox" id="mood" onchange="toggleSelectMood()">
-						<label class="form-check-label" for="mood"> Look up music
-							based on your Mood </label>
+							type="checkbox" id="mood" onchange="toggleSelectMood()" <c:if test="${search.byMood}">checked</c:if>>
+						<label class="form-check-label" for="mood"> Look up music based on your Mood </label>
 					</div>
 					<label class="sr-only" for="mood">Mood</label> <input type="text"
-						name="mood" class="form-control mb-2 mr-sm-2 mood-input" id="mood"
+						name="mood" class="form-control mb-2 mr-sm-2 mood-input" id="mood" value="${search.mood}"
 						placeholder="Ex:<c:if test="${empty mood}">${defaultMood}</c:if>
-	<c:if test="${not empty mood}">${mood}</c:if>" />
+						<c:if test="${not empty mood}">${mood}</c:if>" />
 				</div>
 
 				<input type="submit" value="Submit"
