@@ -28,26 +28,29 @@ public class GeocodeApiService {
         restTemplate = new RestTemplateBuilder().additionalInterceptors(interceptor).build();
     }
     
+
     public Location getLocation(String city, String state, String country) {
-    	Location response;
-    	String url = UriComponentsBuilder.fromHttpUrl("https://maps.googleapis.com/maps/api/geocode/json?")
-    			.queryParam("address", city + "," + state + "," + country)
-				.queryParam("key", API_KEY)
-				.toUriString();
+		Location response;	
+		String cityParam = city.replaceAll("\\s+", "");
+			String url = UriComponentsBuilder.fromHttpUrl("https://maps.googleapis.com/maps/api/geocode/json?")
+					.queryParam("address", cityParam + "," + state + "," + country)
+					.queryParam("key", API_KEY)
+					.toUriString();
+			
+			if (!(restTemplate.getForObject(url, GeocodeResponse.class).getStatus().equalsIgnoreCase("OK"))) {
+				response = null;
+			} else {
+				response = restTemplate.getForObject(url, GeocodeResponse.class)
+					.getResults()[0]
+					.getGeometry()
+					.getLocation();
+			}
+			return response;
+		
+		
+	}
     	
-    	if (!(restTemplate.getForObject(url, GeocodeResponse.class).getStatus().equalsIgnoreCase("OK"))) {
-    		response = null;
-    	} else {
-    		response = restTemplate.getForObject(url, GeocodeResponse.class)
-    			.getResults()[0]
-    			.getGeometry()
-    			.getLocation();
-    	}
-    	return response;
-    	
-    }
-    
-    
+
     public String getCity(Double latitude, Double longitude) {
     	
     	String url = UriComponentsBuilder.fromHttpUrl("https://maps.googleapis.com/maps/api/geocode/json?")

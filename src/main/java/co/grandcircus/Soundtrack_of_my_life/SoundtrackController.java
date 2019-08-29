@@ -182,7 +182,7 @@ public class SoundtrackController {
 		return yearQ; 
 	}
 	
-	@RequestMapping("/currentlocation")
+	@RequestMapping("/logout")
 	public ModelAndView removeSearchSession(HttpSession session) {
 		session.removeAttribute("search");
 		return new ModelAndView("redirect:/");
@@ -311,9 +311,7 @@ public class SoundtrackController {
 			if (!search.isUseCurrentLocation() && search.getCity() != "") {
 				String selectedLat = "";
 				String selectedLong = "";
-				
 				Location loc = geocodeApiService.getLocation(search.getCity(), search.getState(), search.getCountry());
-				
 				if (loc == null) {
 					return resetSession(session);
 				} else {
@@ -336,7 +334,6 @@ public class SoundtrackController {
 				} else {
 					query = weatherQ;
 				}
-				//System.out.println("alt local query: " + query);
 
 				playlistAltLocal = spotifyApiService.showPlaylists(query, Type.playlist);
 				trackAltLocal = spotifyApiService.showTracks(query, Type.track);
@@ -348,7 +345,6 @@ public class SoundtrackController {
 		//weather feeling for local and alternate place (with date option)
 			if (search.isUseCurrentLocation()) {
 				String localWeatherFeeling = getWeatherFeeling(currentResponse);
-				
 				if (search.isSearchReleaseDate()) {
 					query = localWeatherFeeling + yearQ;
 				} else {
@@ -364,14 +360,12 @@ public class SoundtrackController {
 				String selectedLat = "";
 				String selectedLong = "";
 				Location loc = geocodeApiService.getLocation(search.getCity(), search.getState(), search.getCountry());
-				
 				if (loc == null) {
 					return resetSession(session);
 				} else {
 					selectedLat = Double.toString(loc.getLatitude());
 					selectedLong = Double.toString(loc.getLongitude());
 				}
-
 
 				weatherResponse selectedResponse = weatherApi.showWeather(selectedLat, selectedLong);
 				double selectedtemp = selectedResponse.getMain().getTemp();
@@ -396,10 +390,11 @@ public class SoundtrackController {
 			}
 			
 			if (search.isByMood()) {
-				playlistMood = spotifyApiService.showPlaylists(search.getMood(), Type.playlist);
-				trackMood = spotifyApiService.showTracks(search.getMood(), Type.track);
-				artistMood = spotifyApiService.showArtists(search.getMood(), Type.artist);
-				albumMood = spotifyApiService.showAlbums(search.getMood(), Type.album);
+				String mood = search.getMood().replaceAll("\\s+", "+");
+				playlistMood = spotifyApiService.showPlaylists(mood, Type.playlist);
+				trackMood = spotifyApiService.showTracks(mood, Type.track);
+				artistMood = spotifyApiService.showArtists(mood, Type.artist);
+				albumMood = spotifyApiService.showAlbums(mood, Type.album);
 				mv.addObject("mood", search.getMood());
 			}
 			
