@@ -59,45 +59,6 @@
 			</table>
 		</div>
 
-		<script>
-			function toggleSelectLocation() {
-				let checkbox = document.getElementById("useCurrentLocation");
-				let locationFormRow = document
-						.getElementById("locationFormRow");
-				let useCurrentLocation = checkbox.checked;
-
-				if (useCurrentLocation) {
-					locationFormRow.classList.add("use-current-location");
-				} else {
-					locationFormRow.classList.remove("use-current-location");
-				}
-			}
-
-			function toggleSelectDate() {
-				let checkbox = document.getElementById("releaseDate");
-				let dateFormRow = document.getElementById("dateFormRow");
-				let releaseDate = checkbox.checked;
-
-				if (releaseDate) {
-					dateFormRow.classList.add("search-by-release-date");
-				} else {
-					dateFormRow.classList.remove("search-by-release-date");
-				}
-			}
-
-			function toggleSelectMood() {
-				let checkbox = document.getElementById("mood");
-				let formMood = document.getElementById("formMood");
-				let mood = checkbox.checked;
-
-				if (mood) {
-					formMood.classList.add("use-release-mood");
-				} else {
-					formMood.classList.remove("use-release-mood");
-				}
-			}
-		</script>
-
 		<form action="/welcome" method="post">
 			<div>
 				<h3>Location</h3>
@@ -138,11 +99,12 @@
 					</div>
 					<div class="form-group col-auto date-selector">
 						<label for="inputStartDate">Start Date</label> <input type="date"
-							name="selectStartDate" class="form-control" id="inputStartDate">
+							name="selectStartDate" value="${search.selectStartDate}" class="
+							form-control" id="inputStartDate">
 					</div>
 					<div class="form-group col-auto date-selector">
 						<label for="inputEndDate">End Date (Optional)</label> <input
-							type="date" name="selectEndDate" max=2019 class="form-control"
+							type="date" name="selectEndDate" value="${search.selectEndDate}" max=2019 class="form-control"
 							id="inputEndDate">
 					</div>
 				</div>
@@ -267,6 +229,48 @@
 		</form>
 	</div>
 
+	<script>
+		function toggleSelectLocation() {
+			let checkbox = document.getElementById("useCurrentLocation");
+			let locationFormRow = document
+					.getElementById("locationFormRow");
+			let useCurrentLocation = checkbox.checked;
+	
+			if (useCurrentLocation) {
+				locationFormRow.classList.add("use-current-location");
+			} else {
+				locationFormRow.classList.remove("use-current-location");
+			}
+		}
+	
+		function toggleSelectDate() {
+			let checkbox = document.getElementById("releaseDate");
+			let dateFormRow = document.getElementById("dateFormRow");
+			let releaseDate = checkbox.checked;
+	
+			if (releaseDate) {
+				dateFormRow.classList.add("search-by-release-date");
+			} else {
+				dateFormRow.classList.remove("search-by-release-date");
+			}
+		}
+	
+		function toggleSelectMood() {
+			let checkbox = document.getElementById("mood");
+			let formMood = document.getElementById("formMood");
+			let mood = checkbox.checked;
+	
+			if (mood) {
+				formMood.classList.add("use-release-mood");
+			} else {
+				formMood.classList.remove("use-release-mood");
+			}
+		}
+		
+		toggleSelectLocation();
+		toggleSelectDate();
+		toggleSelectMood();
+	</script>
 
 </body>
 </html>
