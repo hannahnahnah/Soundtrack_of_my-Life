@@ -244,6 +244,7 @@ public class SoundtrackController {
 //			System.out.println("is mood - " + search.isByMood());
 //			System.out.println("is releasedate - " + search.isSearchReleaseDate());
 //			System.out.println("is current location - " + search.isUseCurrentLocation());
+			String weatherQ = "";
 			String query = "";
 			User user = dao.findById((long) 1);
 			mv.addObject("user", user);
@@ -284,9 +285,7 @@ public class SoundtrackController {
 			List<AlbumtItems> albumWeatherFeeling = new ArrayList<>();
 			List<AlbumtItems> albumMood = new ArrayList<>();
 			List<AlbumtItems> albumMasterList = new ArrayList<>();
-
-
-		//current location weather on (with date option)
+			
 			weatherResponse currentResponse = weatherApi.showWeather(coords.getLatitude(), coords.getLongitude());
 			double temp = currentResponse.getMain().getTemp();
 			temp = ((temp - 273.15) * 9 / 5 + 32);
@@ -294,8 +293,12 @@ public class SoundtrackController {
 			mv.addObject("temp", df2.format(temp));
 			mv.addObject("mainCondition", currentResponse.getWeather().get(0).getMain());
 			mv.addObject("description", currentResponse.getWeather().get(0).getDescription());
+
+
+		//current location weather on (with date option)
+			if (search.isUseCurrentLocation() || search.getCity().isEmpty()) {
 				
-				String weatherQ = currentResponse.getWeather().get(0).getMain();
+				weatherQ = currentResponse.getWeather().get(0).getMain();
 				if (search.isSearchReleaseDate()) {
 					query = weatherQ + yearQ;
 				} else {
@@ -306,7 +309,7 @@ public class SoundtrackController {
 				trackLocalWeather = spotifyApiService.showTracks(query, Type.track);
 				artistLocalWeather = spotifyApiService.showArtists(query, Type.artist);
 				albumLocalWeather = spotifyApiService.showAlbums(query, Type.album);
-			
+			}
 		
 		//current weather at selected location (with date option)
 			if (!search.isUseCurrentLocation() && search.getCity() != "") {
@@ -402,6 +405,11 @@ public class SoundtrackController {
 			trackMasterList = mergeLists(trackLocalWeather, trackAltLocal, trackWeatherFeeling, trackMood);
 			artistMasterList = mergeLists(artistLocalWeather, artistAltLocal, artistWeatherFeeling, artistMood);
 			albumMasterList = mergeLists(albumLocalWeather, albumAltLocal, albumWeatherFeeling, albumMood);
+
+			
+			System.out.println("albumLocalWeather: " + albumLocalWeather);
+			System.out.println("albumAltLocal: " + albumAltLocal);
+			System.out.println("albumWeatherFeeling: " + albumWeatherFeeling);
 			
 			mv.addObject("playlist", playlistMasterList);
 			mv.addObject("track", trackMasterList);
