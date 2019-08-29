@@ -30,8 +30,8 @@
 
 	<div class="container">
 
-		<h1 class="text-primary">
-			<center>Soundtrack of My Life</center>
+		<h1 class="text-warning">
+			<center>EnviroTrack</center>
 		</h1>
 
 		<div align="center">
