@@ -241,9 +241,7 @@ public class SoundtrackController {
 		return mv;
 		
 		} else {
-//			System.out.println("is mood - " + search.isByMood());
-//			System.out.println("is releasedate - " + search.isSearchReleaseDate());
-//			System.out.println("is current location - " + search.isUseCurrentLocation());
+			
 			String weatherQ = "";
 			String query = "";
 			User user = dao.findById((long) 1);
@@ -404,11 +402,6 @@ public class SoundtrackController {
 			artistMasterList = mergeLists(artistLocalWeather, artistAltLocal, artistWeatherFeeling, artistMood);
 			albumMasterList = mergeLists(albumLocalWeather, albumAltLocal, albumWeatherFeeling, albumMood);
 
-			
-			System.out.println("albumLocalWeather: " + albumLocalWeather);
-			System.out.println("albumAltLocal: " + albumAltLocal);
-			System.out.println("albumWeatherFeeling: " + albumWeatherFeeling);
-			
 			mv.addObject("playlist", playlistMasterList);
 			mv.addObject("track", trackMasterList);
 			mv.addObject("album", albumMasterList);
