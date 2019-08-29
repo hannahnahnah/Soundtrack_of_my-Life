@@ -18,7 +18,7 @@
 		<li class="nav-item"><a class="nav-link" href="/welcome">Home<span class="sr-only">(current)</span></a></li>
 		<li class="nav-item"><a class="nav-link" href="/favorites">Favorites</a>
 		<li class="nav-item"><a class="nav-link" href="/preferences">User Preferences</a></li>
-		<li class="nav-item"><a class="nav-link" href="/">Logout</a></li>
+		<li class="nav-item"><a class="nav-link" href="/currentlocation">Logout</a></li>
 	</ul>
 </nav>
 	
@@ -54,7 +54,7 @@
   			<fieldset class="form-group">
 	  			<legend><label class=" ">Choose your feeling</label></legend>
   				
-  				 <h3 class="col-form-label">How do you feel when the weather is Thunderstorm?</h3>
+  				 <h3 class="col-form-label">How do you feel when the weather is thunderstorming?</h3>
   					<div class="form-check">
 	  					<input type="radio" class="form-check-input" name="feelingThunderstorm" value="excited"<c:if test="${feelingThunderstorm.equalsIgnoreCase('excited')}">checked</c:if>><label>Excited</label><br>
 	  					<input type="radio" class="form-check-input" name="feelingThunderstorm" value="scared"<c:if test="${feelingThunderstorm.equalsIgnoreCase('scared')}">checked</c:if>><label>Scared</label><br>
@@ -133,7 +133,7 @@
 	  					<input type="radio" class="form-check-input" name="feelingTornado" value="crazy"<c:if test="${feelingTornado.equalsIgnoreCase('crazy')}">checked</c:if>><label>Crazy</label><br>
   					</div>				
   				
-  			<h3 class="col-form-label">How make you feel when the weather is Clear?</h3>
+  			<h3 class="col-form-label">How do you feel when the weather is Clear?</h3>
   					<div class="form-check">
 	  					<input type="radio" class="form-check-input" name="feelingClear" value="sunny"<c:if test="${feelingClear.equalsIgnoreCase('sunny')}">checked</c:if>><label>Sunny</label><br>
 	  					<input type="radio" class="form-check-input" name="feelingClear" value="bright"<c:if test="${feelingClear.equalsIgnoreCase('bright')}">checked</c:if>><label>Bright</label><br>

@@ -21,7 +21,7 @@
 		<li class="nav-item"><a class="nav-link" href="/favorites">Favorites</a>
 		<li class="nav-item"><a class="nav-link" href="/preferences">User
 				Preferences</a></li>
-		<li class="nav-item"><a class="nav-link" href="/">Logout</a></li>
+		<li class="nav-item"><a class="nav-link" href="/currentlocation">Logout</a></li>
 	</ul>
 	</nav>
 

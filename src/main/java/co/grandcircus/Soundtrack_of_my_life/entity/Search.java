@@ -71,6 +71,8 @@ public class Search {
 	public void normalize() {
 		if (city == null || city.isEmpty()) {
 			useCurrentLocation = true;
+		}else {
+			useCurrentLocation = false;
 		}
 		
 		if (useCurrentLocation) {

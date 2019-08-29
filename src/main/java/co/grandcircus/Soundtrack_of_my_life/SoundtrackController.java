@@ -184,7 +184,7 @@ public class SoundtrackController {
 	@RequestMapping("/currentlocation")
 	public ModelAndView removeSearchSession(HttpSession session) {
 		session.removeAttribute("search");
-		return new ModelAndView("redirect:/welcome");
+		return new ModelAndView("redirect:/");
 	}
 	
 
@@ -192,8 +192,6 @@ public class SoundtrackController {
 	public ModelAndView showWelcome(@SessionAttribute(name = "coords") Coordinates coords,
 			@SessionAttribute(name="search", required=false) Search search) {
 		ModelAndView mv = new ModelAndView("welcome");
-		
-		
 		
 		if(search == null) {
 		User user = dao.findById((long) 1);
@@ -234,7 +232,11 @@ public class SoundtrackController {
 		mv.addObject("artist", artistList);
 		mv.addObject("album", albumList);
 		return mv;
-		}else {
+		
+		} else {
+//			System.out.println("is mood - " + search.isByMood());
+//			System.out.println("is releasedate - " + search.isSearchReleaseDate());
+//			System.out.println("is current location - " + search.isUseCurrentLocation());
 			String query = "";
 			User user = dao.findById((long) 1);
 			mv.addObject("user", user);
@@ -292,8 +294,6 @@ public class SoundtrackController {
 				String weatherQ = currentResponse.getWeather().get(0).getMain();
 				query = weatherQ + yearQ;
 				
-				System.out.println("local weather query: " + query);
-				
 				playlistLocalWeather = spotifyApiService.showPlaylists(query, Type.playlist);
 				trackLocalWeather = spotifyApiService.showTracks(query, Type.track);
 				artistLocalWeather = spotifyApiService.showArtists(query, Type.artist);
@@ -301,7 +301,7 @@ public class SoundtrackController {
 			}
 		
 		//current weather at selected location (with date option)
-			if (search.isUseCurrentLocation() == false && search.getCity() != "") {
+			if (!search.isUseCurrentLocation() && search.getCity() != "") {
 				Double Lat = geocodeApiService.getLatitude(search.getCity(), search.getState(), search.getCountry());
 				String selectedLat = Double.toString(Lat);
 				Double Long = geocodeApiService.getLongitude(search.getCity(), search.getState(), search.getCountry());
@@ -322,7 +322,7 @@ public class SoundtrackController {
 				} else {
 					query = weatherQ;
 				}
-				System.out.println("alt local query: " + query);
+				//System.out.println("alt local query: " + query);
 
 				playlistAltLocal = spotifyApiService.showPlaylists(query, Type.playlist);
 				trackAltLocal = spotifyApiService.showTracks(query, Type.track);
@@ -340,14 +340,13 @@ public class SoundtrackController {
 				} else {
 					query = localWeatherFeeling;
 				}
-				System.out.println("local weather feeling query: " + query);
 				
 				playlistWeatherFeeling = spotifyApiService.showPlaylists(query, Type.playlist);
 				trackWeatherFeeling = spotifyApiService.showTracks(query, Type.track);
 				artistWeatherFeeling = spotifyApiService.showArtists(query, Type.artist);
 				albumWeatherFeeling = spotifyApiService.showAlbums(query, Type.album);
 				
-			} else if (search.isUseCurrentLocation() == false && search.getCity() != "") {
+			} else if (!search.isUseCurrentLocation() && search.getCity() != "") {
 				Double Lat = geocodeApiService.getLatitude(search.getCity(), search.getState(), search.getCountry());
 				String selectedLat = Double.toString(Lat);
 				Double Long = geocodeApiService.getLongitude(search.getCity(), search.getState(), search.getCountry());
@@ -368,7 +367,6 @@ public class SoundtrackController {
 				} else {
 					query = altWeatherFeeling;
 				}
-				System.out.println("alt local weather feeling query: " + query);
 				
 				playlistWeatherFeeling = spotifyApiService.showPlaylists(query, Type.playlist);
 				trackWeatherFeeling = spotifyApiService.showTracks(query, Type.track);
@@ -468,10 +466,10 @@ public class SoundtrackController {
 			@SessionAttribute(name = "coords") Coordinates coords,
 			@SessionAttribute(name="search", required=false) Search sessionSearch,
 			HttpSession session) {
-		//search.normalize();
+		search.normalize();
 		session.setAttribute("search", search);
-		
 		return new ModelAndView("redirect:/welcome");
+		
 //		ModelAndView mv = new ModelAndView("welcome");
 //		User user = dao.findById((long) 1);
 //		mv.addObject("user", user);
@@ -722,4 +720,4 @@ public class SoundtrackController {
 		return new ModelAndView("redirect:/favorites");
 	}
 	
-}// class
+}// controller class
