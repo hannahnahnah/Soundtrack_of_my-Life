@@ -67,7 +67,7 @@
 					<div class="form-check mb-2 mr-sm-2">
 						<input name="useCurrentLocation" value="on"
 							class="form-check-input" type="checkbox" id="useCurrentLocation"
-							onchange="toggleSelectLocation()" <c:if test="${search.useCurrentLocation}">checked</c:if>> 
+							onchange="toggleSelectLocation()" <c:if test="${search == null || search.useCurrentLocation}">checked</c:if>> 
 							<label class="form-check-label" for="useCurrentLocation"> Use Current </label>
 					</div>
 					
