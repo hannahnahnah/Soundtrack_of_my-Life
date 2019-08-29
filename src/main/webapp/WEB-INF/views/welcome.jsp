@@ -15,7 +15,7 @@
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 	<ul class="navbar-nav mr-auto">
-		<li class="nav-item">${hour}${user.firstName}</li>
+		<li class="nav-item">${hour}&nbsp;${user.firstName}</li>
 	</ul>
 	<ul class="navbar-nav ml-auto">
 		<li class="nav-item"><a class="nav-link" href="/welcome">Home<span
