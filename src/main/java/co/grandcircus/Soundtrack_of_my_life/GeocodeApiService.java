@@ -46,8 +46,6 @@ public class GeocodeApiService {
 					.getLocation();
 			}
 			return response;
-		
-		
 	}
     	
 
